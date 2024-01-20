@@ -16,7 +16,7 @@ def build(setupOption):
         print("Default Settings Generated")
     elif setupOption == "2":
         currentSetting=generateSmallSettings()
-        
+
     network = generateNetwork(currentSetting)
     #print(currentSetting)
     #Note that you can generate a build or input a dataset
@@ -42,8 +42,8 @@ def generateDefaultSettings():
     personInfluenceOpeness_mean = 50
     personInfluenceOpeness_scale = 34
 
-    personNuance_mean = 50
-    personNuance_scale = 34
+    personNuance_mean = 2
+    personNuance_scale = 0.3
 
     personInteractiveness_mean = 50
     personInteractiveness_scale = 34
@@ -57,8 +57,14 @@ def generateDefaultSettings():
     conceptFactNum_mean=5
     conceptFactNum_scale=2
 
+    changeThreshold_mean = 10
+    changeThreshold_scale = 2
+    
+    discriminationThreshold_mean = 5
+    discriminationThreshold_scale = 1
+
     global currentSetting
-    currentSetting = Settings(numConcepts, numPeople, numPeopleEdges_mean, numPeopleEdges_scale, numPeopleConcepts_mean, numPeopleConcepts_scale, personInfluenceOpeness_mean, personInfluenceOpeness_scale, personNuance_mean, personNuance_scale, personInteractiveness_mean, personInteractiveness_scale, personKlout_mean, personKlout_scale, personTrustingOthers_mean, personTrustingOthers_scale, conceptFactNum_mean, conceptFactNum_scale)
+    currentSetting = Settings(numConcepts, numPeople, numPeopleEdges_mean, numPeopleEdges_scale, numPeopleConcepts_mean, numPeopleConcepts_scale, personInfluenceOpeness_mean, personInfluenceOpeness_scale, personNuance_mean, personNuance_scale, personInteractiveness_mean, personInteractiveness_scale, personKlout_mean, personKlout_scale, personTrustingOthers_mean, personTrustingOthers_scale, changeThreshold_mean, changeThreshold_scale, discriminationThreshold_mean, discriminationThreshold_scale, conceptFactNum_mean, conceptFactNum_scale)
     print(currentSetting)
     return currentSetting
 
@@ -83,8 +89,8 @@ def generateSmallSettings():
     personInfluenceOpeness_mean = 50
     personInfluenceOpeness_scale = 34
 
-    personNuance_mean = 50
-    personNuance_scale = 34
+    personNuance_mean = 2
+    personNuance_scale = 0.3
 
     personInteractiveness_mean = 50
     personInteractiveness_scale = 34
@@ -95,11 +101,17 @@ def generateSmallSettings():
     personTrustingOthers_mean = 50
     personTrustingOthers_scale = 34
 
+    changeThreshold_mean = 10
+    changeThreshold_scale = 2
+    
+    discriminationThreshold_mean = 5
+    discriminationThreshold_scale = 1
+
     conceptFactNum_mean=5
     conceptFactNum_scale=2
 
     global currentSetting
-    currentSetting = Settings(numConcepts, numPeople, numPeopleEdges_mean, numPeopleEdges_scale, numPeopleConcepts_mean, numPeopleConcepts_scale, personInfluenceOpeness_mean, personInfluenceOpeness_scale, personNuance_mean, personNuance_scale, personInteractiveness_mean, personInteractiveness_scale, personKlout_mean, personKlout_scale, personTrustingOthers_mean, personTrustingOthers_scale, conceptFactNum_mean, conceptFactNum_scale)
+    currentSetting = Settings(numConcepts, numPeople, numPeopleEdges_mean, numPeopleEdges_scale, numPeopleConcepts_mean, numPeopleConcepts_scale, personInfluenceOpeness_mean, personInfluenceOpeness_scale, personNuance_mean, personNuance_scale, personInteractiveness_mean, personInteractiveness_scale, personKlout_mean, personKlout_scale, personTrustingOthers_mean, personTrustingOthers_scale, changeThreshold_mean, changeThreshold_scale, discriminationThreshold_mean, discriminationThreshold_scale, conceptFactNum_mean, conceptFactNum_scale)
     print(currentSetting)
     return currentSetting
 
@@ -108,6 +120,7 @@ def generateNetwork(currentSetting):
     # Step 1 make people
     personKey = 1
     count = 0
+    global personList
     personList = []
 
     # SD generation for People objects
@@ -116,7 +129,10 @@ def generateNetwork(currentSetting):
     interactivenessArray= numpy.random.normal(currentSetting.personInteractiveness_mean, currentSetting.personInteractiveness_scale, currentSetting.numPeople)
     kloutArray= numpy.random.normal(currentSetting.personKlout_mean, currentSetting.personKlout_scale, currentSetting.numPeople)
     trustingOthersArray = numpy.random.normal(currentSetting.personTrustingOthers_mean, currentSetting.personTrustingOthers_scale, currentSetting.numPeople)
+    changeThresholdArray = numpy.random.normal(currentSetting.changeThreshold_mean, currentSetting.changeThreshold_scale, currentSetting.numPeople)
+    discriminationThresholdArray = numpy.random.normal(currentSetting.discriminationThreshold_mean, currentSetting.discriminationThreshold_scale, currentSetting.numPeople)
 
+    
     # Build the number of people required. Does not include their connections, concepts or facts.
     while count < currentSetting.numPeople:
         key = f"P{personKey}"
@@ -130,10 +146,10 @@ def generateNetwork(currentSetting):
 
         nuance = nuanceArray[count]
         nuance = round(nuance)
-        if nuance > 100:
-            nuance = 100
-        if nuance < 0:
-            nuance = 0
+        if nuance > 3:
+            nuance = 3
+        if nuance < 1:
+            nuance = 1
 
         interactiveness = interactivenessArray[count]
         interactiveness = round(interactiveness)
@@ -156,7 +172,21 @@ def generateNetwork(currentSetting):
         if trustingOthers < 0:
             trustingOthers = 0
 
-        personList.append(Person(key, influenceOpenness, nuance, interactiveness, klout, trustingOthers))
+        changeThreshold = changeThresholdArray[count]
+        changeThreshold = round(changeThreshold)
+        if changeThreshold > 100:
+            changeThreshold = 100
+        if changeThreshold < 0:
+            changeThreshold = 0
+
+        discriminationThreshold = discriminationThresholdArray[count]
+        discriminationThreshold = round(discriminationThreshold)
+        if discriminationThreshold > 100:
+            discriminationThreshold = 100
+        if discriminationThreshold < 0:
+            discriminationThreshold = 0
+        
+        personList.append(Person(key, influenceOpenness, nuance, interactiveness, klout, trustingOthers, changeThreshold, discriminationThreshold))
 
         personKey=personKey+1
         count=count+1
@@ -204,9 +234,17 @@ def generateNetwork(currentSetting):
             while numFactsActual < numFactsAlloc:
                 
                 newFactKey = f"{newConceptKey}-F{factKey}"
-                colourR = random.randint(0, 255)
-                colourG = random.randint(0,255)
-                colourB = random.randint(0,255)
+                #RGB for 3 colour dimensions (i.e. nuance)
+                if eachPers.nuance >= 1:
+                    colourR = random.randint(1, 255)
+                if eachPers.nuance >= 2:
+                    colourG = random.randint(1,255)
+                else:
+                    colourG = 0
+                if eachPers.nuance >= 3:
+                    colourB = random.randint(1,255)
+                else:
+                    colourB = 0
                 factValue=[colourR, colourG, colourB]
                 # May want to change the lastupdate and weight defaults later
                 lastupdate = 0

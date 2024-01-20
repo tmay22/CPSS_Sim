@@ -32,7 +32,7 @@ class Fact:
         
         self.key=key
 
-        # Colour spectrum value (rgb)
+        # Colour spectrum value (RGB for 3 dimensions)
         self.value=value
 
         # Last Update is the time the fact was created
@@ -58,7 +58,7 @@ class Idea:
         self.weight = weight
 
 class Person:
-    def __init__(self, key, influenceOpenness, nuance, interactiveness, klout, trustingOthers):
+    def __init__(self, key, influenceOpenness, nuance, interactiveness, klout, trustingOthers, changeThreshold, discriminationThreshold):
         
         self.key = key
 
@@ -71,7 +71,7 @@ class Person:
         # How open someone is to influence (0-100). 0 is no openness, 100 is very open
         self.influenceOpenness=influenceOpenness
 
-        # How nuanced is this person (0-100). 0 is no nuance (limited Concept Facts), 100 is very nuanced (many Concept Facts)
+        #  How many Fact dimensions can this person have (range 1-3, represented by the RGB in Facts)
         self.nuance=nuance
 
         # How interactive is this person with others (0-100). Value is number of interactions per 100 timestamps.
@@ -83,3 +83,11 @@ class Person:
         # What is the degree to which this person trusts the klout of others to influence them? (0-100)
         self.trustingOthers=trustingOthers
 
+        # What are the threshold for this person changing their mind on a topic?
+        # Value is % similar for new data point to be accepted
+        
+        self.changeThreshold = changeThreshold
+
+        # What is the percentage similarity that a person can differentiate between values?
+        # Second value is % similar in order to merge two data points together. 
+        self.discriminationThreshold = discriminationThreshold
