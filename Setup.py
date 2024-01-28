@@ -8,7 +8,11 @@ import random
 def build(setupOption):
 
     global currentSetting
+    global personList
+    global edgeList
 
+    personList = []
+    edgeList = []
     
 
     if setupOption == "1":
@@ -16,6 +20,8 @@ def build(setupOption):
         print("Default Settings Generated")
     elif setupOption == "2":
         currentSetting=generateSmallSettings()
+    elif setupOption == "0":
+        print("")
 
     network = generateNetwork(currentSetting)
     #print(currentSetting)
@@ -60,8 +66,8 @@ def generateDefaultSettings():
     changeThreshold_mean = 10
     changeThreshold_scale = 2
     
-    discriminationThreshold_mean = 5
-    discriminationThreshold_scale = 1
+    discriminationThreshold_mean = 4
+    discriminationThreshold_scale = 2
 
     global currentSetting
     currentSetting = Settings(numConcepts, numPeople, numPeopleEdges_mean, numPeopleEdges_scale, numPeopleConcepts_mean, numPeopleConcepts_scale, personInfluenceOpeness_mean, personInfluenceOpeness_scale, personNuance_mean, personNuance_scale, personInteractiveness_mean, personInteractiveness_scale, personKlout_mean, personKlout_scale, personTrustingOthers_mean, personTrustingOthers_scale, changeThreshold_mean, changeThreshold_scale, discriminationThreshold_mean, discriminationThreshold_scale, conceptFactNum_mean, conceptFactNum_scale)
@@ -104,8 +110,8 @@ def generateSmallSettings():
     changeThreshold_mean = 10
     changeThreshold_scale = 2
     
-    discriminationThreshold_mean = 5
-    discriminationThreshold_scale = 1
+    discriminationThreshold_mean = 4
+    discriminationThreshold_scale = 2
 
     conceptFactNum_mean=5
     conceptFactNum_scale=2
@@ -116,12 +122,15 @@ def generateSmallSettings():
     return currentSetting
 
 
+
+
 def generateNetwork(currentSetting):
     # Step 1 make people
     personKey = 1
     count = 0
-    global personList
-    personList = []
+    
+    
+    
 
     # SD generation for People objects
     influenceOpenessArray = numpy.random.normal(currentSetting.personInfluenceOpeness_mean, currentSetting.personInfluenceOpeness_scale, currentSetting.numPeople)
@@ -232,41 +241,183 @@ def generateNetwork(currentSetting):
 
             # whilst there are not all the allocated facts for this concept, generate facts
             while numFactsActual < numFactsAlloc:
-                
+
                 newFactKey = f"{newConceptKey}-F{factKey}"
-                #RGB for 3 colour dimensions (i.e. nuance)
-                if eachPers.nuance >= 1:
-                    colourR = random.randint(1, 255)
-                if eachPers.nuance >= 2:
-                    colourG = random.randint(1,255)
-                else:
-                    colourG = 0
-                if eachPers.nuance >= 3:
-                    colourB = random.randint(1,255)
-                else:
-                    colourB = 0
-                factValue=[colourR, colourG, colourB]
-                # May want to change the lastupdate and weight defaults later
-                lastupdate = 0
-                weight = 1
+                
+                # To determine if this fact will be added to the fact list
+                addFact = 1
+                # if there is already an existing Fact, build new Facts that align with it. Else gen random fact data
+                if numFactsActual > 0:
 
-                tempFactList.append(Fact(newFactKey, factValue, lastupdate, weight))
+                    # Get existing fact data
+                    firstFact = tempFactList[0]
 
+                    #RGB for 3 colour dimensions (i.e. nuance)
+                    # Determine what the additional facts should cluster around
+                    if eachPers.nuance >= 1:
+                        
+                        colourR_upperLim = eachPers.changeThreshold + firstFact.value[0]
+                        colourR_lowerLim = eachPers.discriminationThreshold + firstFact.value[0]
+                        
+                        # exception to fix rand limitations
+                        if colourR_upperLim - colourR_lowerLim < 2:
+                            colourR_upperLim = colourR_upperLim + 2
+                        
+                        colourR = random.randint(colourR_lowerLim, colourR_upperLim)
+                    
+                    if eachPers.nuance >= 2:
+                        colourG_upperLim = eachPers.changeThreshold + firstFact.value[1]
+                        colourG_lowerLim = eachPers.discriminationThreshold + firstFact.value[1]
+                        
+                        # exception to fix rand limitations
+                        if colourG_upperLim - colourG_lowerLim < 2:
+                            colourG_upperLim = colourG_upperLim + 2
+                        
+                        colourG = random.randint(colourG_lowerLim,colourG_upperLim)
+                    else:
+                        colourG = 0
+
+                    if eachPers.nuance >= 3:
+                        colourB_upperLim = eachPers.changeThreshold + firstFact.value[2]
+                        colourB_lowerLim = eachPers.discriminationThreshold + firstFact.value[2]
+                        
+                        # exception to fix rand limitations
+                        if colourB_upperLim - colourB_lowerLim < 2:
+                            colourB_upperLim = colourB_upperLim + 1
+                        
+                        
+                        colourB = random.randint(colourB_lowerLim,colourB_upperLim)
+                    else:
+                        colourB = 0
+                    
+                    factValue=[colourR, colourG, colourB]
+
+                    # NEED TO WORK OUT HOW TO DO THIS EFFICIENTLY
+                    #for eachExistingFact in tempFactList:
+                    #    factValue_np = numpy.array([factValue])
+                    #    eachExistingFactVal_np = numpy.array([eachExistingFact.value])
+
+                    #    factSameCheck = (factValue_np == eachExistingFactVal_np).all()
+
+                    #    if factSameCheck == True:
+                    #        eachExistingFact.weight = eachExistingFact.weight + 1
+                    #        addFact = 0
+
+                    # Check if that fact exists and if so increase weight
+                    checkFact = next((eachFact for eachFact in tempFactList if eachFact.value == factValue), None)
+                    
+                    # any(eachFact.value == factValue for eachFact in tempFactList)
+                    if checkFact:
+                        checkFact.weight = checkFact.weight + 1
+                        addFact = 0
+
+                    # May want to change the lastupdate and weight defaults later
+                    lastupdate = 0
+                    weight = 1
+                else:
+                    #RGB for 3 colour dimensions (i.e. nuance)
+                    if eachPers.nuance >= 1:
+                        colourR = random.randint(1, 255)
+                    if eachPers.nuance >= 2:
+                        colourG = random.randint(1,255)
+                    else:
+                        colourG = 0
+                    if eachPers.nuance >= 3:
+                        colourB = random.randint(1,255)
+                    else:
+                        colourB = 0
+                    factValue=[colourR, colourG, colourB]
+                    # May want to change the lastupdate and weight defaults later
+                    lastupdate = 0
+                    weight = 1
+
+                
+                if addFact == 1:
+
+                    tempFactList.append(Fact(newFactKey, factValue, lastupdate, weight))
+                    factKey = factKey + 1
                 numFactsActual = numFactsActual + 1
-                factKey = factKey + 1
 
             # Now, add the new concept and its associated factlist to the person
             tempConcept=Concept(newConceptKey, newConceptName, tempFactList)
+            tempConcept.update()
             eachPers.conceptMap.append(tempConcept)
             numConceptsThisPers = numConceptsThisPers + 1
             conceptKey = conceptKey + 1
         personCount = personCount + 1
+
     print("we generated the peeps!")
 
     # Step 3. Make edges for people.
+    # SD generation for Edges for People objects
+    
+    persCount = 0
+    numPeopleEdgesArray = numpy.random.normal(currentSetting.numPeopleEdges_mean, currentSetting.numPeopleEdges_scale, currentSetting.numPeople)
+    
+    personListLength = len(personList) - 1
+    
+    for eachVal in numPeopleEdgesArray:
+        # Half the num of connections per person (as each person will be iterated through and allocated all their connections)
+        eachVal = eachVal / 2
+        eachVal = round(eachVal)
+    
+
+
+    # for each person, allocate a number of connections
+    for eachPers in personList:
+        edgesAllocated = numPeopleEdgesArray[persCount]
+        edgesAllocated = round(edgesAllocated)
+        actualEdges = 0
+             
+
+        
+
+        while actualEdges < edgesAllocated:
+            # create edge
+            secondPerson = eachPers
+
+
+            while secondPerson.key == eachPers.key:
+                # Randomly generate a person to connect to
+                secondPersonVal = random.randint(0,personListLength)
+                secondPerson = personList[secondPersonVal]
+                newEdgeKey = F"{eachPers.key}-{secondPerson.key}"
+                altEdgeKey  = F"{secondPerson.key}-{eachPers.key}"
+                # Check to see if edge already exists OBSOLETE TO DELETE
+                #for eachExistingEdge in secondPerson.connectionMap:
+                #    if eachExistingEdge.key == newEdgeKey or eachExistingEdge.key == altEdgeKey:
+                #        secondPerson = eachPers
+
+                # Check to see if edge already exists
+                checkEdgeExist = any(eachEdge.key == newEdgeKey for eachEdge in edgeList)
+                if checkEdgeExist == True:
+                    secondPerson = eachPers
+
+            # Once you have a unique edge allocation, create the values
+
+
+            # Add the edge to both Persons
+            newEdge = Edge(newEdgeKey,eachPers, secondPerson)
+            newEdge.update()
+            secondNewEdge = Edge(altEdgeKey,secondPerson,eachPers)
+            secondNewEdge.update()
+
+            # Obsolete, to delete 
+            #eachPers.connectionMap.append(newEdge)
+            #personList[secondPersonVal].connectionMap.append(secondNewEdge)
+            
+            # Add the two new edges to the edgeList
+            edgeList.append(newEdge)
+            edgeList.append(secondNewEdge)
+
+            actualEdges = actualEdges + 1
+
+        persCount = persCount + 1
+
+    print("Made all conns")
 
     # SD generation for networkforeach loop p
-        
+    
 # 
 
 
