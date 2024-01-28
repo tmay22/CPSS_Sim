@@ -122,6 +122,8 @@ class Edge:
         else:
             conceptValueSimAve = 0
         # Find the number of concept name matches that overlap between A and B
+        if numconcepts_A == 0:
+            numconcepts_A = 1
         conceptOverlap = numConceptMatch/numconcepts_A*100
         # UNSURE if this is the best multiplier or another formula should be used
         tempSimilarity = conceptOverlap*conceptValueSimAve/100
@@ -135,7 +137,7 @@ class Edge:
             newLastInteract = 100-self.lastInteract
 
         self.strength = self.trust*newLastInteract/ 100
-        print("finish update")
+         
 
 class Fact:
     def __init__(self, key, value, lastUpdate, weight):

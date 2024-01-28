@@ -261,9 +261,9 @@ def generateNetwork(currentSetting):
                         
                         # exception to fix rand limitations
                         if colourR_upperLim - colourR_lowerLim < 2:
-                            colourR_upperLim = colourR_upperLim + 2
-                        
-                        colourR = random.randint(colourR_lowerLim, colourR_upperLim)
+                            colourR = colourR_upperLim
+                        else:
+                            colourR = random.randint(colourR_lowerLim, colourR_upperLim)
                     
                     if eachPers.nuance >= 2:
                         colourG_upperLim = eachPers.changeThreshold + firstFact.value[1]
@@ -271,9 +271,9 @@ def generateNetwork(currentSetting):
                         
                         # exception to fix rand limitations
                         if colourG_upperLim - colourG_lowerLim < 2:
-                            colourG_upperLim = colourG_upperLim + 2
-                        
-                        colourG = random.randint(colourG_lowerLim,colourG_upperLim)
+                            colourG = colourG_upperLim
+                        else:
+                            colourG = random.randint(colourG_lowerLim,colourG_upperLim)
                     else:
                         colourG = 0
 
@@ -283,10 +283,9 @@ def generateNetwork(currentSetting):
                         
                         # exception to fix rand limitations
                         if colourB_upperLim - colourB_lowerLim < 2:
-                            colourB_upperLim = colourB_upperLim + 1
-                        
-                        
-                        colourB = random.randint(colourB_lowerLim,colourB_upperLim)
+                            colourB = colourB_upperLim 
+                        else:                
+                            colourB = random.randint(colourB_lowerLim,colourB_upperLim)
                     else:
                         colourB = 0
                     
