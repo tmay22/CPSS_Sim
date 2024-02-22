@@ -27,6 +27,8 @@ def build(setupOption):
     #print(currentSetting)
     #Note that you can generate a build or input a dataset
 
+    return personList, edgeList
+
 def generateDefaultSettings():
 
     #See ConfigObjects.py and NetworkObjects.py  for variable definitions

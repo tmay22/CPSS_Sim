@@ -73,7 +73,7 @@ class Settings:
 
     def __str__(self):
         stringPrint = f"Number of existing concepts (not including new ideas): {self.numConcepts} \n"
-        stringPrint = f"Number of People in network: {self.numPeople} \n"
+        stringPrint = f"{stringPrint}Number of People in network: {self.numPeople} \n"
         stringPrint = f"{stringPrint}Mean edges between people: {self.numPeopleEdges_mean} \n"
         stringPrint = f"{stringPrint}Scale of number of Edges per Person: {self.numPeopleEdges_scale} \n"
         stringPrint = f"{stringPrint}Mean of no. Concepts per Person: {self.numPeopleConcepts_mean} \n"
