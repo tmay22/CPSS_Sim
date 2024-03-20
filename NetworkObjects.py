@@ -203,3 +203,4 @@ class Person:
         # What is the percentage similarity that a person can differentiate between values?
         # Second value is % similar in order to merge two data points together. 
         self.discriminationThreshold = discriminationThreshold
+

@@ -63,6 +63,8 @@ def exportVNAGraph(personList, edgeList):
 
 def exportGexfGraph(personList, edgeList):
 
+    # Note that this DOES NOT export the concept map into gexf 
+
     # Clear existing file and open new graph file for editing
     file = open('graphFile.gexf', 'w').close()
     file = open('graphFile.gexf', 'w+')
@@ -197,6 +199,16 @@ def exportGexfGraph(personList, edgeList):
 
     file.close()
 
+    # NEED to make a concept map export option!!
 
+    # Clear existing file and open new graph file for editing
+    #conFile = open('graphFile.gexf', 'w').close()
+    #conFile = open('graphFile.gexf', 'w+')
+
+    #for eachPerson in personList:
+    #    for eachConcept in eachPerson.conceptMap:
+    #        conceptTitle = f""
+
+    #conFile.close()
 
     print("")
