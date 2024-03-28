@@ -1,8 +1,8 @@
-import Setup
+import Setup_V1
 import Graph
 
-
-def main():
+# Setup_v1 is the non HDC setup
+def main_SetupV1():
 
     global personList_glob
     global edgeList_glob
@@ -14,7 +14,7 @@ def main():
 
     print("You Selected " + setupOption)
     
-    setupOutput = Setup.build(setupOption)
+    setupOutput = Setup_V1.build(setupOption)
 
     personList_glob = setupOutput[0]
     edgeList_glob = setupOutput[1]
@@ -25,5 +25,13 @@ def main():
         writtenFile = Graph.exportGexfGraph(personList_glob, edgeList_glob)
     
     print("hello")
+
+
+def main():
+
+    print("hello")
+
+
+
 if __name__ == "__main__":
     main()
