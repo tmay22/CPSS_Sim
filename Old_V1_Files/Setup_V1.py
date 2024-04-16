@@ -1,5 +1,5 @@
-from ConfigObjects import *
-from NetworkObjects import *
+from Old_V1_Files.ConfigObjects_V1 import *
+from Old_V1_Files.NetworkObjects_V1 import *
 import numpy
 import random
 

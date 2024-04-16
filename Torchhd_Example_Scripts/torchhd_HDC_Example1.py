@@ -72,6 +72,7 @@ def main():
 
 
     # can you find the hypervector that is the name value of USA?
+    
     compute_LabelNameForBundleUSA = torchhd.bind(torchhd.inverse(label_Name),bundle_USA)
     
     intReturn = vectorMemory.__getitem__(compute_LabelNameForBundleUSA)

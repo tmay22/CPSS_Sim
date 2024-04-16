@@ -9,3 +9,7 @@ Require torch install:
 Require torch-hd Hyperdimensional computing install:
 
 `` py -m pip install torch-hd``
+
+
+Vsapy install:
+``py -m pip install vsapy``
