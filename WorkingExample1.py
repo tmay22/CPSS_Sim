@@ -3,6 +3,7 @@ import torch
 import itertools
 import VectorFunction
 import Globals
+import pandas
 
 
 # Create vector memory 
@@ -33,32 +34,32 @@ def main():
 
     # Assign hypervectors to python variables for atomic units. Save in vectorDict
     count = 0
-    atomic_VectorDictionary = {}
+    # Globals.atomic_VectorDictionary = {}
     for atom in atomicList:
         vectorName = atomicList[count]
         vectorVal = vectorGen[count]
-        atomic_VectorDictionary[vectorName] = vectorVal
+        Globals.atomic_VectorDictionary[vectorName] = vectorVal
         count = count + 1
              
     # Add Vectors to Memory
-    for vector in atomic_VectorDictionary:
-        Globals.vectorMemory.add(atomic_VectorDictionary[vector], vector )
+    for vector in Globals.atomic_VectorDictionary:
+        Globals.brain_vectorMemory.add(Globals.atomic_VectorDictionary[vector], vector )
 
     # Create every Permutation of 2 atomic vectors (doesn't matter order, but duplicates are ok because they will have same value i.e. AB vs BA)
     
-    pair_VectorDictionary = {}
-    for vectorOne in atomic_VectorDictionary:
-        for vectorTwo in atomic_VectorDictionary:          
-                newVal = torchhd.bind(atomic_VectorDictionary[vectorOne],atomic_VectorDictionary[vectorTwo])
+    # Globals.pair_VectorDictionary = {}
+    for vectorOne in Globals.atomic_VectorDictionary:
+        for vectorTwo in Globals.atomic_VectorDictionary:          
+                newVal = torchhd.bind(Globals.atomic_VectorDictionary[vectorOne],Globals.atomic_VectorDictionary[vectorTwo])
                 newName = vectorOne + "-" + vectorTwo
-                pair_VectorDictionary[newName] = newVal
+                Globals.pair_VectorDictionary[newName] = newVal
     
-    print(f'No. items in atom_VectorDictionary : ' + str(len(atomic_VectorDictionary)))
-    print(f'No. items in pair_VectorDictionary: ' + str(len(pair_VectorDictionary)))
+    print(f'No. items in atom_VectorDictionary : ' + str(len(Globals.atomic_VectorDictionary)))
+    print(f'No. items in Globals.pair_VectorDictionary: ' + str(len(Globals.pair_VectorDictionary)))
 
     # Add vector pairs to memory
-    for vector in pair_VectorDictionary:
-         Globals.vectorMemory.add(pair_VectorDictionary[vector], vector )
+    for vector in Globals.pair_VectorDictionary:
+         Globals.brain_vectorMemory.add(Globals.pair_VectorDictionary[vector], vector )
 
 
     # Create negative and positive vectors
@@ -67,8 +68,8 @@ def main():
     negOneVector = torchhd.bind(torchhd.negative(tempV), tempV)
     posOneVector = torchhd.negative(negOneVector)
 
-    Globals.vectorMemory.add(negOneVector, 'negOneVector')
-    Globals.vectorMemory.add(posOneVector, 'posOneVector')
+    Globals.brain_vectorMemory.add(negOneVector, 'negOneVector')
+    Globals.brain_vectorMemory.add(posOneVector, 'posOneVector')
 
     print("Configuration complete!\n")
 
@@ -87,15 +88,15 @@ def main():
     for pair in ticket_1_wordPairs:
         dictTerm = pair
         if count == 0:
-            ticket_1 = pair_VectorDictionary[dictTerm]
+            ticket_1 = Globals.pair_VectorDictionary[dictTerm]
         else:
-            ticket_1 = torchhd.bundle(ticket_1,pair_VectorDictionary[dictTerm])
+            ticket_1 = torchhd.bundle(ticket_1,Globals.pair_VectorDictionary[dictTerm])
         count = count + 1
     ticketList["ticket_1"] = ticket_1
 
     # Checks - Passed
-    #print(torchhd.cosine_similarity(ticket_1, torchhd.bind(atomic_VectorDictionary["computer"],atomic_VectorDictionary["linux"])))
-    #ticket_1b = torchhd.bundle(pair_VectorDictionary["pair_computer-linux"],pair_VectorDictionary["pair_persistence-cronjob"])
+    #print(torchhd.cosine_similarity(ticket_1, torchhd.bind(Globals.atomic_VectorDictionary["computer"],Globals.atomic_VectorDictionary["linux"])))
+    #ticket_1b = torchhd.bundle(Globals.pair_VectorDictionary["pair_computer-linux"],Globals.pair_VectorDictionary["pair_persistence-cronjob"])
     #print(torchhd.cosine_similarity(ticket_1,ticket_1b))
 
     ticket_2_wordPairs = ("computer-windows","persistence-registry","psexec-process")
@@ -104,9 +105,9 @@ def main():
     for pair in ticket_2_wordPairs:
         dictTerm = pair
         if count == 0:
-            ticket_2 = pair_VectorDictionary[dictTerm]
+            ticket_2 = Globals.pair_VectorDictionary[dictTerm]
         else:
-            ticket_2 = torchhd.bundle(ticket_2,pair_VectorDictionary[dictTerm])
+            ticket_2 = torchhd.bundle(ticket_2,Globals.pair_VectorDictionary[dictTerm])
         count = count + 1
     ticketList["ticket_2"] = ticket_2
 
@@ -116,18 +117,18 @@ def main():
     for pair in ticket_3_wordPairs:
         dictTerm =  pair
         if count == 0:
-            ticket_3 = pair_VectorDictionary[dictTerm]
+            ticket_3 = Globals.pair_VectorDictionary[dictTerm]
         else:
-            ticket_3 = torchhd.bundle(ticket_3,pair_VectorDictionary[dictTerm])
+            ticket_3 = torchhd.bundle(ticket_3,Globals.pair_VectorDictionary[dictTerm])
         count = count + 1
     ticketList["ticket_3"] = ticket_3
 
     # Add 3 tickets into memory
     for ticket in ticketList:
-        Globals.vectorMemory.add(ticketList[ticket], ticket)
+        Globals.brain_vectorMemory.add(ticketList[ticket], ticket)
     
     ticket_all = torchhd.bundle(torchhd.bundle(ticket_1, ticket_2),ticket_3)
-    Globals.vectorMemory.add(ticket_all, "ticket_all")
+    Globals.brain_vectorMemory.add(ticket_all, "ticket_all")
 
     
     # ----------------------------------------------------------------------------------------------------------------------------------
@@ -152,7 +153,7 @@ def main():
     # -----------
     # How many instances of the "persistance-registry" bind?
 
-    res = VectorFunction.getNumInstances_bind(ticket_all, pair_VectorDictionary["persistence-registry"])
+    res = VectorFunction.getNumInstances_bind(ticket_all, Globals.pair_VectorDictionary["persistence-registry"])
     
     print(f'------Test Two--------' )
     print(f'Approx number of\'Persistence-registry\' pairings: \n' + str(res) + ' \n')
@@ -170,22 +171,53 @@ def main():
     print(f'Approx number of binds total in the ticket_all bundle: \n' + str(res) + ' \n')
     print("UP TO HERE")
 
+    # -----------
+    # Test XX -UP TO HERE
+    # -----------
+    # What is distro of words?
+
+    word_res = torchhd.bind((torchhd.permute(ticket_all)),ticket_all)
+    
+    df = pandas.DataFrame({
+        "word": Globals.atomic_VectorDictionary,
+        "word_res": word_res
+    })
+
+    print(df)
+    print("hi")
+
+
    
     # -----------
     # Test Four -UP TO HERE
     # -----------
     # How many instances of the "persistance" atom
 
-    #negAns = torchhd.bind((torchhd.negative(atomic_VectorDictionary["persistence"])),ticket_all)
-    res = torchhd.bind((atomic_VectorDictionary["persistence"]),ticket_all)
+    filter = torchhd.bind(Globals.atomic_VectorDictionary["persistence"], ticket_all)
+    resList = []
+    #HALFWAY HERE _ INstead look at the -1 thing to check if an item is contained.
+    for entry in Globals.atomic_VectorDictionary:
+        calc = torchhd.cosine_similarity(Globals.atomic_VectorDictionary[entry],filter)
+        if calc > 0.5:
+            resList = resList.append(entry)
 
+    print(f'------Test FOur--------' )
+    print(f'Approx number of binded pairs with "persistence": \n' )
+    
+    print(resList)
+
+    print("UP TO HERE")
+
+    #negAns = torchhd.bind((torchhd.negative(Globals.atomic_VectorDictionary["persistence"])),ticket_all)
+    query = torchhd.permute(Globals.atomic_VectorDictionary["persistence"])
+    res = torchhd.cosine_similarity(query, ticket_all)
+    res2 = torchhd.dot_similarity(query, ticket_all)
+    print("here")
     #resMinus = torchhd.bundle(negAns,res)
 
     #absVal = torch.abs(resMinus)
     #aveAbsVal = torch.mean(resMinus)
-    print(f'------Test FOur--------' )
-    print(f'Approx number of binded pairs with "persistence": \n' + str(aveAbsVal) + ' \n')
-    print("UP TO HERE")
+ 
 
     #topVal = torch.max(resMinus)
     #bottomVal = torch.min(resMinus)
@@ -195,28 +227,24 @@ def main():
 
     #absValAve_divTwo = torch.mean(absVal)/2
 
-    print("here")
+    #print("here")
 
-    #res = torchhd.bind(atomic_VectorDictionary["persistence"],ticket_all)
+    #res = torchhd.bind(Globals.atomic_VectorDictionary["persistence"],ticket_all)
+   
 
-
-
-
+    # print(f'------Test Two--------' )
+    # print(f'Nature of Persistence' )
+    # print(f'TopVal: ' + str(topVal) + '\nAveVal: ' + str(aveVal) + '\nBottomVal: ' + str(bottomVal))
+    # print(f'AbsVal' + str(absVal))
+    # print(f'AbsValAve_divTwo' + str(absValAve_divTwo))
+    # print(f'-' )
+    # print(f'cronjob' + str(Globals.atomic_VectorDictionary["cronjob"]))
+    # print(f'registry' + str(Globals.atomic_VectorDictionary["registry"]))
+    # print(f'gpo' + str(Globals.atomic_VectorDictionary["gpo"]))
     
+    # print(f'res' + str(res))
 
-    print(f'------Test Two--------' )
-    print(f'Nature of Persistence' )
-    print(f'TopVal: ' + str(topVal) + '\nAveVal: ' + str(aveVal) + '\nBottomVal: ' + str(bottomVal))
-    print(f'AbsVal' + str(absVal))
-    print(f'AbsValAve_divTwo' + str(absValAve_divTwo))
-    print(f'-' )
-    print(f'cronjob' + str(atomic_VectorDictionary["cronjob"]))
-    print(f'registry' + str(atomic_VectorDictionary["registry"]))
-    print(f'gpo' + str(atomic_VectorDictionary["gpo"]))
-    
-    print(f'res' + str(res))
-
-    res2 = Globals.vectorMemory.__getitem__(res)
+    res2 = Globals.brain_vectorMemory.__getitem__(res)
 
 
     # -----------
