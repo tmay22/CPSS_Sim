@@ -21,7 +21,7 @@ def compareVectors(vector1, vector2):
 def getNumInstances_bind(bundleVector, bindVector):
     res = torchhd.bind(bundleVector, torchhd.negative(bindVector))
     aveVal = torch.mean(res)
-    tempMem = Globals.vectorMemory.__getitem__(res)
+    tempMem = Globals.brain_vectorMemory.__getitem__(res)
     if tempMem[1] == 'negOneVector' or tempMem[1] == 'posOneVector':
         if aveVal <-0.5:
             aveVal = torchhd.negative(aveVal)
