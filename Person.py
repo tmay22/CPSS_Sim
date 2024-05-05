@@ -8,34 +8,34 @@ class Person:
 
     # Vars:
     #   id: id for Person obj
-    #   brainVM: vector memory to represent Person's brain
+    #   persVector: vector value that represents this person (atomic)
+    #   perBuble: bundle of vector value-pairs assigned to person
     #   descriptors: describing details about person in dict format. e.g. hair colour:brown
     #   filters: see class
     #   behaviours: see class
     #   edgeList: list of edge objects
     
+    # Initialise object with only personID
     def __init__(self, personId):
-        
         self.id = personId
-        self.brainVM = torchhd.structures.Memory(0.0)
         self.edgeList = []
+        #self.persBundle = 0
+        self.persVector = "unassigned"
 
+    # Add a data dictionary of descriptors for person. (e.g. hair colour)
     def addDescriptors(self, personDataDict):
         self.descriptors = personDataDict
     
-    # USed if for whatever reason there is no memory added to person.
-    def newVM(self):
-        # Creates a copy of hte base brain VM in Globals
-        baseVM = Globals.brain_vectorMemory
-        newVM = torchhd.structures.Memory(0.0)
-        
-        for key in baseVM.keys:
-            value = baseVM.__getitem__(key)
-            newKey = torch.clone(key)
-            newValue = copy.deepcopy(value[1])
-            newVM.add(newKey, newValue)
+    # DELETE because no longer rel
+    # # Add a vector to the person's vector bundle
+    # # Note that each bundle should be person x word1 x word2
+    # def addToPersBundle(self, bundle):
+    #     self.persBundle = torchhd.bundle(self.persBundle, bundle)
+    
+    # Set the person's atomic vector value
+    def setPersVector(self, vector):
+        self.persVector = vector 
 
-        self.brainVM = newVM
 
 
     

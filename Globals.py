@@ -3,9 +3,11 @@ import torch
 import itertools
 import VectorFunction
 
-# Create vector memory for a brain
-global brain_vectorMemory
-brain_vectorMemory = torchhd.structures.Memory(0.0)
+
+# A Vector Memory (VM) that contains both the atomic vectors, and bundles for all of the Persons
+# ITNEGRATES all of the Person brains together into one VM
+global integratedBrain_vectorMemory
+integratedBrain_vectorMemory = torchhd.structures.Memory(0.0)
 
 # Create vector dictionary for individual words
 global atomic_VectorDictionary
@@ -15,10 +17,13 @@ atomic_VectorDictionary = {}
 global pair_VectorDictionary 
 pair_VectorDictionary = {}
 
+# Create vector dictionary for trios: Person x Pairs
+global trio_VectorDictionary 
+trio_VectorDictionary = {}
 
-# List of all Edge objects
-global edgeList
-edgeList = []
+# Storage mechanism of SPECIAL Keys - i.e. posOneVector, negOneVector, caseBundle
+global special_VectorDictionary
+special_VectorDictionary = {}
 
 # List of all personIds
 global personDict
