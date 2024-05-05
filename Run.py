@@ -3,6 +3,7 @@ import torchhd
 import numpy
 import random
 import Controller
+import Globals
 
 
 
@@ -25,20 +26,16 @@ def main():
         exit()
     elif setupOption == "3":
         # Create Network from Input
-        Controller.createBaseBrain()
+        #Controller.createBaseBrain()
         Controller.createTestSim()
         print("Working on atm!")
     else:
         print("Error with setup option selected. Try again")
         main() 
 
-    # Do setup
 
-    
+    # Note that in this current model we keep the number of atomic vectors (i.e. people and words) static.
 
-    # If OP 1
-
-    # If OP 2
 
     
 

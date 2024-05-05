@@ -9,14 +9,10 @@ import Person
 import VectorFunction
 
 def createBrainVectorBase():
-    # This Overload is when there is no Globals.PersonDict to input
-    # Creates a default Vector Memory, and atomic and pair dictionaries. 
+    # Creates a default Vector Memory, atomic dictionary and pos/neg vectors
+    # Does not create pairs by default. THis occurs later
     # Created outputs stored in Globals.py
 
-    # Size limit set to larger than num of rows in input csv
-    # csv.field_size_limit(1885340)
-
-    global atomicList
     atomicList = []
 
     # Parse the dictionary csv and add the words. Remove duplicates.
@@ -27,13 +23,18 @@ def createBrainVectorBase():
         print("NOTE that this atomic read is limited to 200 terms for memory purposes")
         for row in csv_reader:
             # IF LINECOUNT < 100 PURELY FOR TESTING ONLY. Otherwise remove this second bit
-            if lineCount != 0 and lineCount < 202:
+            if lineCount != 0 and lineCount < 201:
                 if row[0] != lastItem:
                     atomicList.append(row[0])
             lineCount = lineCount + 1
             lastItem = row[0]
+    
+    # Determine how many atomic vectors we need to generate
     numWords = len(atomicList)
+    numPersons = len(Globals.personDict)
+    totalAtomicNum = numWords + numPersons
 
+ 
     # Cleanup
     del csv_reader
     del englishDict
@@ -44,54 +45,43 @@ def createBrainVectorBase():
     d = 10000
 
     # Generate hypervectors for the atomic units unassigned to labels
-    vectorGen = torchhd.random(numWords,d)
+    vectorGen = torchhd.random(totalAtomicNum,d)
 
     # Assign hypervectors to python variables for atomic units. Save in vectorDict
     count = 0
 
-    # Globals.atomic_VectorDictionary = {}
+    # for each item in the atomic list, create its corresponding vector in the dicts and memory
     for atom in atomicList:
         vectorName = atomicList[count]
         vectorVal = vectorGen[count]
         Globals.atomic_VectorDictionary[vectorName] = vectorVal
         count = count + 1
-             
-    # Add Vectors to Memory
-    for vector in Globals.atomic_VectorDictionary:
-        Globals.brain_vectorMemory.add(Globals.atomic_VectorDictionary[vector], vector )
+        Globals.integratedBrain_vectorMemory.add(vectorVal, vectorName)
 
+
+    # for each item in the person list, create its corresponding vector in the dicts and memory
+    for person in Globals.personDict:
+        currentPers =  Globals.personDict[person]
+        vectorName = currentPers.id
+        vectorVal = vectorGen[count]
+        Globals.atomic_VectorDictionary[vectorName] = vectorVal
+        currentPers.persVector = vectorVal
+        count = count + 1
+        Globals.integratedBrain_vectorMemory.add(vectorVal, vectorName)
+
+
+    
     # Memory Cleanup
     del vectorVal
     del row
     del vectorName
     del vectorGen
     del count
-    del vector
     del atom
     del atomicList
-
-    # Create every Permutation of 2 atomic vectors (doesn't matter order, but duplicates are ok because they will have same value i.e. AB vs BA)
-    
-    # Globals.pair_VectorDictionary = {}
-    for vectorOne in Globals.atomic_VectorDictionary:
-        for vectorTwo in Globals.atomic_VectorDictionary:          
-                newVal = torchhd.bind(Globals.atomic_VectorDictionary[vectorOne],Globals.atomic_VectorDictionary[vectorTwo])
-                newName = vectorOne + "-" + vectorTwo
-                Globals.pair_VectorDictionary[newName] = newVal
+    del currentPers
     
     print(f'No. items in atom_VectorDictionary : ' + str(len(Globals.atomic_VectorDictionary)))
-    print(f'No. items in Globals.pair_VectorDictionary: ' + str(len(Globals.pair_VectorDictionary)))
-
-    # cleanup
-    del vectorOne
-    del vectorTwo
-    del newName
-    del newVal
-    
-    # Add vector pairs to memory
-    for vector in Globals.pair_VectorDictionary:
-         Globals.brain_vectorMemory.add(Globals.pair_VectorDictionary[vector], vector )
-
 
     # Create negative and positive vectors
     tempV =  torchhd.random(1,d)
@@ -99,13 +89,14 @@ def createBrainVectorBase():
     negOneVector = torchhd.bind(torchhd.negative(tempV), tempV)
     posOneVector = torchhd.negative(negOneVector)
 
-    Globals.brain_vectorMemory.add(negOneVector, 'negOneVector')
-    Globals.brain_vectorMemory.add(posOneVector, 'posOneVector')
+    Globals.integratedBrain_vectorMemory.add(negOneVector, 'SPECIAL_negOneVector')
+    Globals.integratedBrain_vectorMemory.add(posOneVector, 'SPECIAL_posOneVector')
+
+    Globals.special_VectorDictionary["SPECIAL_negOneVector"] = negOneVector
+    Globals.special_VectorDictionary["SPECIAL_posOneVector"] = posOneVector
+    
 
     print("SUCCESS: Vector Brain Base Configuration Complete!\n")
-
-
-
 
 
 def createTestSim():
@@ -117,7 +108,7 @@ def createTestSim():
     fileName_persAtomicPairsCSV = "PersonPairs_Mini5_PairsSnap1.csv"
     
     generateNetwork(fileName_personDataCSV,fileName_connectionsCSV, fileName_persAtomicPairsCSV)
-
+    
     # Create Test Network
 
 
@@ -169,6 +160,12 @@ def generateNetwork(fileName_personDataCSV, fileName_connectionsCSV,fileName_per
     del csv_reader
     del fieldContent
     del newPerson
+    del personDesc
+    del lineCount
+    del numFields
+    del fieldTitle
+    del fieldList
+
 
 
 
@@ -178,18 +175,18 @@ def generateNetwork(fileName_personDataCSV, fileName_connectionsCSV,fileName_per
 
     # Create edges and assign them to each Person object
     # Note that edges are directional and that person order matters
-
+    # Note that there CANNOT be new Persons that have not been created being processed.
     with open(fileName_connectionsCSV) as edgesCSV:
         csv_reader = csv.reader(edgesCSV, delimiter=',')
         lineCount = 0
         for row in csv_reader:
             if lineCount != 0:
-                if row[0] not in Globals.personDict:
-                    newPerson = Person.Person(row[0])
-                    Globals.personDict[newPerson.id] = newPerson
-                if row[1] not in Globals.personDict:
-                    newPerson = Person.Person(row[1])
-                    Globals.personDict[newPerson.id] = newPerson
+                # if row[0] not in Globals.personDict:
+                #     newPerson = Person.Person(row[0])
+                #     Globals.personDict[newPerson.id] = newPerson
+                # if row[1] not in Globals.personDict:
+                #     newPerson = Person.Person(row[1])
+                #     Globals.personDict[newPerson.id] = newPerson
                 personOne = Globals.personDict[row[0]]
                 newEdge = Person.Edge(row[0],row[1],row[2])
                 personOne.edgeList.append(newEdge)
@@ -198,7 +195,10 @@ def generateNetwork(fileName_personDataCSV, fileName_connectionsCSV,fileName_per
     
     # NEED TO BUILD AN EDGE CHECK
 
+    createBrainVectorBase()
+
     # Read in Vector-Pairs from CSV and assign to appropriate Persons
+
 
     with open(fileName_persAtomicPairsCSV) as atomicPairsCSV:
         csv_reader = csv.reader(atomicPairsCSV, delimiter=',')
@@ -207,24 +207,27 @@ def generateNetwork(fileName_personDataCSV, fileName_connectionsCSV,fileName_per
             if lineCount != 0:
                 personId = row[0]
                 newPair = row[1] + "-" + row[2]
+                trioLabel = row[0] + newPair
                 currentPers = Globals.personDict[personId]
-                currentVector = Globals.pair_VectorDictionary[newPair]
-                currentPers.brainVM.add(currentVector, newPair)
+                VectorFunction.newVectorLabelPair(row[1], row[2])
+                vectorVal = Globals.pair_VectorDictionary[newPair]
+                VectorFunction.newVectorTrio(currentPers,vectorVal)
             lineCount = lineCount + 1
 
-    # CHeck, does 1 contain "who-feel"
-    currentPers = Globals.personDict["1"]
-    anotherPers = Globals.personDict["2"]
+    # TEST Does Person 1 contain "who-feel" - SUCCESS
+    # currentPers = Globals.personDict["1"]
+    # anotherPers = Globals.personDict["2"]
+    # person1 = VectorFunction.doesPersContPair_bool(currentPers, "who-feel")
+    # person2 = VectorFunction.doesPersContPair_bool(anotherPers, "who-feel")
+    # print("Finished test")
+        
 
-    res1 = currentPers.brainVM.__getitem__(Globals.pair_VectorDictionary["who-feel"])
-    res2 = anotherPers.brainVM.__getitem__(Globals.pair_VectorDictionary["who-feel"])
-    
-    print("Test Complete - did it work?")
+    print("SUCCESS: Person pairs and trios added to vector memory")
 
     # Need to make a cvector function that can check to see if a person's VM contains a pair
 
 
-    print("Network Generation COmpleted")
+    print("Network Generation Completed")
 
 
 
