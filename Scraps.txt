@@ -135,3 +135,54 @@
     # print(f'Edges of network created.')
     # print(f'Number of Persons: {len(Globals.personIdList)}')
     # print(f'Number of Edges: {len(Globals.edgeList)}')
+
+
+
+
+
+def tessTest():
+ 
+    vPair_a = Globals.pair_VectorDictionary["American-national"]
+    vPair_b = Globals.pair_VectorDictionary["American-that"]
+    vPair_c = Globals.pair_VectorDictionary["during-too"]
+    vPair_d = Globals.pair_VectorDictionary["the-most"]
+
+    pairList = []
+    pairList.append(vPair_a)
+    pairList.append(vPair_b)
+    pairList.append(vPair_c)
+    pairList.append(vPair_d)
+
+    myTuple = tuple(pairList)
+    print(f"My Tuple \n {myTuple}")
+
+    myStack = torch.stack(myTuple)
+    print(f"My Stack \n {myStack}")
+
+
+    bundle_abc = torchhd.bundle(torchhd.bundle(vPair_a, vPair_b), vPair_c)
+    bundle_bcd = torchhd.bundle(torchhd.bundle(vPair_b, vPair_c), vPair_d)
+
+    allbundle = torchhd.bundle(bundle_abc, bundle_bcd)   
+
+    cosine = torchhd.cosine_similarity(bundle_abc, bundle_bcd)
+    print (f"Cosine Sim abc and bcd: {cosine}")
+
+    cosine = torchhd.cosine_similarity(bundle_abc, allbundle)
+    print (f"Cosine Sim abc to allBundle: {cosine}")
+
+    cosine = torchhd.cosine_similarity(vPair_a, bundle_abc)
+    print (f"Cosine Sim a to abc: {cosine}")
+
+    torchhd.utils.plot_similarity(vPair_c,Globals.integratedBrain_vectorMemory)
+    plt.show()
+    print (f"Plot sim: {cosine}")
+
+
+    torchhd.utils.plot_similarity(vPair_c,myStack)
+    plt.show()
+    print (f"Plot sim: {cosine}")
+
+
+    print("here")
+    # get the dot product of com

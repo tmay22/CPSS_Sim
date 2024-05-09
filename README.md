@@ -18,7 +18,12 @@ Vsapy install:
 Pandas install:
 ``py -m pip install pandas``
 
+matplotlib install:
+``py -m pip install matplotlib ``
+
 
 Dictionary Source:
 ``https://github.com/benjihillard/English-Dictionary-Database``
 ``https://github.com/pkLazer/password_rank/blob/master/4000-most-common-english-words-csv.csv``
+
+

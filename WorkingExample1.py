@@ -43,7 +43,7 @@ def main():
              
     # Add Vectors to Memory
     for vector in Globals.atomic_VectorDictionary:
-        Globals.brain_vectorMemory.add(Globals.atomic_VectorDictionary[vector], vector )
+        Globals.integratedBrain_vectorMemory.add(Globals.atomic_VectorDictionary[vector], vector )
 
     # Create every Permutation of 2 atomic vectors (doesn't matter order, but duplicates are ok because they will have same value i.e. AB vs BA)
     
@@ -59,7 +59,7 @@ def main():
 
     # Add vector pairs to memory
     for vector in Globals.pair_VectorDictionary:
-         Globals.brain_vectorMemory.add(Globals.pair_VectorDictionary[vector], vector )
+         Globals.integratedBrain_vectorMemory.add(Globals.pair_VectorDictionary[vector], vector )
 
 
     # Create negative and positive vectors
@@ -68,8 +68,8 @@ def main():
     negOneVector = torchhd.bind(torchhd.negative(tempV), tempV)
     posOneVector = torchhd.negative(negOneVector)
 
-    Globals.brain_vectorMemory.add(negOneVector, 'negOneVector')
-    Globals.brain_vectorMemory.add(posOneVector, 'posOneVector')
+    Globals.integratedBrain_vectorMemory.add(negOneVector, 'negOneVector')
+    Globals.integratedBrain_vectorMemory.add(posOneVector, 'posOneVector')
 
     print("Configuration complete!\n")
 
@@ -125,10 +125,10 @@ def main():
 
     # Add 3 tickets into memory
     for ticket in ticketList:
-        Globals.brain_vectorMemory.add(ticketList[ticket], ticket)
+        Globals.integratedBrain_vectorMemory.add(ticketList[ticket], ticket)
     
     ticket_all = torchhd.bundle(torchhd.bundle(ticket_1, ticket_2),ticket_3)
-    Globals.brain_vectorMemory.add(ticket_all, "ticket_all")
+    Globals.integratedBrain_vectorMemory.add(ticket_all, "ticket_all")
 
     
     # ----------------------------------------------------------------------------------------------------------------------------------
@@ -244,7 +244,7 @@ def main():
     
     # print(f'res' + str(res))
 
-    res2 = Globals.brain_vectorMemory.__getitem__(res)
+    res2 = Globals.integratedBrain_vectorMemory.__getitem__(res)
 
 
     # -----------

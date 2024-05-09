@@ -4,6 +4,10 @@ import numpy
 import random
 import Controller
 import Globals
+import matplotlib
+matplotlib.use('TkAgg',force=True)
+from matplotlib import pyplot as plt
+print("Switched to:",matplotlib.get_backend())
 
 
 
@@ -36,12 +40,19 @@ def main():
 
     # Note that in this current model we keep the number of atomic vectors (i.e. people and words) static.
 
+    #tessTest()
 
-    
 
     Controller.mainMenu()
 
     print("Run END")
+
+
+def tessTest():
+    # bindTop = torch.max(Globals.special_VectorDictionary["SPECIAL_caseBundle_persBind"])
+    # bundleTop= torch.max(Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"])
+    # print("here")
+    print("hi")
 
 
 if __name__ == "__main__":

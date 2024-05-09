@@ -19,7 +19,7 @@ class Person:
     def __init__(self, personId):
         self.id = personId
         self.edgeList = []
-        #self.persBundle = 0
+        self.persBundle = 0
         self.persVector = "unassigned"
 
     # Add a data dictionary of descriptors for person. (e.g. hair colour)
