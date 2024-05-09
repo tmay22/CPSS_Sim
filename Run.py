@@ -52,6 +52,7 @@ def tessTest():
     # bindTop = torch.max(Globals.special_VectorDictionary["SPECIAL_caseBundle_persBind"])
     # bundleTop= torch.max(Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"])
     # print("here")
+    print("hi")
 
 
 if __name__ == "__main__":
