@@ -207,7 +207,7 @@ def generateNetwork(fileName_personDataCSV, fileName_connectionsCSV,fileName_per
             if lineCount != 0:
                 personId = row[0]
                 newPair = row[1] + "-" + row[2]
-                trioLabel = row[0] + newPair
+                trioLabel = row[0] + "-" + newPair
                 currentPers = Globals.personDict[personId]
                 VectorFunction.newVectorLabelPair(row[1], row[2])
                 vectorVal = Globals.pair_VectorDictionary[newPair]
@@ -226,6 +226,8 @@ def generateNetwork(fileName_personDataCSV, fileName_connectionsCSV,fileName_per
 
     # Need to make a cvector function that can check to see if a person's VM contains a pair
 
+    # CaseBundle_persBind
+    # CaseBundle_persBundle
 
     print("Network Generation Completed")
 
