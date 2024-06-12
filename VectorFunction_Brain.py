@@ -16,6 +16,15 @@ import Globals
 # Process: Cosine similarity equation
 # Output: Cosine similarity vector
 
+# ---------- VECTOR SETUP ---------- #
+  
+
+# Create a new AtomicVector and add to dictionary (note not for Person vectors)
+def newAtomicVector(value):
+    if value not in Globals.atomic_VectorDictionary.keys():
+        newVector = torchhd.random(1,10000)
+        Globals.atomic_VectorDictionary[value] = newVector[0]
+        Globals.integratedBrain_vectorMemory.add(newVector[0],value)
 
 # Add a new Vector-Value pair. Inputs are labels
 def newVectorLabelPair(valueOne: str, valueTwo: str):
@@ -114,12 +123,6 @@ def newVectorTrio(personObj, pairVector):
         Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"] = newPersBundle
         Globals.integratedBrain_vectorMemory.add(newPersBundle,"SPECIAL_caseBundle_persBundle")
 
-
-
-# Compare two vectors using cosine similarity
-def compareVectors(vector1, vector2):
-    return torchhd.cosine_similarity(vector1, vector2)
-
 # Get CaseBundle Vector value
 def getCaseBundle_persBind():
     caseBundle = Globals.special_VectorDictionary["SPECIAL_caseBundle_persBind"]
@@ -154,6 +157,9 @@ def getPosOneVector():
 def getNegOneVector():
     negVector = Globals.special_VectorDictionary["SPECIAL_negOneVector"]
     return negVector
+
+
+# ---------- VECTOR QUERIES ----------
 
 # FInd out if a person contains a pairing
 def doesPersContPair_bool(personObj, pairLabel):
@@ -191,7 +197,11 @@ def doesPersContPair_numInst(personObj, pairLabel):
         numInst_result = 0
     return numInst_result
 
-    
+
+# Compare two vectors using cosine similarity
+def compareVectors(vector1, vector2):
+    return torchhd.cosine_similarity(vector1, vector2)
+   
 
 # Get the number of instances of a bind (UNTESTED - only works I think for 2 vector pairs)    
 def getNumInstances_bind(bundleVector, bindVector):
@@ -214,10 +224,13 @@ def getTotalNumBinds(bundleVector):
     res = int(res)
     return res
 
+
+
+# ---------- Misc ----------
+
 def main():
     vectorInput = torchhd.random(10,10000)
     print(compareVectors(vectorInput[0], vectorInput[1]))
-
 
 if __name__ == "__main__":
     main()

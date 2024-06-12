@@ -74,9 +74,11 @@ class Edge:
 
         self.type = "-"
 
+        type = type.lower()
+
         # Type can be Cyber OR Physical OR Unknown
-        if type != "Cyber" and type != "Physical":
-            self.type == "Unknown"
+        if type != "cyber" and type != "physical":
+            self.type == "unknown"
         else:
             self.type = type
 

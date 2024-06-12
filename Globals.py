@@ -1,13 +1,17 @@
 import torchhd
 import torch
 import itertools
-import VectorFunction
+import VectorFunction_Brain
 
 
 # A Vector Memory (VM) that contains both the atomic vectors, and bundles for all of the Persons
 # ITNEGRATES all of the Person brains together into one VM
 global integratedBrain_vectorMemory
 integratedBrain_vectorMemory = torchhd.structures.Memory(0.0)
+
+global integratedSocialMedia_vectorMemory
+integratedSocialMedia_vectorMemory = torchhd.structures.Memory(0.0)
+
 
 # Create vector dictionary for individual words
 global atomic_VectorDictionary
