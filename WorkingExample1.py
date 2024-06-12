@@ -1,7 +1,7 @@
 import torchhd
 import torch
 import itertools
-import VectorFunction
+import VectorFunction_Brain
 import Globals
 import pandas
 
@@ -140,7 +140,7 @@ def main():
     # -----------
     # Calculate the SImilarity between ticket_1 and ticket_2
 
-    res = VectorFunction.compareVectors(ticket_1, ticket_2)
+    res = VectorFunction_Brain.compareVectors(ticket_1, ticket_2)
     res = res.numpy()
     print(f'------Test One--------' )
     print(f'Similarity between ticket_1 and ticket_2: \n' + str(res) + '(0 is orthogonal, 1 is same) \n')
@@ -153,7 +153,7 @@ def main():
     # -----------
     # How many instances of the "persistance-registry" bind?
 
-    res = VectorFunction.getNumInstances_bind(ticket_all, Globals.pair_VectorDictionary["persistence-registry"])
+    res = VectorFunction_Brain.getNumInstances_bind(ticket_all, Globals.pair_VectorDictionary["persistence-registry"])
     
     print(f'------Test Two--------' )
     print(f'Approx number of\'Persistence-registry\' pairings: \n' + str(res) + ' \n')
@@ -165,7 +165,7 @@ def main():
     # -----------
     # How many binds in a bundle in total?
 
-    res = VectorFunction.getTotalNumBinds(ticket_all)
+    res = VectorFunction_Brain.getTotalNumBinds(ticket_all)
 
     print(f'------Test Three--------' )
     print(f'Approx number of binds total in the ticket_all bundle: \n' + str(res) + ' \n')
