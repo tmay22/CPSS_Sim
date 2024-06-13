@@ -9,8 +9,10 @@ import VectorFunction_Brain
 global integratedBrain_vectorMemory
 integratedBrain_vectorMemory = torchhd.structures.Memory(0.0)
 
-global integratedSocialMedia_vectorMemory
-integratedSocialMedia_vectorMemory = torchhd.structures.Memory(0.0)
+
+# STRETCH - REPRESENT SM DATA AS ITS OWN VM
+# global integratedSocialMedia_vectorMemory
+# integratedSocialMedia_vectorMemory = torchhd.structures.Memory(0.0)
 
 
 # Create vector dictionary for individual words

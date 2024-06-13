@@ -10,7 +10,7 @@ import SinglePersonBrainQueries
 # Main Controller
 # ----------------------------------------------
 
-# NEED TO FIX!!
+
 def mainMenu():
     # Preamble and initial option selection
     print("----------------------------------------")
