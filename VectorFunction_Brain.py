@@ -100,9 +100,12 @@ def newVectorTrio(personObj, pairVector):
         Globals.special_VectorDictionary["SPECIAL_caseBundle_persBind"] = newBundle
 
     # Add pair to PersobObj and SPECIAL_CaseBundle_PersonBundle
+
+    # CHeck to see if there is a 0 (int) or a vector in the budle.
     checkPers = isinstance(personObj.persBundle, int)
+    # If it is an int not a vector:
     if checkPers:
-        # Add to special bundle as just the VectorPair, save copy of budle to Person Obj
+        # Add to special bundle as just the VectorPair, save copy of bundle to Person Obj
         personObj.persBundle = pairVector
         if "SPECIAL_caseBundle_persBundle" in Globals.special_VectorDictionary:
             originalBundle = Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"]
