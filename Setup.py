@@ -179,7 +179,7 @@ def createPersonBrain_VectorBase():
     Globals.special_VectorDictionary["SPECIAL_posOneVector"] = posOneVector
     
 
-    print("SUCCESS: Vector Brain Base Configuration Complete - No atomic Dict Yet")
+    print("SUCCESS: Vector Brain Base Configuration Complete")
 
 # For each person's narrative, create the words and assign to each person
 def assignNarratives(fileName_persNarrativeCSV):

@@ -146,6 +146,7 @@ def getPairVector_fromLabel(pairLabel):
     pairVector = Globals.pair_VectorDictionary[pairLabel]
     return pairVector
 
+
 # Get an atomic vector value from a label
 def getAtomicVector_fromLabel(atomicLabel):
     atomicVector = Globals.atomic_VectorDictionary[atomicLabel]
