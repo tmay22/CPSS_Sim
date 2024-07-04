@@ -1,5 +1,9 @@
 import Globals
 import VectorFunction_Brain
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+import torch
+import torchhd
 
 def doesPersContainPair():
     # CHeck to see if a person contains a binded pair of topics. e.g. like and horse
@@ -63,7 +67,7 @@ def howManyDoesPersContainPair():
     # Convert words to lower case
     wordOne = wordOne.lower()
     wordTwo = wordTwo.lower()
-    
+
     # General error check of inputs
     wordPair = wordOne + "-" + wordTwo
     if not checkPersonExists(personId):
@@ -86,6 +90,26 @@ def howManyDoesPersContainPair():
 
     print(f'RESULT: {result}')
     return
+
+# Old - Stretch
+# def graphPerson():
+#     # Graph a person
+#     print("----------------------------------------")
+#     print("Graph a Person")
+#     print("----------------------------------------")
+#     # COllect inputs
+#     personId= input("Give PersonId: ")
+#     print("Your input: " + personId)
+#     # General error check of inputs
+#     if not checkPersonExists(personId):
+#         print(f'{personId} does not exist')
+#        return
+#    # Build graph
+#     personObj = Globals.personDict[personId]
+#     personBundle = personObj.persBundle
+#     personVector = personObj.persVector
+#     tempVectors = Globals.integratedBrain_vectorMemory.index(personVector)
+#     print("here")
 
 
 # ----------------------------------------------

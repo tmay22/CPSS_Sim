@@ -1,6 +1,7 @@
 import Globals
 import Setup
 import SinglePersonBrainQueries
+import TwoPersonBrainQueries
 
 # The Person.py, Filters.py, Comms.py and Network.py modules SHOULD be changeable/modular as long as they can process these controller calls.
 
@@ -54,7 +55,7 @@ def menu_1_vectorQueryBrainData():
     # Preamble and initial option selection
     print("What would you like to Query?\n")
     print("(1) Single Person Queries")
-    print("# (2) Two Person Queries")
+    print("(2) Two Person Queries")
     print("# (3) Whole Network Queries")
     print("# (B) Back ")
     # print("-- Subset of Network Queries INCOMPLETE / STRETCH --")
@@ -111,7 +112,7 @@ def menu_1_2_twoPersonBrainQuery():
     print("----------------------------------------")
     print("Two Person Brain Queries")
     print("----------------------------------------")
-    print("# (1) What is the general belief similarity between two people? Return value")
+    print("(1) What is the general belief similarity between two people? Return value")
     print("# (2) What topic is the most similar between two people?? Return topic")
     print("# (3) For a given topic, what is the similarity in belief between two people? Return value")
     print("# (4) For a given topic, what associations are the most similar between two people? Return topic")
@@ -121,7 +122,7 @@ def menu_1_2_twoPersonBrainQuery():
     print("You Selected " + queryData)
 
     if queryData == "1":
-        print("Not started.")
+        TwoPersonBrainQueries.twoPersSimilarityVal()
     elif queryData == "2":
         print("Not started.")
     elif queryData == "3":
@@ -134,7 +135,6 @@ def menu_1_2_twoPersonBrainQuery():
         return 
     else:
         print("Error with setup option selected. Try again")
-    print("NOT STARTED")
     
 def menu_1_3_wholeNetworkBrainQuery():
     # Menu for querying the whole network

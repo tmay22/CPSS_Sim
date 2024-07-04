@@ -191,7 +191,7 @@ def assignNarratives(fileName_persNarrativeCSV):
         lineCount = 0
         remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':\",./<>?"
         for row in csv_reader:
-            if lineCount != 0 and lineCount <3: #remove <3 for future. This is just to speed up testing process.
+            if lineCount != 0 and lineCount <11: #remove <x for future. This is just to speed up testing process.
                 personId = row[0]
                 personNarr = ""
                 segCount = 0
