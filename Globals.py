@@ -19,7 +19,7 @@ integratedBrain_vectorMemory = torchhd.structures.Memory(0.0)
 global atomic_VectorDictionary
 atomic_VectorDictionary = {}
 
-# Create vector dictionary for pairs of works
+# Create vector dictionary for pairs of words
 global pair_VectorDictionary 
 pair_VectorDictionary = {}
 

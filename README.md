@@ -21,6 +21,9 @@ Pandas install:
 matplotlib install:
 ``py -m pip install matplotlib ``
 
+scikit-learn
+`` py -m pip install scikit-learn``
+
 
 Dictionary Source:
 ``https://github.com/benjihillard/English-Dictionary-Database``
