@@ -12,56 +12,42 @@ import SinglePersonBrainQueries
 
 # NEED TO FIX!!
 def mainMenu():
-    # Preamble and initial option selection
-    print("----------------------------------------")
-    print("What would you like to do?")
-    print("----------------------------------------")
-    print("(1) Query Brain Data")
-    print("# (2) Query Social Media Data")
-    print("# (3) Query Brain & Social Media Data")
-    print("# (2) Get Structural Data")
-    print("# (3) Run Simulation")
-    mainMenuOp= input("Choose Option: ")
-    print("You Selected " + mainMenuOp)
+    run = True
+    while run:
+        # Preamble and initial option selection
+        print("----------------------------------------")
+        print("What would you like to do?")
+        print("----------------------------------------")
+        print("(1) Query Brain Data")
+        print("# (2) Query Social Media Data")
+        print("# (3) Query Brain & Social Media Data")
+        print("# (4) Get Structural Data")
+        print("# (5) Run Simulation")
+        mainMenuOp= input("Choose Option: ")
+        print("You Selected " + mainMenuOp)
 
-    # Setup Option division
-    if mainMenuOp == "1":
-        # Query Vector Data
-        menu_vectorQueryBrainData()
-    elif mainMenuOp == "2":
-        print("Not started")
-    elif mainMenuOp == "3":
-        print("Not started")
-    elif mainMenuOp == "4":
-        print("Not started")
-    elif mainMenuOp == "5":
-        # Create Network from Input
-        print("Not started")
-    elif mainMenuOp == "6":
-        print("Not started")
-    else:
-        print("Error with setup option selected. Try again")
-        
-    mainMenu()
-# ----------------------------------------------
-# Setup.py Pointers
-# ----------------------------------------------
-
-def createBaseBrain():
-    Setup.createBrainVectorBase_fromDict()
-
-
-def createMiniTestSim():
-    Setup.createMiniTestSim()
-
-def createAI20TestSim():
-    Setup.createAI20TestSim()
+        # Setup Option division
+        if mainMenuOp == "1":
+            # Query Vector Data
+            menu_1_vectorQueryBrainData()
+        elif mainMenuOp == "2":
+            print("Not started")
+        elif mainMenuOp == "3":
+            print("Not started")
+        elif mainMenuOp == "4":
+            print("Not started")
+        elif mainMenuOp == "5":
+            # Create Network from Input
+            print("Not started")
+        else:
+            print("Error with setup option selected. Try again")
+            
 
 # ----------------------------------------------
-# Vector Query Brain Data Menus
+# 1. Vector Query Brain Data Menus
 # ----------------------------------------------
 
-def menu_vectorQueryBrainData():
+def menu_1_vectorQueryBrainData():
     print("----------------------------------------")
     print(" Vector Query Brain Data Menu")
     print("----------------------------------------")
@@ -80,21 +66,19 @@ def menu_vectorQueryBrainData():
 
     # Setup Option division
     if queryData == "1":
-        menu_singlePersonBrainQuery()
-        print("Single Person Query in Progress")
+        menu_1_1_singlePersonBrainQuery()
     elif queryData == "2":
-        menu_twoPersonBrainQuery()
+        menu_1_2_twoPersonBrainQuery()
         print("Not started.")
     elif queryData == "3":
-        menu_wholeNetworkBrainQuery()
+        menu_1_3_wholeNetworkBrainQuery()
         print("Not started.")
     elif queryData == "B" or queryData == "b":
         return 
     else:
         print("Error with setup option selected. Try again")
-        menu_vectorQueryBrainData()
 
-def menu_singlePersonBrainQuery():
+def menu_1_1_singlePersonBrainQuery():
     # for querying one person
     print("----------------------------------------")
     print("Single Person Queries")
@@ -122,7 +106,7 @@ def menu_singlePersonBrainQuery():
 
     print("----------------------------------------")
 
-def menu_twoPersonBrainQuery():
+def menu_1_2_twoPersonBrainQuery():
     # For querying two people
     print("----------------------------------------")
     print("Two Person Brain Queries")
@@ -152,7 +136,7 @@ def menu_twoPersonBrainQuery():
         print("Error with setup option selected. Try again")
     print("NOT STARTED")
     
-def menu_wholeNetworkBrainQuery():
+def menu_1_3_wholeNetworkBrainQuery():
     # Menu for querying the whole network
     print("----------------------------------------")
     print("Whole Network Brain Queries")
@@ -173,11 +157,6 @@ def menu_wholeNetworkBrainQuery():
         print("Error with setup option selected. Try again")
     print("NOT COMPLETED")
 
-    
-
-
-
-
 
 
 
@@ -192,24 +171,16 @@ def menu_wholeNetworkBrainQuery():
     # Setup Option division
 
 # ----------------------------------------------
-# Vector Query Data Functions
+# 2. Query Social Media Data
 # ----------------------------------------------
 
 
-    
-    print('\n')
-
-
-
 # ----------------------------------------------
-# Simulation Actions
+# 3. Query Brain and Social Media Data
 # ----------------------------------------------
 
-
-
-
 # ----------------------------------------------
-# Get Structural Data 
+# 4. Get Structural Data 
 # ----------------------------------------------
 def menu_getStructuralData():
     print("To do")
@@ -230,6 +201,14 @@ def getAllPersonData():
 def exportAllPersonData():
     # Returns a file representing all Persons
     print("to DO")
+
+
+
+# ----------------------------------------------
+# 5. Run Simulation 
+# ----------------------------------------------
+
+
 
 
 # ----------------------------------------------
