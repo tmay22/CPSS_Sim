@@ -3,6 +3,7 @@ import torchhd
 import numpy
 import random
 import Globals
+import Checks
 
 # Torchhd documentation:
 # Torch documentation:
@@ -205,22 +206,42 @@ def doesPersContPair_numInst(personObj, pairLabel):
 # Compare two vectors using cosine similarity
 def compareVectors(vector1, vector2):
     return torchhd.cosine_similarity(vector1, vector2)
+
+# Check to see if a bundle contains a bind and return the number of counts
+def doesBundleContainBind_count(bundle, bind):
    
+    # CHeck to see if the XOR of the negative produces -1 vector
+    # If it does, find out how many -1s. i.e. -2 ave is 2 instances etc.
+    checkForNegative = torchhd.bind(bundle, torchhd.negative(bind))
+    searchCheck = Globals.integratedBrain_vectorMemory.__getitem__(checkForNegative) 
+    checkForNegative_ave = torch.mean(checkForNegative)   
+    if searchCheck[1] == "SPECIAL_negOneVector":
+        if checkForNegative_ave <-0.5:
+            # Modify to absolute val
+            checkForNegative_ave = torchhd.negative(checkForNegative_ave)
+        # COnvert to float and round
+        numInst_result = checkForNegative_ave.numpy()
+        numInst_result = float(numInst_result)
+        numInst_result = round(numInst_result)
+    else:
+        # Else no instances
+        numInst_result = 0
+    return numInst_result
 
 # Get the number of instances of a bind (UNTESTED - only works I think for 2 vector pairs)    
-def getNumInstances_bind(bundleVector, bindVector):
-    res = torchhd.bind(bundleVector, torchhd.negative(bindVector))
-    aveVal = torch.mean(res)
-    tempMem = Globals.brain_vectorMemory.__getitem__(res)
-    if tempMem[1] == 'negOneVector' or tempMem[1] == 'posOneVector':
-        if aveVal <-0.5:
-            aveVal = torchhd.negative(aveVal)
-        aveVal = aveVal.numpy()
-        aveVal = float(aveVal)
-        roundAveVal = round(aveVal)
-    else:
-        roundAveVal = 0
-    return roundAveVal
+# def getNumInstances_bind(bundleVector, bindVector):
+#     res = torchhd.bind(bundleVector, torchhd.negative(bindVector))
+#     aveVal = torch.mean(res)
+#     tempMem = Globals.brain_vectorMemory.__getitem__(res)
+#     if tempMem[1] == 'negOneVector' or tempMem[1] == 'posOneVector':
+#         if aveVal <-0.5:
+#             aveVal = torchhd.negative(aveVal)
+#         aveVal = aveVal.numpy()
+#         aveVal = float(aveVal)
+#         roundAveVal = round(aveVal)
+#     else:
+#         roundAveVal = 0
+#     return roundAveVal
 
 def getTotalNumBinds(bundleVector):
     res = torch.max(bundleVector)
@@ -228,6 +249,57 @@ def getTotalNumBinds(bundleVector):
     res = int(res)
     return res
 
+# UNFINISHED # Get the number of instances of an atomic vector binded up in a bundle.
+# # e.g. how many horse*(value) in PersonOne bundle?
+def getNumInstances_atomic(bundle, atomicVector):
+    # Bind against the atomic negative
+    atomicName = Globals.integratedBrain_vectorMemory.__getitem__(atomicVector)
+    atomicName = atomicName[1]
+
+    searchName = atomicName + "-"
+    # list of words
+    atomicBindList = []
+    # unique words
+    atomicBindUniqueNum = 0
+    # total words
+    atomicBindTotalNum = 0
+
+
+    # iterate through pair dictionary to find pairs
+    for vectorName in Globals.pair_VectorDictionary:
+        if searchName in vectorName:
+            vector = Globals.pair_VectorDictionary[vectorName]
+            bindQ = doesBundleContainBind_count(bundle,vector )
+            if bindQ > 0:
+                atomicBindList.append(vectorName)
+                atomicBindUniqueNum = atomicBindUniqueNum + 1
+                atomicBindTotalNum = atomicBindTotalNum + bindQ
+    return atomicBindList, atomicBindUniqueNum, atomicBindTotalNum    
+
+    # # iterate through all possible combinations to find pairs
+    # for vectorName in Globals.atomic_VectorDictionary:
+    #     #vectorVal = Globals.atomic_VectorDictionary[vectorName]
+    #     wordPair = atomicName + "-" + vectorName
+    #     if Checks.checkPairExists(wordPair):
+    #         pairV = Globals.pair_VectorDictionary[wordPair]
+    #         bindQ = doesBundleContainBind_count(bundle,pairV )
+    #         if bindQ > 0:
+    #             atomicBindList.append(vectorName)
+    #             atomicBindUniqueNum = atomicBindUniqueNum + 1
+    #             atomicBindTotalNum = atomicBindTotalNum + bindQ
+
+# COnvert the memory object into a VSA tensor
+def createVsaTensorsFromMemory():
+    #tensor = [torchhd.ensure_vsa_tensor(hv) for hv in Globals.integratedBrain_vectorMemory.keys]
+    tensor = torch.stack(Globals.integratedBrain_vectorMemory.keys, dim=0)
+    return tensor
+
+# UNFINISHED def getRangeOfBinds_person(personObj, atomicVector):
+#     # Gets the range of binds associated with an atomic vector and a person
+#     personBundle = personObj.persBundle
+    
+#     result = getNumInstances_atomic(personBundle, atomicVector)
+    
 
 
 # ---------- Misc ----------
