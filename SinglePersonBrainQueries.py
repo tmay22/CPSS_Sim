@@ -5,6 +5,7 @@ from sklearn.decomposition import PCA
 import torch
 import torchhd
 import Checks
+import math
 
 def doesPersContainPair():
     # CHeck to see if a person contains a binded pair of topics. e.g. like and horse
@@ -94,43 +95,6 @@ def howManyDoesPersContainPair():
 
 
 
-def personRangeFeelings():
-    # What is the range of feelings a person feels against an atomic vector concept
-    print("----------------------------------------")
-    print("What is the range of feelings a person has about a concept?")
-    print("----------------------------------------")
-    # COllect inputs
-    personId= input("Give PersonId: ")
-    print("Your input: " + personId)
-    wordOne= input("Give word: ")
-    print("You input: " + wordOne)
-    
-   
-    print("----------------------------------------")
-    print(f'Checking inputs...')
-    
-    # Convert words to lower case
-    wordOne = wordOne.lower()
-
-    # General error check of inputs
-    if not Checks.checkPersonExists(personId):
-        print(f'{personId} does not exist')
-        return
-    elif not Checks.checkAtomicExists(wordOne):
-        print(f'{wordOne} does not exist')
-        return
-    
-    # CHeck and call vector function
-    persObj = Globals.personDict[personId]
-    atomicV = Globals.atomic_VectorDictionary(wordOne)
-
-    result = Globals.VectorFunction_Brain.getRangeOfBinds(persObj, atomicV)
-
-    print(f'RESULT: {result}')
-    return
-
-
-
 
 
 def personNumAtomic():
@@ -165,7 +129,82 @@ def personNumAtomic():
 
     result = Globals.VectorFunction_Brain.getNumInstances_atomic(persObj.persBundle, atomicV)
 
-    print(f'RESULT: Number of Unique Terms is {result[1]} \nUnique Terms: {result[0]}')
+    # Divide by two and round up. This is because most words are bound twice one to the forward and once to the word after it)
+    divTwo = result[2] / 2
+    divTwo = math.ceil(divTwo)
+    print(f'RESULT: Approx Number of Terms is {divTwo}')
+    return
+
+
+def personRangeAtomic():
+    # What is the range of feelings a person feels against an atomic vector concept
+    print("----------------------------------------")
+    print("What is the range of feelings a person has about a concept?")
+    print("----------------------------------------")
+    # COllect inputs
+    personId= input("Give PersonId: ")
+    print("Your input: " + personId)
+    wordOne= input("Give word: ")
+    print("You input: " + wordOne)
+    
+   
+    print("----------------------------------------")
+    print(f'Checking inputs...')
+    
+    # Convert words to lower case
+    wordOne = wordOne.lower()
+
+    # General error check of inputs
+    if not Checks.checkPersonExists(personId):
+        print(f'{personId} does not exist')
+        return
+    elif not Checks.checkAtomicExists(wordOne):
+        print(f'{wordOne} does not exist')
+        return
+    
+    # CHeck and call vector function
+    persObj = Globals.personDict[personId]
+    atomicV = Globals.atomic_VectorDictionary[wordOne]
+
+    result = Globals.VectorFunction_Brain.getNumInstances_atomic(persObj.persBundle, atomicV)
+
+    print(f'RESULT: Unique Terms: {result[0]}')
+    return
+
+
+def personRankedRangeAtomic():
+    # What are the strongest feelings a person feels against an atomic vector concept
+    print("----------------------------------------")
+    print("What are the strongest feelings a person has about a concept?")
+    print("----------------------------------------")
+    # COllect inputs
+    personId= input("Give PersonId: ")
+    print("Your input: " + personId)
+    wordOne= input("Give word: ")
+    print("You input: " + wordOne)
+    
+   
+    print("----------------------------------------")
+    print(f'Checking inputs...')
+    
+    # Convert words to lower case
+    wordOne = wordOne.lower()
+
+    # General error check of inputs
+    if not Checks.checkPersonExists(personId):
+        print(f'{personId} does not exist')
+        return
+    elif not Checks.checkAtomicExists(wordOne):
+        print(f'{wordOne} does not exist')
+        return
+    
+    # CHeck and call vector function
+    persObj = Globals.personDict[personId]
+    atomicV = Globals.atomic_VectorDictionary[wordOne]
+
+    result = Globals.VectorFunction_Brain.getRankedNumInstances_atomic(persObj.persBundle, atomicV)
+
+    print(f'RESULT: Strongest Terms: {result}')
     return
 
 

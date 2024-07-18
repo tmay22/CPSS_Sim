@@ -11,7 +11,7 @@ import TwoPersonBrainQueries
 # Main Controller
 # ----------------------------------------------
 
-# NEED TO FIX!!
+
 def mainMenu():
     run = True
     while run:
@@ -86,9 +86,9 @@ def menu_1_1_singlePersonBrainQuery():
     print("----------------------------------------")
     print("(1) Check if a person contains a paired association. e.g. likes AND horse")
     print("(2) How many paired associations for a person? e.g. likes AND horse")
-    print("#^ (3) How many instances of an atomic concept in a person. e.g. horse")
-    print("# (4) What is the range of feelings a person has about a concept? e.g. horse")
-    print("# (5) What is the strongest feeling a person has about a concept? e.g. horse")
+    print("(3) How many instances of an atomic concept in a person. e.g. horse")
+    print("(4) What is the range of feelings a person has about a concept? e.g. horse")
+    print("(5) What are the strongest feelings a person has about a concept? e.g. horse")
     print("(B) Back ")
     queryData= input("Choose Option: ")
     print("You Selected " + queryData)
@@ -100,8 +100,9 @@ def menu_1_1_singlePersonBrainQuery():
     elif queryData == "3":
         SinglePersonBrainQueries.personNumAtomic()
     elif queryData == "4":
-        print("Not started.")
-        SinglePersonBrainQueries.personRangeFeelings()
+        SinglePersonBrainQueries.personRangeAtomic()
+    elif queryData == "5":
+        SinglePersonBrainQueries.personRankedRangeAtomic()
     elif queryData == "B" or queryData == "b":
         return 
     else:

@@ -249,7 +249,6 @@ def getTotalNumBinds(bundleVector):
     res = int(res)
     return res
 
-# UNFINISHED # Get the number of instances of an atomic vector binded up in a bundle.
 # # e.g. how many horse*(value) in PersonOne bundle?
 def getNumInstances_atomic(bundle, atomicVector):
     # Bind against the atomic negative
@@ -276,6 +275,34 @@ def getNumInstances_atomic(bundle, atomicVector):
                 atomicBindTotalNum = atomicBindTotalNum + bindQ
     return atomicBindList, atomicBindUniqueNum, atomicBindTotalNum    
 
+# # e.g. how many horse*(value) in PersonOne bundle and rank the answers?
+def getRankedNumInstances_atomic(bundle, atomicVector):
+    # Bind against the atomic negative
+    atomicName = Globals.integratedBrain_vectorMemory.__getitem__(atomicVector)
+    atomicName = atomicName[1]
+
+    searchName = atomicName + "-"
+    # list of words
+    atomicBindDict = {}
+    # unique words
+    atomicBindUniqueNum = 0
+    # total words
+    atomicBindTotalNum = 0
+
+
+    # iterate through pair dictionary to find pairs
+    for vectorName in Globals.pair_VectorDictionary:
+        if searchName in vectorName:
+            vector = Globals.pair_VectorDictionary[vectorName]
+            bindQ = doesBundleContainBind_count(bundle,vector )
+            if bindQ > 0:
+                atomicBindDict[vectorName] = bindQ
+                atomicBindUniqueNum = atomicBindUniqueNum + 1
+                atomicBindTotalNum = atomicBindTotalNum + bindQ
+    
+    atomicBindDict_sorted = sorted(atomicBindDict.items(), key=lambda x:x[1], reverse=True)
+    return atomicBindDict_sorted    
+
     # # iterate through all possible combinations to find pairs
     # for vectorName in Globals.atomic_VectorDictionary:
     #     #vectorVal = Globals.atomic_VectorDictionary[vectorName]
@@ -287,6 +314,8 @@ def getNumInstances_atomic(bundle, atomicVector):
     #             atomicBindList.append(vectorName)
     #             atomicBindUniqueNum = atomicBindUniqueNum + 1
     #             atomicBindTotalNum = atomicBindTotalNum + bindQ
+
+
 
 # COnvert the memory object into a VSA tensor
 def createVsaTensorsFromMemory():
