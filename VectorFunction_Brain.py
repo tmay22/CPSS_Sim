@@ -288,8 +288,6 @@ def getRankedNumInstances_atomic(bundle, atomicVector):
     atomicBindUniqueNum = 0
     # total words
     atomicBindTotalNum = 0
-
-
     # iterate through pair dictionary to find pairs
     for vectorName in Globals.pair_VectorDictionary:
         if searchName in vectorName:
@@ -303,17 +301,52 @@ def getRankedNumInstances_atomic(bundle, atomicVector):
     atomicBindDict_sorted = sorted(atomicBindDict.items(), key=lambda x:x[1], reverse=True)
     return atomicBindDict_sorted    
 
-    # # iterate through all possible combinations to find pairs
-    # for vectorName in Globals.atomic_VectorDictionary:
-    #     #vectorVal = Globals.atomic_VectorDictionary[vectorName]
-    #     wordPair = atomicName + "-" + vectorName
-    #     if Checks.checkPairExists(wordPair):
-    #         pairV = Globals.pair_VectorDictionary[wordPair]
-    #         bindQ = doesBundleContainBind_count(bundle,pairV )
-    #         if bindQ > 0:
-    #             atomicBindList.append(vectorName)
-    #             atomicBindUniqueNum = atomicBindUniqueNum + 1
-    #             atomicBindTotalNum = atomicBindTotalNum + bindQ
+# Get a list of the common atoms in two bundles
+def getCommonAtomic(bundleOne, bundleTwo):
+
+    commonDict = {}
+    for vectorName in Globals.atomic_VectorDictionary:
+        vector = Globals.atomic_VectorDictionary[vectorName]
+        resOne = getNumInstances_atomic(bundleOne,vector)
+        resOne= resOne[2]
+        resTwo = getNumInstances_atomic(bundleTwo,vector)
+        resTwo= resTwo[2]
+        if resOne > 0 and resTwo > 0:
+            # If there is an atomic match for both: find the avaerage between the values and the difference between the values.
+            average = resOne + resTwo
+            average = average / 2
+            average = int(average)
+            difference = resOne - resTwo
+            difference = abs(difference)
+            difference = int(difference)
+            commonDict[vectorName] = [average, difference]
+
+    commonDict = sorted(commonDict.items(), key=lambda x:x[1], reverse=True)
+    
+    return commonDict
+    
+# Get the most common vector pairs in two bundles
+def getCommonPairs(bundleOne, bundleTwo):
+    commonPairDict = {}
+    for name in Globals.pair_VectorDictionary:
+        pairVector = Globals.pair_VectorDictionary[name]
+        
+        personOneCheck = doesBundleContainBind_count(bundleOne, pairVector)
+        # check if both people have bind and if so add to dict
+        if personOneCheck > 0:
+            personTwoCheck = doesBundleContainBind_count(bundleTwo, pairVector)
+            if personTwoCheck > 0:
+                average = personOneCheck + personTwoCheck
+                average = average / 2
+                average = int(average)
+                difference = personOneCheck - personTwoCheck
+                difference = abs(difference)
+                difference = int(difference)
+                commonPairDict[name] = [average, difference]
+
+    commonPairDict = sorted(commonPairDict.items(), key=lambda x:x[1], reverse=True)
+    return commonPairDict 
+
 
 
 

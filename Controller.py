@@ -116,8 +116,8 @@ def menu_1_2_twoPersonBrainQuery():
     print("Two Person Brain Queries")
     print("----------------------------------------")
     print("(1) What is the general belief similarity between two people? Return value")
-    print("# (2) What topic is the most similar between two people?? Return topic")
-    print("# (3) For a given topic, what is the similarity in belief between two people? Return value")
+    print("(2) What topic is the most similar between two people? Return topic")
+    print("^ (3) For a given topic, what is the similarity in belief between two people? Return value")
     print("# (4) For a given topic, what associations are the most similar between two people? Return topic")
     print("# (5) For a given topic, what associations are the most dissimilar between two people? Return topic")
     print("(B) Back ")
@@ -127,9 +127,9 @@ def menu_1_2_twoPersonBrainQuery():
     if queryData == "1":
         TwoPersonBrainQueries.twoPersSimilarityVal()
     elif queryData == "2":
-        print("Not started.")
+        TwoPersonBrainQueries.twoPersCommonTopic()
     elif queryData == "3":
-        print("Not started.")
+        TwoPersonBrainQueries.twoPersPairSimilarity_strong()
     elif queryData == "4":
         print("Not started.")
     elif queryData == "5":

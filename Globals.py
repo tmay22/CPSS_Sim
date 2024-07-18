@@ -42,6 +42,10 @@ personDict = {}
 # If you want the atomic values you need to query the global vector memory
 
 
+# List of words that are common outliers and will be removed
+# global outlierList
+# outlierList = ['is','a', 'he', 'she', 'and', 'or']
+
 # --------------------------------
 ### Below is only if you wanted to go down a VSA path for the social network
 # --------------------------------
