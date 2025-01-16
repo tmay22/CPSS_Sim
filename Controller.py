@@ -73,7 +73,6 @@ def menu_1_vectorQueryBrainData():
         print("Not started.")
     elif queryData == "3":
         menu_1_3_wholeNetworkBrainQuery()
-        print("Not started.")
     elif queryData == "B" or queryData == "b":
         return 
     else:
@@ -117,7 +116,7 @@ def menu_1_2_twoPersonBrainQuery():
     print("----------------------------------------")
     print("(1) What is the general belief similarity between two people? Return value")
     print("(2) What topic is the most similar between two people? Return topic")
-    print("^ (3) For a given topic, what is the similarity in belief between two people? Return value")
+    print("(3) For a given topic, what is the similarity in belief between two people? Return value")
     print("# (4) For a given topic, what associations are the most similar between two people? Return topic")
     print("# (5) For a given topic, what associations are the most dissimilar between two people? Return topic")
     print("(B) Back ")
@@ -129,7 +128,7 @@ def menu_1_2_twoPersonBrainQuery():
     elif queryData == "2":
         TwoPersonBrainQueries.twoPersCommonTopic()
     elif queryData == "3":
-        TwoPersonBrainQueries.twoPersPairSimilarity_strong()
+        TwoPersonBrainQueries.getBeliefDifference()
     elif queryData == "4":
         print("Not started.")
     elif queryData == "5":
