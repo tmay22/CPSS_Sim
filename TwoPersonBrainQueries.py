@@ -36,7 +36,7 @@ def twoPersSimilarityVal():
     print(f'RESULT: {result}')
     return
 
-# NotE: need to remove outliers somewhere!!!
+# *NotE for below function: need to remove outliers somewhere!!! E.g. such as using a 'outliers' file
 def twoPersCommonTopic():
     # Get the strongest Atomic similarity between two people
     print("----------------------------------------")
@@ -125,7 +125,7 @@ def twoPersCommonBelief():
     print("----------------------------------------")
 
 
-def getBeliefDifference():
+def getBeliefDifference_Val():
     # Get the difference in belief score given a topic
     print("----------------------------------------")
     print("Get the difference in belief score given a topic")
@@ -180,11 +180,6 @@ def getBeliefDifference():
 
     print("----------------------------------------")
 
-   
-    # Calc
-
-    
-
 
     # Create a bundle for each person of the associated word
 
@@ -226,8 +221,6 @@ def getBeliefDifference():
     print("----------------------------------------")
 
 
-   
-    
 
 
 def twoPersPairSimilarity_strong():
@@ -276,53 +269,117 @@ def twoPersPairSimilarity_strong():
 
 
 
-def twoPersBeliefSimilarity_weak():
-    # Get the weakest belief similarity between two people
+def getBeliefSimilarity_Topic():
+    # Get the similarities in beliefs given a topic, if any
     print("----------------------------------------")
-    print("Get the strongest Atomic similarity between two people")
+    print("Get the similarities in beliefs given a topic, if there are any")
     print("----------------------------------------")
-    # COllect inputs
+    
+    # Collect inputs
     f1_personId= input("Give first PersonId: ")
     print("Your input: " + f1_personId)
     f2_personId= input("Give second PersonId: ")
     print("Your input: " + f2_personId)
-   
+    topic= input("Give topic: ")
+    print("Your input: " + topic)
+    # Convert words to lower case
+    topic = topic.lower()
+
+
+    # General error check of inputs
     if not Checks.checkPersonExists(f1_personId):
         print(f'{f1_personId} does not exist')
         return
     elif not Checks.checkPersonExists(f2_personId):
         print(f'{f2_personId} does not exist')
         return
+    elif not Checks.checkAtomicExists(topic):
+        print(f'RESULT: {topic} does not exist')
+        return
     
+    
+    persObjOne = Globals.personDict[f1_personId]
+    persObjTwo = Globals.personDict[f2_personId]
+    bundleOne=persObjOne.persBundle
+    bundleTwo=persObjTwo.persBundle
+    topicV=VectorFunction_Brain.getAtomicVector_fromLabel(topic)
+
+    # Specific check if both people contain topic:
+    CheckOne = Globals.VectorFunction_Brain.getNumInstances_atomic(persObjOne.persBundle, topicV)
+    CheckTwo = Globals.VectorFunction_Brain.getNumInstances_atomic(persObjTwo.persBundle, topicV)
+
+    CheckOne = CheckOne[2]
+    CheckTwo = CheckTwo[2]
+    if CheckOne == 0:
+        print(f'{f1_personId} has no opinion on this topic.')
+        print(f'Exiting to Main Menu.')
+        print("----------------------------------------")
+        return
+    elif CheckTwo == 0:
+        print(f'{f2_personId} has no opinion on this topic.')
+        print(f'Exiting to Main Menu.')
+        print("----------------------------------------")
+        return
+    
+
     print("----------------------------------------")
-# ----------------------------------------------
-# Utils / Checks
-# ----------------------------------------------
 
-# def checkPersonExists(personId):
-#     if personId not in Globals.personDict.keys():
-#         print(f'ERROR: PersonID {personId} does not exist in dictionary')
-#         return False
-#     else:
-#         return True
 
-# def checkAtomicExists(word):
-#     if word not in Globals.atomic_VectorDictionary.keys():
-#         print(f'ERROR, second word {word} does not exist in dictionary')
-#         return False
-#     else:
-#         return True
+    # Create a bundle for each person of the associated word
 
-# def checkPairExists(wordPair):
-#     if wordPair not in Globals.pair_VectorDictionary.keys():
-#         print(f'ERROR, second word {wordPair} does not exist in dictionary')
-#         return False
-#     else:
-#         return True
+    persOnePairArray = VectorFunction_Brain.getNumInstances_atomic(bundleOne,topicV)
+    persTwoPairArray = VectorFunction_Brain.getNumInstances_atomic(bundleTwo,topicV)
+
+    persOnePairArray = persOnePairArray[0]
+    persTwoPairArray = persTwoPairArray[0]
+
+    # Use a string to force a data type change
+    persOneBundle = 'empty'
+    persTwoBundle = 'empty'
+
+    #convert array to bundles
+    for pair in persOnePairArray:
+        addVector = VectorFunction_Brain.getPairVector_fromLabel(pair)
+        if persOneBundle == 'empty':
+            persOneBundle = addVector 
+        else:
+            persOneBundle = torchhd.bundle(persOneBundle, addVector)
     
-# def checkTrioExists(wordTrio):
-#     if wordTrio not in Globals.trio_VectorDictionary.keys():
-#         print(f'ERROR, second word {wordTrio} does not exist in dictionary')
-#         return False
-#     else:
-#         return True
+    for pair in persTwoPairArray:
+        addVector = VectorFunction_Brain.getPairVector_fromLabel(pair)
+        if persTwoBundle == 'empty':
+            persTwoBundle = addVector 
+        else:
+            persTwoBundle = torchhd.bundle(persTwoBundle, addVector)
+
+
+    # Go through BundleOne and compare the vector pairs with bundleTwo
+    # See if there are any that match. If so, how many matches (i.e. strength of matches)
+    # You don't need to go through bundleTwo to One because you are finding similarities
+    # Use a string to force a data type change
+    similarityList = {}
+    for vectorName in persOnePairArray:
+            vectorVal =  VectorFunction_Brain.getPairVector_fromLabel(vectorName)
+            calc = VectorFunction_Brain.doesBundleContainBind_count(persTwoBundle,vectorVal)
+            if calc > 0:
+                similarityList[vectorName] = calc
+
+    # CHeck if there are any similar matches and sort and print
+    if len(similarityList) < 1:
+        print(f'No similar beliefs on chosen topic {topic}.')
+        print("----------------------------------------")
+    else:
+        # Sort the list to find the highest number of matches
+        updatedList = sorted(similarityList.items(), key=lambda x:x[1], reverse=True)
+        finalList = {}
+        count = 0
+        for item in updatedList:
+            if count < 5:
+                
+                name = item[0]
+                value = item[1]
+                finalList[name]=value
+            else:
+                return
+        print(f'RESULT: Top 5 beliefs ranked most similar on topic "{topic}" are: \n {finalList}')
+        print("----------------------------------------")
