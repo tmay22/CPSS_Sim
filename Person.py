@@ -9,7 +9,7 @@ class Person:
     # Vars:
     #   id: id for Person obj
     #   persVector: vector value that represents this person (atomic)
-    #   perBuble: bundle of vector value-pairs assigned to person
+    #   persBundle: bundle of vector value-pairs assigned to person
     #   descriptors: describing details about person in dict format. e.g. hair colour:brown
     #   filters: see class
     #   behaviours: see class
@@ -25,12 +25,6 @@ class Person:
     # Add a data dictionary of descriptors for person. (e.g. hair colour)
     def addDescriptors(self, personDataDict):
         self.descriptors = personDataDict
-    
-    # DELETE because no longer rel
-    # # Add a vector to the person's vector bundle
-    # # Note that each bundle should be person x word1 x word2
-    # def addToPersBundle(self, bundle):
-    #     self.persBundle = torchhd.bundle(self.persBundle, bundle)
     
     # Set the person's atomic vector value
     def setPersVector(self, vector):

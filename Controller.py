@@ -2,6 +2,7 @@ import Globals
 import Setup
 import SinglePersonBrainQueries
 import TwoPersonBrainQueries
+import WholeNetworkBrainQueries
 
 # The Person.py, Filters.py, Comms.py and Network.py modules SHOULD be changeable/modular as long as they can process these controller calls.
 
@@ -56,7 +57,7 @@ def menu_1_vectorQueryBrainData():
     print("What would you like to Query?\n")
     print("(1) Single Person Queries")
     print("(2) Two Person Queries")
-    print("# (3) Whole Network Queries")
+    print("^ (3) Whole Network Queries")
     print("# (B) Back ")
     # print("-- Subset of Network Queries INCOMPLETE / STRETCH --")
     # print("# (S1) What does this network subset think about a topic?")
@@ -70,7 +71,6 @@ def menu_1_vectorQueryBrainData():
         menu_1_1_singlePersonBrainQuery()
     elif queryData == "2":
         menu_1_2_twoPersonBrainQuery()
-        print("Not started.")
     elif queryData == "3":
         menu_1_3_wholeNetworkBrainQuery()
     elif queryData == "B" or queryData == "b":
@@ -131,7 +131,6 @@ def menu_1_2_twoPersonBrainQuery():
         TwoPersonBrainQueries.getBeliefDifference_Val()
     elif queryData == "4":
         TwoPersonBrainQueries.getBeliefSimilarity_Topic()
-        print("In prog.")
     elif queryData == "B" or queryData == "b":
         return 
     else:
@@ -142,14 +141,14 @@ def menu_1_3_wholeNetworkBrainQuery():
     print("----------------------------------------")
     print("Whole Network Brain Queries")
     print("----------------------------------------")
-    print("# (1) What does the entire network feel about a topic? on average")
+    print("(1) What does the entire network feel about a topic? Show top 5 strongest")
     print("# (2) What is the variability of the entire network's feeling on a topic? ")
-    print("# (B) Back ")
+    print("(B) Back ")
     queryData= input("Choose Option: ")
     print("You Selected " + queryData)
 
     if queryData == "1":
-        print("tbc")
+        WholeNetworkBrainQueries.getNetworkBeliefOnTopic()
     elif queryData == "2":
         print("tbc")
     elif queryData == "B" or queryData == "b":
