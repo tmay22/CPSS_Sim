@@ -301,6 +301,34 @@ def getRankedNumInstances_atomic(bundle, atomicVector):
     atomicBindDict_sorted = sorted(atomicBindDict.items(), key=lambda x:x[1], reverse=True)
     return atomicBindDict_sorted    
 
+# e.g. What does the network think about "horse"?
+def getRankedNetworkBelief(atomicVector):
+    # Get the belief states of the network associated with an atomic vecgyor (e.g. the vector for 'horse')
+    # Bind against the atomic negative
+    atomicName = Globals.integratedBrain_vectorMemory.__getitem__(atomicVector)
+    atomicName = atomicName[1]
+    bundle = Globals.special_VectorDictionary['SPECIAL_caseBundle_persBundle']
+    searchName = atomicName + "-"
+    # list of words
+    atomicBindDict = {}
+    # unique words
+    atomicBindUniqueNum = 0
+    # total words
+    atomicBindTotalNum = 0
+    # iterate through pair dictionary to find pairs
+    for vectorName in Globals.pair_VectorDictionary:
+        if searchName in vectorName:
+            vector = Globals.pair_VectorDictionary[vectorName]
+            bindQ = doesBundleContainBind_count(bundle,vector )
+            if bindQ > 0:
+                atomicBindDict[vectorName] = bindQ
+                atomicBindUniqueNum = atomicBindUniqueNum + 1
+                atomicBindTotalNum = atomicBindTotalNum + bindQ
+    
+    atomicBindDict_sorted = sorted(atomicBindDict.items(), key=lambda x:x[1], reverse=True)
+    return atomicBindDict_sorted    
+
+
 # Get a list of the common atoms in two bundles
 def getCommonAtomic(bundleOne, bundleTwo):
 
@@ -346,7 +374,6 @@ def getCommonPairs(bundleOne, bundleTwo):
 
     commonPairDict = sorted(commonPairDict.items(), key=lambda x:x[1], reverse=True)
     return commonPairDict 
-
 
 
 
