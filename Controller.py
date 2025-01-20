@@ -57,7 +57,7 @@ def menu_1_vectorQueryBrainData():
     print("What would you like to Query?\n")
     print("(1) Single Person Queries")
     print("(2) Two Person Queries")
-    print("^ (3) Whole Network Queries")
+    print("(3) Whole Network Queries")
     print("# (B) Back ")
     # print("-- Subset of Network Queries INCOMPLETE / STRETCH --")
     # print("# (S1) What does this network subset think about a topic?")
@@ -142,7 +142,7 @@ def menu_1_3_wholeNetworkBrainQuery():
     print("Whole Network Brain Queries")
     print("----------------------------------------")
     print("(1) What does the entire network feel about a topic? Show top 5 strongest")
-    print("# (2) What is the variability of the entire network's feeling on a topic? ")
+    print("^ (2) What is the standard deviation of the entire network's variant feelings on a topic? ")
     print("(B) Back ")
     queryData= input("Choose Option: ")
     print("You Selected " + queryData)
@@ -150,23 +150,16 @@ def menu_1_3_wholeNetworkBrainQuery():
     if queryData == "1":
         WholeNetworkBrainQueries.getNetworkBeliefOnTopic()
     elif queryData == "2":
-        print("tbc")
+        WholeNetworkBrainQueries.getNetworkSDBeliefOnTopic_Val()
     elif queryData == "B" or queryData == "b":
         return 
     else:
         print("Error with setup option selected. Try again")
-    print("NOT COMPLETED")
+
+# :)
 
 
 
-
-
-    # print("-- Subset of Network Queries INCOMPLETE / STRETCH --")
-    # print("# (S1) What does this network subset think about a topic?")
-    # print("#(S2) What is the variability of the network subset's feeling on a topic? ")
-    
-    queryData= input("Choose Option: ")
-    print("You Selected " + queryData)
 
     # Setup Option division
 
