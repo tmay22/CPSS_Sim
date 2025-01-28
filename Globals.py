@@ -3,6 +3,8 @@ import torch
 import itertools
 import VectorFunction_Brain
 
+# Time variable for simulation
+global currentTime
 
 # A Vector Memory (VM) that contains both the atomic vectors, and bundles for all of the Persons
 # ITNEGRATES all of the Person brains together into one VM

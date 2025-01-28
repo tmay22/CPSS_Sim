@@ -3,6 +3,7 @@ import Setup
 import SinglePersonBrainQueries
 import TwoPersonBrainQueries
 import WholeNetworkBrainQueries
+import VectorFunction_Brain
 
 # The Person.py, Filters.py, Comms.py and Network.py modules SHOULD be changeable/modular as long as they can process these controller calls.
 
@@ -25,6 +26,7 @@ def mainMenu():
         print("# (3) Query Brain & Social Media Data")
         print("# (4) Get Structural Data")
         print("# (5) Run Simulation")
+        print("# (6) Test")
         mainMenuOp= input("Choose Option: ")
         print("You Selected " + mainMenuOp)
 
@@ -41,6 +43,9 @@ def mainMenu():
         elif mainMenuOp == "5":
             # Create Network from Input
             print("Not started")
+        elif mainMenuOp == "6":
+            # Test
+            menu_6_Test()
         else:
             print("Error with setup option selected. Try again")
             
@@ -202,6 +207,12 @@ def exportAllPersonData():
 # ----------------------------------------------
 
 
+
+
+def menu_6_Test():
+    myString = "I love riding horses, they are so fun and make me happy!"
+    VectorFunction_Brain.convertStringToBundleOfBinds(myString)
+    print("here")
 
 
 # ----------------------------------------------
