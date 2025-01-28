@@ -11,6 +11,10 @@ import VectorFunction_Brain
 
 # buildSim relies on the three csv files existing in the designated path following the naming convensions
 def buildSim(path):
+
+    # Set time as 0 until further notice
+    Globals.currentTime = 0
+    
     # Generates a network based on four input CSVs. One stores Person metadata, One stores network connections, one stores a person's personal narrative, one stores social media data, and a boolean DictOpt.
     # Expected Format: personDataCSV. Row 0 = Titles. Row 0 = [PersonID, *optionalExtras*]
     # Expected Format: connectionsCSV. Row 0 = Titles. Row 0 = [PersonID_A, PersonID_B, Type(Cyber OR Physical)]

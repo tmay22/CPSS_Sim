@@ -414,6 +414,45 @@ def getCommonPairs(bundleOne, bundleTwo):
     return commonPairDict 
 
 
+# ---------- Vector Processing ----------
+
+# Converts a string into a bundle that contains the paired binds of words
+# Eg. I like horses = I x Like + Like x Horses
+def convertStringToBundleOfBinds(contentString):
+    remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':\",./<>?"
+    contentString = contentString.lower()
+    contentArray = contentString.split(" ")
+    arraySize = len(contentArray)
+    countLim = arraySize-1
+    count = 0
+    currentBundle = None
+    # Goes through each word pair and adds to the atomic dictionary if needed
+    # Then adds the pairs into a bundle for the media content
+    for wordOne in contentArray:
+        if count<countLim:
+            wordTwo = contentArray[count+1]
+            wordOne = wordOne.translate(str.maketrans('', '', remChar))
+            wordTwo = wordTwo.translate(str.maketrans('', '', remChar))
+            if not Checks.checkAtomicExists(wordOne):
+                newAtomicVector(wordOne)
+            if not Checks.checkAtomicExists(wordTwo):
+                newAtomicVector(wordTwo)
+            wordPair = f'{wordOne}-{wordTwo}'
+            if not Checks.checkPairExists(wordPair):
+                newVectorLabelPair(wordOne, wordTwo)
+            response=Globals.pair_VectorDictionary[wordPair]
+            if count == 0:
+                    response=Globals.pair_VectorDictionary[wordPair]
+                    currentBundle = response
+            else:
+                currentBundle = torchhd.bundle(currentBundle,response)
+        count = count+1
+
+    return currentBundle
+
+
+# ---------- Misc ----------
+
 
 # COnvert the memory object into a VSA tensor
 def createVsaTensorsFromMemory():
