@@ -14,6 +14,7 @@ class Person:
     #   filters: see class
     #   behaviours: see class
     #   edgeList: list of edge objects
+    #   activityList: list of mediaObjects related to that person
     
     # Initialise object with only personID
     def __init__(self, personId):
@@ -21,6 +22,7 @@ class Person:
         self.edgeList = []
         self.persBundle = 0
         self.persVector = "unassigned"
+        self.activityList = []
 
     # Add a data dictionary of descriptors for person. (e.g. hair colour)
     def addDescriptors(self, personDataDict):

@@ -49,6 +49,14 @@ personDict = {}
 # global outlierList
 # outlierList = ['is','a', 'he', 'she', 'and', 'or']
 
+# List of all social media posts
+global mediaDict
+mediaDict = {}
+
+# List of all social media interactions
+global interactionDict
+interactionDict = {}
+
 # --------------------------------
 ### Below is only if you wanted to go down a VSA path for the social network
 # --------------------------------
