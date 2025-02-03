@@ -7,10 +7,11 @@ import csv
 import sys
 import Person
 import VectorFunction_Brain
+import MediaObjects
 
 
 # buildSim relies on the three csv files existing in the designated path following the naming convensions
-def buildSim(path):
+def buildSim(path, historyOption):
 
     # Set time as 0 until further notice
     Globals.currentTime = 0
@@ -26,7 +27,13 @@ def buildSim(path):
     personData_path = path+"PersonData.csv"
     EdgeData_path= path+"EdgeData.csv"
     PersonNarrative_path = path+"PersonNarrative.csv"
-    
+
+    if historyOption:
+        PostData_Path = path+"HistoricPostData.csv"
+        PostComments_Path = path+"HistoricPostComments.csv"
+        PostLikes_Path = path+"HistoricPostLikes.csv"
+
+
     # Sm Data not needed yet
     #SmData_path = path+"SmData.csv"
 
@@ -42,6 +49,18 @@ def buildSim(path):
 
     # Assign NarrativeData as vector-pairs to Person objects
     assignNarratives(PersonNarrative_path)
+
+
+    if historyOption:
+        # if the historyOption is selected:
+        postInput(PostData_Path)
+        print("Completion of Post Processing")
+        commentsInput(PostComments_Path)
+        print("Completion of Comment Processing")
+        likesInput(PostLikes_Path)
+        print("Completion of Like Processing")
+
+        
 
     # Need to input SM Data!
 
@@ -230,3 +249,91 @@ def assignNarratives(fileName_persNarrativeCSV):
             lineCount = lineCount + 1
 
     print("Here")
+
+
+# Create social media posts 
+def postInput(PostData_Path): 
+    with open(PostData_Path) as postsCSV:
+        csv_reader = csv.reader(postsCSV, delimiter=',')
+        lineCount = 0
+        remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':\",./<>?"
+        for row in csv_reader:
+            if lineCount != 0:
+                personId = row[0]
+                # Get Person Object
+                currentPers = Globals.personDict[personId]
+                postId = row[1]
+                timestamp = row[2]
+                postContent = ""
+                postVector = None
+                segCount = 0
+                 # If there are additional non csv commas in row, append together
+                for segment in row:
+                    if segCount >2:
+                        postContent = postContent + segment
+                    segCount = segCount + 1
+                maxCells = len(row)
+                # convert to lower
+                postContent = postContent.lower()
+                # Create the Media Object
+                curentMedia = MediaObjects.Media(postId,timestamp, personId, postContent)
+                # Create Post Interaction of creator
+                currentInteraction = MediaObjects.Interaction(None,timestamp,postId, None, "SendMedia")
+
+            print(lineCount)
+            lineCount = lineCount + 1
+
+ # Create social media posts 
+
+# Create social media comments
+def commentsInput(PostComments_Path):
+    with open(PostComments_Path) as commentsCSV:
+        csv_reader = csv.reader(commentsCSV, delimiter=',')
+        lineCount = 0
+        remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':\",./<>?"
+        for row in csv_reader:
+            if lineCount != 0:
+                personId = row[1]
+                # Get Person Object
+                currentPers = Globals.personDict[personId]
+                commentId = None
+                postId = row[1]
+                timestamp = row[2]
+                postContent = ""
+                segCount = 0
+                 # If there are additional non csv commas in row, append together
+                for segment in row:
+                    if segCount >2:
+                        postContent = postContent + segment
+                    segCount = segCount + 1
+                maxCells = len(row)
+                # convert to lower
+                postContent = postContent.lower()
+                # Create the Media Object
+                currentMedia = MediaObjects.Media(commentId,timestamp, personId, postContent)
+                # Create Post Interaction of creator
+                commentId = currentMedia.id
+                sendInteraction = MediaObjects.Interaction(None,timestamp,commentId,postId,"SendMedia")
+                
+            print(lineCount)
+            lineCount = lineCount + 1
+
+
+# Create social media likes
+def likesInput(PostLikes_Path): 
+    # Note that the setup assumes that only those who like or comment have interacted/received posts
+    with open(PostLikes_Path) as likesCSV:
+        csv_reader = csv.reader(likesCSV, delimiter=',')
+        lineCount = 0
+        remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':\",./<>?"
+        for row in csv_reader:
+            if lineCount != 0:
+                personId = row[1]
+                postId = row[0]
+                timestamp = row[2]
+                # Create Post Interaction of creator
+                currentInteraction = MediaObjects.Interaction(None,timestamp,personId,postId,"ReinforceMedia")
+            print(lineCount)
+            lineCount = lineCount + 1                 
+
+

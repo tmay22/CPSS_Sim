@@ -22,8 +22,8 @@ def main():
     # Setup Option division
     if setupOption == "1":
         # Create Sim from Data
-        path = getSimPath()
-        Setup.buildSim(path)
+        path, historyOption = getSimPath()
+        Setup.buildSim(path,historyOption)
         Controller.mainMenu()
 
     elif setupOption == "2":
@@ -41,13 +41,24 @@ def getSimPath():
 
     if simDataOption == "1":
         path = "DataSets/20AI/"
+        historyOption = True
     elif simDataOption == "2":
         print("Input a path, with a / at the end")
         pathOption= input("Enter path: ")
         path=pathOption
+        print("Do you have historical social media data to import?")
+        print("(0) NO")
+        print("(1) YES")
+        histOp= input("Choose Option: ")
+        print("You Selected " + histOp)
+        print("----------------------------------------")
+        if histOp == 1:
+            historyOption == True
+        else:
+            historyOption == False
     else:
         print("Error. Option does not exist")
-    return path
+    return path, historyOption
 
 
 
