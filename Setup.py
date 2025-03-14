@@ -278,7 +278,7 @@ def postInput(PostData_Path):
                 # Create the Media Object
                 curentMedia = MediaObjects.Media(postId,timestamp, personId, postContent)
                 # Create Post Interaction of creator
-                currentInteraction = MediaObjects.Interaction(None,timestamp,postId, None, "SendMedia")
+                currentInteraction = MediaObjects.Interaction(None,timestamp, personId, postId, None, None, "Post")
 
             print(lineCount)
             lineCount = lineCount + 1
@@ -313,7 +313,7 @@ def commentsInput(PostComments_Path):
                 currentMedia = MediaObjects.Media(commentId,timestamp, personId, postContent)
                 # Create Post Interaction of creator
                 commentId = currentMedia.id
-                sendInteraction = MediaObjects.Interaction(None,timestamp,commentId,postId,"SendMedia")
+                sendInteraction = MediaObjects.Interaction(None,timestamp, personId, commentId, None, postId, "Comment")
                 
             print(lineCount)
             lineCount = lineCount + 1
@@ -332,7 +332,7 @@ def likesInput(PostLikes_Path):
                 postId = row[0]
                 timestamp = row[2]
                 # Create Post Interaction of creator
-                currentInteraction = MediaObjects.Interaction(None,timestamp,personId,postId,"ReinforceMedia")
+                currentInteraction = MediaObjects.Interaction(None,timestamp, personId, None, None, postId, "Like")
             print(lineCount)
             lineCount = lineCount + 1                 
 
