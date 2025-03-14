@@ -13,7 +13,8 @@ import VectorFunction_Brain
 # Main Controller
 # ----------------------------------------------
 
-
+# THERES SOMETHING STILL WRONG WITH INTERATCIONS
+# I THINK YOU NEED TO RE-WRITE TO HAVE SOURCE, DATAFLOW, DESTINATION.
 def mainMenu():
     run = True
     while run:
