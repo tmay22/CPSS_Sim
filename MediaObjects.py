@@ -2,6 +2,8 @@ import Globals
 import uuid
 import VectorFunction_Brain
 import Person
+import torchhd
+import torch
 
 
 class Media:
@@ -83,6 +85,7 @@ class Interaction:
         else:
             self.destMedia = None
 
+        
         if inSourcePerson in Globals.personDict:
             parentPerson = Globals.personDict[inSourcePerson]
             parentPerson.activityList.append(self)
@@ -97,4 +100,14 @@ class Interaction:
         else:
             self.destPerson = None
 
+        # when we initiate an interaction, we add that to the persons smBundle
+        if inSourceMedia in Globals.mediaDict and inSourcePerson in Globals.personDict:
+            parentPerson = Globals.personDict[inSourcePerson]
+            parentMedia = Globals.mediaDict[inSourceMedia]
+
+            if isinstance(parentPerson.smBundle, str):
+                parentPerson.smBundle = parentMedia.contentVector
+            else:
+                parentPerson.smBundle = torchhd.bundle(parentPerson.smBundle, parentMedia.contentVector)
+        
         Globals.interactionDict[self.id]=self
