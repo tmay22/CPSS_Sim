@@ -4,6 +4,11 @@ import SinglePersonBrainQueries
 import TwoPersonBrainQueries
 import WholeNetworkBrainQueries
 import VectorFunction_Brain
+import SinglePersonSocialMediaQueries
+import TwoPersonSocialMediaQueries
+import WholeNetworkSocialMediaQueries
+
+# I WANT TO ADD A COMPARE SM AND BRAIN DATA FOR FUNSIES
 
 # The Person.py, Filters.py, Comms.py and Network.py modules SHOULD be changeable/modular as long as they can process these controller calls.
 
@@ -36,7 +41,7 @@ def mainMenu():
             # Query Vector Data
             menu_1_vectorQueryBrainData()
         elif mainMenuOp == "2":
-            print("Not started")
+            menu_2_vectorQuerySocialMedia()
         elif mainMenuOp == "3":
             print("Not started")
         elif mainMenuOp == "4":
@@ -172,6 +177,116 @@ def menu_1_3_wholeNetworkBrainQuery():
 # ----------------------------------------------
 # 2. Query Social Media Data
 # ----------------------------------------------
+
+def menu_2_vectorQuerySocialMedia():
+    print("----------------------------------------")
+    print(" Vector Query Social Media Data Menu")
+    print("----------------------------------------")
+    # Preamble and initial option selection
+    print("What would you like to Query?\n")
+    print("(1) Single Person Social Media Queries")
+    print("(2) Two Person Social Media Data Queries")
+    print("(3) Whole Social Media Network Queries")
+    print("# (B) Back ")
+    # print("-- Subset of Network Queries INCOMPLETE / STRETCH --")
+    # print("# (S1) What does this network subset think about a topic?")
+    # print("#(S2) What is the variability of the network subset's feeling on a topic? ")
+    
+    queryData= input("Choose Option: ")
+    print("You Selected " + queryData)
+
+    # Setup Option division
+    if queryData == "1":
+        menu_2_1_singleSocialMediaQueries()
+    elif queryData == "2":
+        menu_2_2_twoPersonSocialMediaQueries()
+    elif queryData == "3":
+        menu_2_3_wholeNetworkSocialMediaQueries()
+    elif queryData == "B" or queryData == "b":
+        return 
+    else:
+        print("Error with setup option selected. Try again")
+
+def menu_2_1_singleSocialMediaQueries():
+    # for querying one person
+    print("----------------------------------------")
+    print("Single Person Social Media Queries")
+    print("----------------------------------------")
+    print("(1) Check if a person contains a paired association. e.g. likes AND horse")
+    print("(2) How many paired associations for a person? e.g. likes AND horse")
+    print("(3) How many instances of an atomic concept in a person. e.g. horse")
+    print("(4) What is the range of feelings a person has about a concept? e.g. horse")
+    print("(5) What are the strongest feelings a person has about a concept? e.g. horse")
+    print("(B) Back ")
+    queryData= input("Choose Option: ")
+    print("You Selected " + queryData)
+    
+    if queryData == "1":
+        SinglePersonSocialMediaQueries.doesPersContainPair()
+    elif queryData == "2":
+        SinglePersonSocialMediaQueries.howManyDoesPersContainPair()
+    elif queryData == "3":
+        SinglePersonSocialMediaQueries.personNumAtomic()
+    elif queryData == "4":
+        SinglePersonSocialMediaQueries.personRangeAtomic()
+    elif queryData == "5":
+        SinglePersonSocialMediaQueries.personRankedRangeAtomic()
+    elif queryData == "B" or queryData == "b":
+        return 
+    else:
+        print("Error with setup option selected. Try again")
+
+    print("----------------------------------------")
+
+def menu_2_2_twoPersonSocialMediaQueries():
+    # For querying two people
+    print("----------------------------------------")
+    print("Two Person Social Media Queries")
+    print("----------------------------------------")
+    print("# (1) What is the general belief similarity between two people? Return value")
+    print("# (2) What topic is the most similar between two people? Return topic")
+    print("# (3) For a given topic, what is the similarity in belief between two people? Return value")
+    print("# (4) For a given topic, what associations are the most similar between two people? Return topic")
+    print("(B) Back ")
+    queryData= input("Choose Option: ")
+    print("You Selected " + queryData)
+
+
+    if queryData == "1":
+        TwoPersonSocialMediaQueries.twoPersSimilarityVal()
+    elif queryData == "2":
+        TwoPersonSocialMediaQueries.twoPersCommonTopic()
+    elif queryData == "3":
+        TwoPersonSocialMediaQueries.getBeliefDifference_Val()
+    elif queryData == "4":
+        TwoPersonSocialMediaQueries.getBeliefSimilarity_Topic()
+    elif queryData == "B" or queryData == "b":
+        return 
+    else:
+        print("Error with setup option selected. Try again")
+    
+def menu_2_3_wholeNetworkSocialMediaQueries():
+    # Menu for querying the whole network
+    print("----------------------------------------")
+    print("Whole Network Social Media Queries")
+    print("----------------------------------------")
+    print("# (1) What does the entire network feel about a topic? Show top 5 strongest")
+    print("^ (2) What is the standard deviation of the entire network's variant feelings on a topic? ")
+    print("(B) Back ")
+    queryData= input("Choose Option: ")
+    print("You Selected " + queryData)
+
+    if queryData == "1":
+        WholeNetworkSocialMediaQueries.getNetworkBeliefOnTopic()
+    elif queryData == "2":
+        WholeNetworkSocialMediaQueries.getNetworkSDBeliefOnTopic_Val()
+    elif queryData == "B" or queryData == "b":
+        return 
+    else:
+        print("Error with setup option selected. Try again")
+
+# :)
+
 
 
 # ----------------------------------------------

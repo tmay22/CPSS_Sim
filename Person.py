@@ -9,7 +9,8 @@ class Person:
     # Vars:
     #   id: id for Person obj
     #   persVector: vector value that represents this person (atomic)
-    #   persBundle: bundle of vector value-pairs assigned to person
+    #   persBundle: bundle of vector value-pairs assigned to person for brain values
+    #   smBundle: social media vector value-pairs assigned to person in one large bundle
     #   descriptors: describing details about person in dict format. e.g. hair colour:brown
     #   filters: see class
     #   behaviours: see class
@@ -21,6 +22,7 @@ class Person:
         self.id = personId
         self.edgeList = []
         self.persBundle = 0
+        self.smBundle = "unassigned"
         self.persVector = "unassigned"
         self.activityList = []
 

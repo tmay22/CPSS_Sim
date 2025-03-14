@@ -10,7 +10,7 @@ def main():
     print("")
     print("----------------------------------------")
     print("----------------------------------------")
-    print("Welcome to CPSS Sim!")
+    print("Welcome to the CPSS Vector Symbolic Architecture Sim!")
     print("----------------------------------------")
     print("What would you like to do?")
     print("(1) Create Sim from Input Data")
