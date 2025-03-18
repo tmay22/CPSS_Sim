@@ -330,6 +330,33 @@ def getRankedNetworkBelief_brain(atomicVector):
     return atomicBindDict_sorted    
 
 # e.g. What does the network think about "horse"?
+def getRankedNetworkBelief_sm(atomicVector):
+    # Get the belief states of the network associated with an atomic vecgyor (e.g. the vector for 'horse')
+    # Bind against the atomic negative
+    atomicName = Globals.integratedBrain_vectorMemory.__getitem__(atomicVector)
+    atomicName = atomicName[1]
+    bundle = Globals.special_VectorDictionary['SPECIAL_caseBundle_smBundle']
+    searchName = atomicName + "-"
+    # list of words
+    atomicBindDict = {}
+    # unique words
+    atomicBindUniqueNum = 0
+    # total words
+    atomicBindTotalNum = 0
+    # iterate through pair dictionary to find pairs
+    for vectorName in Globals.pair_VectorDictionary:
+        if searchName in vectorName:
+            vector = Globals.pair_VectorDictionary[vectorName]
+            bindQ = doesBundleContainBind_count(bundle,vector )
+            if bindQ > 0:
+                atomicBindDict[vectorName] = bindQ
+                atomicBindUniqueNum = atomicBindUniqueNum + 1
+                atomicBindTotalNum = atomicBindTotalNum + bindQ
+    
+    atomicBindDict_sorted = sorted(atomicBindDict.items(), key=lambda x:x[1], reverse=True)
+    return atomicBindDict_sorted    
+
+# e.g. What does the network think about "horse"?
 def getStandardDeviationBelief_brain(atomicVector):
     # Get the belief states of the network associated with an atomic vecgyor (e.g. the vector for 'horse')
     # Bind against the atomic negative
@@ -365,6 +392,44 @@ def getStandardDeviationBelief_brain(atomicVector):
     
     standardDev = statistics.stdev(numberList)
     return standardDev    
+
+# e.g. What does the network think about "horse"?
+def getStandardDeviationBelief_sm(atomicVector):
+    # Get the belief states of the network associated with an atomic vecgyor (e.g. the vector for 'horse')
+    # Bind against the atomic negative
+    atomicName = Globals.integratedBrain_vectorMemory.__getitem__(atomicVector)
+    atomicName = atomicName[1]
+    bundle = Globals.special_VectorDictionary['SPECIAL_caseBundle_smBundle']
+    searchName = atomicName + "-"
+    # list of words
+    atomicBindDict = {}
+    # unique words
+    atomicBindUniqueNum = 0
+    # total words
+    atomicBindTotalNum = 0
+    # iterate through pair dictionary to find pairs
+    for vectorName in Globals.pair_VectorDictionary:
+        if searchName in vectorName:
+            vector = Globals.pair_VectorDictionary[vectorName]
+            bindQ = doesBundleContainBind_count(bundle,vector )
+            if bindQ > 0:
+                atomicBindDict[vectorName] = bindQ
+                atomicBindUniqueNum = atomicBindUniqueNum + 1
+                atomicBindTotalNum = atomicBindTotalNum + bindQ
+    
+    atomicBindDict_sorted = sorted(atomicBindDict.items(), key=lambda x:x[1], reverse=True)
+
+    numberList = []
+
+
+
+    for item in  atomicBindDict_sorted:
+        newNum = item[1]
+        numberList.append(newNum)
+    
+    standardDev = statistics.stdev(numberList)
+    return standardDev    
+
 
 
 # Get a list of the common atoms in two bundles

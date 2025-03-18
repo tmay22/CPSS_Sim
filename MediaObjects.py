@@ -29,12 +29,20 @@ class Media:
             self.author = author
         
         self.contentString = contentString
-        self.contentVector = VectorFunction_Brain.convertStringToBundleOfBinds(contentString)
+        newContentVector = VectorFunction_Brain.convertStringToBundleOfBinds(contentString)
+        self.contentVector = newContentVector
         self.interactionList = []
         parentPerson = Globals.personDict[author]
         parentPerson.activityList.append(self)
         Globals.mediaDict[self.id]=self
 
+        # Add to the Globals smBundle
+        if "SPECIAL_caseBundle_smBundle" in Globals.special_VectorDictionary:
+            existingV = Globals.special_VectorDictionary["SPECIAL_caseBundle_smBundle"]
+            newBundle = torchhd.bundle(existingV,newContentVector)
+            Globals.special_VectorDictionary['SPECIAL_caseBundle_smBundle'] = newBundle
+        else:
+            Globals.special_VectorDictionary['SPECIAL_caseBundle_smBundle'] = newContentVector
 
 class Interaction:
 
@@ -57,8 +65,6 @@ class Interaction:
         else:
             self.id = id
         self.occurranceTime = time
-
-        
         
         # Comments, posts or messages
         interactionOpts = ["Post", "Comment", "Like", "Read", "Message", "unknown"]
@@ -67,8 +73,6 @@ class Interaction:
             self.type == "unknown"
         else:
             self.type = type
-
-
 
 
         if inSourceMedia in Globals.mediaDict:
