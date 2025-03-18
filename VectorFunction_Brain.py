@@ -6,6 +6,7 @@ import Globals
 import Checks
 import statistics
 
+
 # Torchhd documentation:
 # Torch documentation:
 
@@ -264,7 +265,6 @@ def getNumInstances_atomic(bundle, atomicVector):
     # total words
     atomicBindTotalNum = 0
 
-
     # iterate through pair dictionary to find pairs
     for vectorName in Globals.pair_VectorDictionary:
         if searchName in vectorName:
@@ -303,7 +303,7 @@ def getRankedNumInstances_atomic(bundle, atomicVector):
     return atomicBindDict_sorted    
 
 # e.g. What does the network think about "horse"?
-def getRankedNetworkBelief(atomicVector):
+def getRankedNetworkBelief_brain(atomicVector):
     # Get the belief states of the network associated with an atomic vecgyor (e.g. the vector for 'horse')
     # Bind against the atomic negative
     atomicName = Globals.integratedBrain_vectorMemory.__getitem__(atomicVector)
@@ -330,7 +330,7 @@ def getRankedNetworkBelief(atomicVector):
     return atomicBindDict_sorted    
 
 # e.g. What does the network think about "horse"?
-def getStandardDeviationBelief(atomicVector):
+def getStandardDeviationBelief_brain(atomicVector):
     # Get the belief states of the network associated with an atomic vecgyor (e.g. the vector for 'horse')
     # Bind against the atomic negative
     atomicName = Globals.integratedBrain_vectorMemory.__getitem__(atomicVector)
@@ -413,6 +413,44 @@ def getCommonPairs(bundleOne, bundleTwo):
     commonPairDict = sorted(commonPairDict.items(), key=lambda x:x[1], reverse=True)
     return commonPairDict 
 
+# Get the most common atomic vector in two bundles
+def getCommonAtomic_newVersion(bundleOne, bundleTwo):
+    bundleOneCount = {name: 0 for name in Globals.atomic_VectorDictionary}
+    bundleTwoCount = {name: 0 for name in Globals.atomic_VectorDictionary}
+    finalCount = {}
+    similarityThreshhold = 0.1
+    # Analyse bundleOne
+    for label, vector in Globals.pair_VectorDictionary.items():
+        
+        if torchhd.cosine_similarity(bundleOne, vector) >= similarityThreshhold:
+            wordOne, wordTwo = label.split('-')
+            tempval = bundleOneCount[wordOne] 
+            tempval = tempval + 1
+            bundleOneCount[wordOne] = tempval
+            tempval = bundleOneCount[wordTwo] 
+            tempval = tempval + 1
+            bundleOneCount[wordTwo] = tempval
+    
+    # Analyse bundleTwo
+    for label, vector in Globals.pair_VectorDictionary.items():
+        if torchhd.cosine_similarity(bundleTwo, vector) >= similarityThreshhold:
+            tempval = bundleTwoCount[wordOne] 
+            tempval = tempval + 1
+            bundleTwoCount[wordOne] = tempval
+            tempval = bundleTwoCount[wordTwo] 
+            tempval = tempval + 1
+            bundleTwoCount[wordTwo] = tempval
+
+    for name, vector in Globals.atomic_VectorDictionary.items():
+        if bundleOneCount[name] > 0 and bundleTwoCount[name] > 0:
+            average = bundleOneCount[name] + bundleTwoCount[name]
+            average = average / 2
+            difference = bundleOneCount[name] - bundleTwoCount[name]
+            difference = abs(difference)
+            difference = int(difference)
+            finalCount[name] = [average, difference]
+    
+    return finalCount
 
 # ---------- Vector Processing ----------
 

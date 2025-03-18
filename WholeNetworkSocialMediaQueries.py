@@ -31,7 +31,7 @@ def getNetworkBeliefOnTopic():
     
     # CHeck and call vector function
     atomicV = Globals.atomic_VectorDictionary[wordOne]
-    result = VectorFunction_Brain.getRankedNetworkBelief(atomicV)
+    result = VectorFunction_Brain.getRankedNetworkBelief_sm(atomicV)
 
     print(f'RESULT: Strongest Terms: {result}')
     print("----------------------------------------")
@@ -59,6 +59,29 @@ def getNetworkSDBeliefOnTopic_Val():
         print(f'{wordOne} does not exist')
         return
     
+    # CHeck and call vector function
+    atomicV = Globals.atomic_VectorDictionary[wordOne]
+    result = VectorFunction_Brain.getStandardDeviationBelief_sm(atomicV)
+    print(f'RESULT: Variance is: {result}')
+    print("----------------------------------------")
+    return
+
+
+def getNetworkBeliefOnTopic_inputs(wordOne):
+    # Get strongest feelings network feels against an atomic topic 
+    
+    
+    # CHeck and call vector function
+    atomicV = Globals.atomic_VectorDictionary[wordOne]
+    result = VectorFunction_Brain.getRankedNetworkBelief(atomicV)
+
+    print(f'RESULT: Strongest Terms: {result}')
+    print("----------------------------------------")
+    return
+
+def getNetworkSDBeliefOnTopic_Val_inputs(wordOne):
+    # Get the  variability of the entire network's feeling on a topic
+
     # CHeck and call vector function
     atomicV = Globals.atomic_VectorDictionary[wordOne]
     result = VectorFunction_Brain.getStandardDeviationBelief(atomicV)
