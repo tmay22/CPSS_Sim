@@ -6,6 +6,8 @@ import torch
 import torchhd
 import Checks
 import math
+import WholeNetworkBrainQueries
+import WholeNetworkSocialMediaQueries
 
 def getNetworkBeliefOnTopic():
     # Get strongest feelings network feels against an atomic topic 
@@ -29,12 +31,12 @@ def getNetworkBeliefOnTopic():
         return
     
     
-    # CHeck and call vector function
-    atomicV = Globals.atomic_VectorDictionary[wordOne]
-    result = VectorFunction_Brain.getRankedNetworkBelief_brain(atomicV)
-
-    print(f'RESULT: Strongest Terms: {result}')
+    print(f'(*) Brain Results:')
+    WholeNetworkBrainQueries.getNetworkBeliefOnTopic_inputs(wordOne)
     print("----------------------------------------")
+    print(f'(*) Social Media Results:')
+    WholeNetworkSocialMediaQueries.getNetworkBeliefOnTopic_inputs(wordOne)
+
     return
 
 def getNetworkSDBeliefOnTopic_Val():
@@ -59,34 +61,11 @@ def getNetworkSDBeliefOnTopic_Val():
         print(f'{wordOne} does not exist')
         return
     
-    # CHeck and call vector function
-    atomicV = Globals.atomic_VectorDictionary[wordOne]
-    result = VectorFunction_Brain.getStandardDeviationBelief_brain(atomicV)
-    print(f'RESULT: Variance is: {result}')
+    print(f'(*) Brain Results:')
+    WholeNetworkBrainQueries.getNetworkSDBeliefOnTopic_Val_inputs(wordOne)
     print("----------------------------------------")
-    return
+    print(f'(*) Social Media Results:')
+    WholeNetworkSocialMediaQueries.getNetworkSDBeliefOnTopic_Val_inputs(wordOne)
 
-
-def getNetworkBeliefOnTopic_inputs(wordOne):
-    # Get strongest feelings network feels against an atomic topic 
-    
-    
-    # CHeck and call vector function
-    atomicV = Globals.atomic_VectorDictionary[wordOne]
-    result = VectorFunction_Brain.getRankedNetworkBelief(atomicV)
-
-    print(f'RESULT: Strongest Terms: {result}')
-    print("----------------------------------------")
-    return
-
-def getNetworkSDBeliefOnTopic_Val_inputs(wordOne):
-    # Get the  variability of the entire network's feeling on a topic
-
-    
-    # CHeck and call vector function
-    atomicV = Globals.atomic_VectorDictionary[wordOne]
-    result = VectorFunction_Brain.getStandardDeviationBelief(atomicV)
-    print(f'RESULT: Variance is: {result}')
-    print("----------------------------------------")
     return
     
