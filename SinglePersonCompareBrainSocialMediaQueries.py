@@ -211,5 +211,20 @@ def personRankedRangeAtomic():
 
     return
 
+def comparePersonalSm():
+    # Compare the difference between a person's personal profile and their social media profile. 
+    print("----------------------------------------")
+    print("Compare the difference between a person's personal profile and their social media profile")
+    print("----------------------------------------")
+    # COllect inputs
+    personId= input("Give PersonId: ")
 
+    # General error check of inputs
 
+    if not Checks.checkPersonExists(personId):
+        print(f'{personId} does not exist')
+        return
+    
+    person = Globals.personDict[personId]
+    diff = VectorFunction_Brain.compareVectors(person.persBundle, person.smBundle)
+    print(f'Similarity between profiles is: {diff}')

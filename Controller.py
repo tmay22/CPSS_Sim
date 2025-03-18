@@ -332,6 +332,7 @@ def menu_3_1_singleCompareBrainSocialMediaQueries():
     print("(3) How many instances of an atomic concept in a person. e.g. horse")
     print("(4) What is the range of feelings a person has about a concept? e.g. horse")
     print("(5) What are the strongest feelings a person has about a concept? e.g. horse")
+    print("(6) Compare the difference between a person's personal profile and their social media profile")
     print("(B) Back ")
     queryData= input("Choose Option: ")
     print("You Selected " + queryData)
@@ -346,6 +347,8 @@ def menu_3_1_singleCompareBrainSocialMediaQueries():
         SinglePersonCompareBrainSocialMediaQueries.personRangeAtomic()
     elif queryData == "5":
         SinglePersonCompareBrainSocialMediaQueries.personRankedRangeAtomic()
+    elif queryData == "6":
+        SinglePersonCompareBrainSocialMediaQueries.comparePersonalSm()
     elif queryData == "B" or queryData == "b":
         return 
     else:
