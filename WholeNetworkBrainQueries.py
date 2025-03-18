@@ -33,7 +33,20 @@ def getNetworkBeliefOnTopic():
     atomicV = Globals.atomic_VectorDictionary[wordOne]
     result = VectorFunction_Brain.getRankedNetworkBelief_brain(atomicV)
 
-    print(f'RESULT: Strongest Terms: {result}')
+    # Show the top 5
+    resLength = len(result)
+    resData = {}
+    count = 0
+    for item in result:
+        if count >= 5:
+            break
+        else:
+            name = item[0]
+            num = item[1]
+            resData[name]=num
+        count = count + 1 
+
+    print(f'RESULT: Strongest Terms: {resData}')
     print("----------------------------------------")
     return
 
@@ -62,6 +75,7 @@ def getNetworkSDBeliefOnTopic_Val():
     # CHeck and call vector function
     atomicV = Globals.atomic_VectorDictionary[wordOne]
     result = VectorFunction_Brain.getStandardDeviationBelief_brain(atomicV)
+
     print(f'RESULT: Variance is: {result}')
     print("----------------------------------------")
     return
@@ -73,9 +87,22 @@ def getNetworkBeliefOnTopic_inputs(wordOne):
     
     # CHeck and call vector function
     atomicV = Globals.atomic_VectorDictionary[wordOne]
-    result = VectorFunction_Brain.getRankedNetworkBelief(atomicV)
+    result = VectorFunction_Brain.getRankedNetworkBelief_brain(atomicV)
 
-    print(f'RESULT: Strongest Terms: {result}')
+        # Show the top 5
+    resLength = len(result)
+    resData = {}
+    count = 0
+    for item in result:
+        if count >= 5:
+            break
+        else:
+            name = item[0]
+            num = item[1]
+            resData[name]=num
+        count = count + 1 
+
+    print(f'RESULT: Strongest Terms: {resData}')
     print("----------------------------------------")
     return
 
@@ -85,7 +112,7 @@ def getNetworkSDBeliefOnTopic_Val_inputs(wordOne):
     
     # CHeck and call vector function
     atomicV = Globals.atomic_VectorDictionary[wordOne]
-    result = VectorFunction_Brain.getStandardDeviationBelief(atomicV)
+    result = VectorFunction_Brain.getStandardDeviationBelief_brain(atomicV)
     print(f'RESULT: Variance is: {result}')
     print("----------------------------------------")
     return

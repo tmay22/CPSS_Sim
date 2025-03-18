@@ -112,11 +112,11 @@ def twoPersCommonBelief():
     resLength = len(result)
     resData = {}
     count = 0
-    for item in result:
+    for key, value in result.items():
         if count >= 5:
             break
-        name = item[0]
-        temp=item[1]
+        name = key
+        temp=value
         ave = temp[0]
         resData[name] = ave
         count = count + 1
@@ -413,11 +413,11 @@ def twoPersCommonTopic_inputs(f1_personId, f2_personId):
     resLength = len(result)
     resData = {}
     count = 0
-    for item in result:
+    for key, value in result.items():
         if count >= 5:
             break
-        name = item[0]
-        temp=item[1]
+        name = key
+        temp=value
         ave = temp[0]
         resData[name] = ave
         count = count + 1
@@ -442,11 +442,11 @@ def twoPersCommonBelief_inputs(f1_personId, f2_personId):
     resLength = len(result)
     resData = {}
     count = 0
-    for item in result:
+    for key, value in result.items():
         if count >= 5:
             break
-        name = item[0]
-        temp=item[1]
+        name = key
+        temp=value
         ave = temp[0]
         resData[name] = ave
         count = count + 1

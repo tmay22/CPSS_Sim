@@ -33,8 +33,9 @@ trio_VectorDictionary = {}
 # Storage mechanism of SPECIAL Keys - i.e. posOneVector, negOneVector, caseBundle_persBind, and caseBundle_persBundle
 # posOneVector is a vector that is only +1
 # negOneVector is a vector that is only -1
-# caseBundle_persBind is a vector bundle of all trio_Vectors in the memory (i.e. Person x Word 1 x Word 2)
-# caseBunle_persBundle is a vector bundle of all pair_Vectors in memory without a Person bind attached (i.e. Word 1 x Word 2)
+# caseBundle_persBind is a vector bundle of all brain trio_Vectors in the memory (i.e. Person x Word 1 x Word 2)
+# caseBunle_persBundle is a vector bundle of all brain pair_Vectors in memory without a Person bind attached (i.e. Word 1 x Word 2)
+# caseBundle_smBundle is a vector bundle of all social media pair_vectors in memory without a Person or media object attached (i.e. word 1 x word 2)
 global special_VectorDictionary
 special_VectorDictionary = {}
 
