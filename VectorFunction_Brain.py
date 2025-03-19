@@ -483,7 +483,8 @@ def getCommonAtomic_newVersion(bundleOne, bundleTwo):
     bundleOneCount = {name: 0 for name in Globals.atomic_VectorDictionary}
     bundleTwoCount = {name: 0 for name in Globals.atomic_VectorDictionary}
     finalCount = {}
-    similarityThreshhold = 0.1
+    # Can be altered
+    similarityThreshhold = 0.05
     # Analyse bundleOne
     for label, vector in Globals.pair_VectorDictionary.items():
         
