@@ -104,3 +104,38 @@ def getPeopleAssociatedWithBind():
     WholeNetworkSocialMediaQueries.getPeopleAssociatedWithBind_sm_inputs(wordOne, wordTwo)
 
     return
+
+def howSimilarArePeopleWithBind():
+    # Find out how similar people are on SOcial Media  who contain a bind 
+    print("----------------------------------------")
+    print("Find out how similar people are on Social Media based on a common topical opinion?")
+    print("----------------------------------------")
+    # COllect inputs
+    wordOne= input("Give word: ")
+    print("You input: " + wordOne)
+    wordTwo= input("Give word: ")
+    print("You input: " + wordTwo)
+    
+   
+    print("----------------------------------------")
+    print(f'Checking inputs...')
+    
+    # Convert words to lower case
+    wordOne = wordOne.lower()
+    wordTwo = wordTwo.lower()
+
+    # General error check of inputs
+    if not Checks.checkAtomicExists(wordOne):
+        print(f'{wordOne} does not exist')
+        return
+    if not Checks.checkAtomicExists(wordTwo):
+        print(f'{wordTwo} does not exist')
+        return
+    
+    print(f'(*) Brain Results:')
+    WholeNetworkBrainQueries.howSimilarArePeopleWithBind_inputs(wordOne, wordTwo)
+    print("----------------------------------------")
+    print(f'(*) Social Media Results:')
+    WholeNetworkSocialMediaQueries.howSimilarArePeopleWithBind_inputs(wordOne, wordTwo)
+
+    return

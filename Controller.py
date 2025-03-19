@@ -10,7 +10,7 @@ import WholeNetworkSocialMediaQueries
 import SinglePersonCompareBrainSocialMediaQueries
 import TwoPersonCompareBrainSocialMediaQueries
 import WholeNetworkCompareBrainSocialMediaQueries
-
+import Visualise
 # I WANT TO ADD A COMPARE SM AND BRAIN DATA FOR FUNSIES
 
 # The Person.py, Filters.py, Comms.py and Network.py modules SHOULD be changeable/modular as long as they can process these controller calls.
@@ -33,7 +33,7 @@ def mainMenu():
         print("(1) Query Brain Data")
         print("(2) Query Social Media Data")
         print("(3) Compare Brain & Social Media Data")
-        print("# (4) Get Structural Data")
+        print("^ (4) Visualise")
         print("# (5) Run Simulation")
         print("# (6) Test")
         mainMenuOp= input("Choose Option: ")
@@ -48,7 +48,7 @@ def mainMenu():
         elif mainMenuOp == "3":
             menu_3_vectorQueryCompareBrainSocialMedia()
         elif mainMenuOp == "4":
-            print("Not started")
+            menu_4_visualise()
         elif mainMenuOp == "5":
             # Create Network from Input
             print("Not started")
@@ -158,6 +158,7 @@ def menu_1_3_wholeNetworkBrainQuery():
     print("(1) What does the entire network feel about a topic? Show top 5 strongest")
     print("(2) What is the standard deviation of the entire network's variant feelings on a topic? ")
     print("(3) What people are most strongly associated with two topics? ")
+    print("(4) What is the average similarity of people who share a common topic pair?")
     print("(B) Back ")
     queryData= input("Choose Option: ")
     print("You Selected " + queryData)
@@ -168,6 +169,8 @@ def menu_1_3_wholeNetworkBrainQuery():
         WholeNetworkBrainQueries.getNetworkSDBeliefOnTopic_Val()
     elif queryData == "3":
         WholeNetworkBrainQueries.getPeopleAssociatedWithBind_brain()
+    elif queryData == "4":
+        WholeNetworkBrainQueries.howSimilarArePeopleWithBind()
     elif queryData == "B" or queryData == "b":
         return 
     else:
@@ -279,6 +282,7 @@ def menu_2_3_wholeNetworkSocialMediaQueries():
     print("(1) What does the entire network feel about a topic? Show top 5 strongest")
     print("(2) What is the standard deviation of the entire network's variant feelings on a topic? ")
     print("(3) What people are most strongly associated with two topics? ")
+    print("(4) What is the average similarity of people who share a common topic pair?")
     print("(B) Back ")
     queryData= input("Choose Option: ")
     print("You Selected " + queryData)
@@ -289,6 +293,8 @@ def menu_2_3_wholeNetworkSocialMediaQueries():
         WholeNetworkSocialMediaQueries.getNetworkSDBeliefOnTopic_Val()
     elif queryData == "3":
         WholeNetworkSocialMediaQueries.getPeopleAssociatedWithBind_sm()
+    elif queryData == "4":
+        WholeNetworkSocialMediaQueries.howSimilarArePeopleWithBind()
     elif queryData == "B" or queryData == "b":
         return 
     else:
@@ -397,6 +403,7 @@ def menu_3_3_wholeNetworkCompareBrainSocialMediaQueries():
     print("(1) What does the entire network feel about a topic? Show top 5 strongest")
     print("(2) What is the standard deviation of the entire network's variant feelings on a topic? ")
     print("(3) What people are most strongly associated with two topics? ")
+    print("(4) What is the average similarity of people who share a common topic pair?")
     print("(B) Back ")
     queryData= input("Choose Option: ")
     print("You Selected " + queryData)
@@ -407,6 +414,8 @@ def menu_3_3_wholeNetworkCompareBrainSocialMediaQueries():
         WholeNetworkCompareBrainSocialMediaQueries.getNetworkSDBeliefOnTopic_Val()
     elif queryData == "3":
         WholeNetworkCompareBrainSocialMediaQueries.getPeopleAssociatedWithBind()
+    elif queryData == "4":
+        WholeNetworkCompareBrainSocialMediaQueries.howSimilarArePeopleWithBind()
     elif queryData == "B" or queryData == "b":
         return 
     else:
@@ -414,8 +423,39 @@ def menu_3_3_wholeNetworkCompareBrainSocialMediaQueries():
 
 # :)
 
+
 # ----------------------------------------------
-# 4. Get Structural Data 
+# 4. Visualise
+# ----------------------------------------------
+def menu_4_visualise():
+    print("----------------------------------------")
+    print(" Visualise your Vectors")
+    print("----------------------------------------")
+    # Preamble and initial option selection
+    print("What would you like to Visualise?\n")
+    print("(1) People's Brain Distribution")
+    print("#(2) People's Social Media Distribution")
+    print("(3) ?")
+    print("(B) Back ")
+ 
+    queryData= input("Choose Option: ")
+    print("You Selected " + queryData)
+
+    # Setup Option division
+    if queryData == "1":
+        Visualise.visualiseAllPersons_brain()
+    elif queryData == "2":
+        Visualise.visualiseAllPersons_sm()
+    elif queryData == "3":
+        print("Unfinished")
+    elif queryData == "B" or queryData == "b":
+        return 
+    else:
+        print("Error with setup option selected. Try again")
+
+
+# ----------------------------------------------
+# X. Get Structural Data 
 # ----------------------------------------------
 def menu_getStructuralData():
     print("To do")

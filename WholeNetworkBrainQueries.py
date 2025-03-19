@@ -201,3 +201,94 @@ def getPeopleAssociatedWithBind_brain_inputs(wordOne, wordTwo):
     
     print(f'People most strongly associated with {wordOne} and {wordTwo} (top 5): {resultData}')
     return
+
+def howSimilarArePeopleWithBind():
+    # Find out how similar people are who contain a bind 
+    print("----------------------------------------")
+    print("Find out how similar people are based on a common topical opinion?")
+    print("----------------------------------------")
+    # COllect inputs
+    wordOne= input("Give word: ")
+    print("You input: " + wordOne)
+    wordTwo= input("Give word: ")
+    print("You input: " + wordTwo)
+    
+   
+    print("----------------------------------------")
+    print(f'Checking inputs...')
+    
+    # Convert words to lower case
+    wordOne = wordOne.lower()
+    wordTwo = wordTwo.lower()
+
+    # General error check of inputs
+    if not Checks.checkAtomicExists(wordOne):
+        print(f'{wordOne} does not exist')
+        return
+    if not Checks.checkAtomicExists(wordTwo):
+        print(f'{wordTwo} does not exist')
+        return
+    
+    vectorPairName = f'{wordOne}-{wordTwo}'
+    vectorPair = Globals.pair_VectorDictionary[vectorPairName]
+
+    personList = []
+
+    for personId, personObj in Globals.personDict.items():
+        personBundle= personObj.persBundle
+        # 
+        if not isinstance(personBundle, int):
+            numResults = VectorFunction_Brain.doesBundleContainBind_count(personBundle,vectorPair)
+            if numResults > 0:
+                # get cosine sim
+                personList.append(personObj)
+
+    length = len(personList)
+    sum = 0
+
+    for personObjOne in personList:
+        for personObjTwo in personList:
+            if personObjOne != personObjTwo:
+                similarity = torchhd.cosine_similarity(personObjOne.persBundle, personObjTwo.persBundle)
+                sum = sum + similarity
+    if length > 0:
+        average = sum / length
+    else:
+        average = 0
+    
+    print(f'Average similarity of people containing {wordOne} and {wordTwo} is: {average}')
+    return
+
+def howSimilarArePeopleWithBind_inputs(wordOne, wordTwo):
+    # Find out how similar people are who contain a bind 
+    
+    vectorPairName = f'{wordOne}-{wordTwo}'
+    vectorPair = Globals.pair_VectorDictionary[vectorPairName]
+
+    personList = []
+
+    for personId, personObj in Globals.personDict.items():
+        personBundle= personObj.persBundle
+        # 
+        if not isinstance(personBundle, int):
+            numResults = VectorFunction_Brain.doesBundleContainBind_count(personBundle,vectorPair)
+            if numResults > 0:
+                # get cosine sim
+                personList.append(personObj)
+
+    length = len(personList)
+    sum = 0
+
+    for personObjOne in personList:
+        for personObjTwo in personList:
+            if personObjOne != personObjTwo:
+                similarity = torchhd.cosine_similarity(personObjOne.persBundle, personObjTwo.persBundle)
+                sum = sum + similarity
+    
+    if length > 0:
+        average = sum / length
+    else:
+        average = 0
+    
+    print(f'Average similarity of people containing {wordOne} and {wordTwo} is: {average}')
+    return
