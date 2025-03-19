@@ -116,4 +116,88 @@ def getNetworkSDBeliefOnTopic_Val_inputs(wordOne):
     print(f'RESULT: Variance is: {result}')
     print("----------------------------------------")
     return
+
+def getPeopleAssociatedWithBind_brain():
+    # Get the people most associated with a bind
+    print("----------------------------------------")
+    print("What are the strongest feelings the network has about two topics?")
+    print("----------------------------------------")
+    # COllect inputs
+    wordOne= input("Give word: ")
+    print("You input: " + wordOne)
+    wordTwo= input("Give word: ")
+    print("You input: " + wordTwo)
     
+   
+    print("----------------------------------------")
+    print(f'Checking inputs...')
+    
+    # Convert words to lower case
+    wordOne = wordOne.lower()
+    wordTwo = wordTwo.lower()
+
+    # General error check of inputs
+    if not Checks.checkAtomicExists(wordOne):
+        print(f'{wordOne} does not exist')
+        return
+    if not Checks.checkAtomicExists(wordTwo):
+        print(f'{wordTwo} does not exist')
+        return
+    
+    vectorPairName = f'{wordOne}-{wordTwo}'
+    vectorPair = Globals.pair_VectorDictionary[vectorPairName]
+
+    personDict = {}
+
+    for personId, personObj in Globals.personDict.items():
+        personBundle= personObj.persBundle
+        # Get Cosine Similarity
+        if not isinstance(personBundle, int):
+            similarity = torchhd.cosine_similarity(personBundle, vectorPair)
+            personDict[personId] = similarity
+    
+    personDict_sorted = sorted(personDict.items(), key=lambda x:x[1], reverse=True)
+
+    count = 0
+    resultData = {}
+    for item in personDict_sorted:
+        if count<5:
+            resultData[item[0]]=item[1]
+            count=count+1
+        else:
+            count = count + 1
+            break
+    
+    print(f'People most strongly associated with {wordOne} and {wordTwo} (top 5): {resultData}')
+    return
+
+def getPeopleAssociatedWithBind_brain_inputs(wordOne, wordTwo):
+    # Get the people most associated with a bind
+    
+    vectorPairName = f'{wordOne}-{wordTwo}'
+    vectorPair = Globals.pair_VectorDictionary[vectorPairName]
+
+    personDict = {}
+
+    for personId, personObj in Globals.personDict.items():
+        personBundle= personObj.persBundle
+        # Get Cosine Similarity
+        # Get Cosine Similarity
+        if not isinstance(personBundle, int):
+            similarity = torchhd.cosine_similarity(personBundle, vectorPair)
+            personDict[personId] = similarity
+    
+    personDict_sorted = sorted(personDict.items(), key=lambda x:x[1], reverse=True)
+
+    count = 0
+    resultData = {}
+    for item in personDict_sorted:
+        if count<5:
+            resultData[item[0]]=item[1]
+            count=count+1
+        else:
+            count = count + 1
+            break
+    
+    print(f'People most strongly associated with {wordOne} and {wordTwo} (top 5): {resultData}')
+    return

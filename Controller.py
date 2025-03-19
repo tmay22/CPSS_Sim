@@ -32,7 +32,7 @@ def mainMenu():
         print("----------------------------------------")
         print("(1) Query Brain Data")
         print("(2) Query Social Media Data")
-        print("^ (3) Compare Brain & Social Media Data")
+        print("(3) Compare Brain & Social Media Data")
         print("# (4) Get Structural Data")
         print("# (5) Run Simulation")
         print("# (6) Test")
@@ -157,6 +157,7 @@ def menu_1_3_wholeNetworkBrainQuery():
     print("----------------------------------------")
     print("(1) What does the entire network feel about a topic? Show top 5 strongest")
     print("(2) What is the standard deviation of the entire network's variant feelings on a topic? ")
+    print("(3) What people are most strongly associated with two topics? ")
     print("(B) Back ")
     queryData= input("Choose Option: ")
     print("You Selected " + queryData)
@@ -165,6 +166,8 @@ def menu_1_3_wholeNetworkBrainQuery():
         WholeNetworkBrainQueries.getNetworkBeliefOnTopic()
     elif queryData == "2":
         WholeNetworkBrainQueries.getNetworkSDBeliefOnTopic_Val()
+    elif queryData == "3":
+        WholeNetworkBrainQueries.getPeopleAssociatedWithBind_brain()
     elif queryData == "B" or queryData == "b":
         return 
     else:
@@ -275,6 +278,7 @@ def menu_2_3_wholeNetworkSocialMediaQueries():
     print("----------------------------------------")
     print("(1) What does the entire network feel about a topic? Show top 5 strongest")
     print("(2) What is the standard deviation of the entire network's variant feelings on a topic? ")
+    print("(3) What people are most strongly associated with two topics? ")
     print("(B) Back ")
     queryData= input("Choose Option: ")
     print("You Selected " + queryData)
@@ -283,6 +287,8 @@ def menu_2_3_wholeNetworkSocialMediaQueries():
         WholeNetworkSocialMediaQueries.getNetworkBeliefOnTopic()
     elif queryData == "2":
         WholeNetworkSocialMediaQueries.getNetworkSDBeliefOnTopic_Val()
+    elif queryData == "3":
+        WholeNetworkSocialMediaQueries.getPeopleAssociatedWithBind_sm()
     elif queryData == "B" or queryData == "b":
         return 
     else:
@@ -390,6 +396,7 @@ def menu_3_3_wholeNetworkCompareBrainSocialMediaQueries():
     print("----------------------------------------")
     print("(1) What does the entire network feel about a topic? Show top 5 strongest")
     print("(2) What is the standard deviation of the entire network's variant feelings on a topic? ")
+    print("(3) What people are most strongly associated with two topics? ")
     print("(B) Back ")
     queryData= input("Choose Option: ")
     print("You Selected " + queryData)
@@ -398,6 +405,8 @@ def menu_3_3_wholeNetworkCompareBrainSocialMediaQueries():
         WholeNetworkCompareBrainSocialMediaQueries.getNetworkBeliefOnTopic()
     elif queryData == "2":
         WholeNetworkCompareBrainSocialMediaQueries.getNetworkSDBeliefOnTopic_Val()
+    elif queryData == "3":
+        WholeNetworkCompareBrainSocialMediaQueries.getPeopleAssociatedWithBind()
     elif queryData == "B" or queryData == "b":
         return 
     else:
