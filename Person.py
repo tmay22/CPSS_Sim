@@ -25,6 +25,16 @@ class Person:
         self.smBundle = "unassigned"
         self.persVector = "unassigned"
         self.activityList = []
+        
+        # Create Filters as default
+        requiredSimilarity = 0
+        newFilter = Filters(requiredSimilarity)
+        self.filter = newFilter
+
+        # Create Behaviours as default
+        requiredBehaviour = 20
+        newBehaviour = Behaviours(requiredBehaviour)
+        self.Behaviour = newBehaviour
 
     # Add a data dictionary of descriptors for person. (e.g. hair colour)
     def addDescriptors(self, personDataDict):
@@ -35,28 +45,27 @@ class Person:
         self.persVector = vector 
 
 
-
-    
-
 class Filters:
 
     # Filters define how information is processed by a person
     # There are set filter vars
-    # If no filter's provided, a default "no filter" set is used
+    # Required Similarity is the base similarity threshhold required for influence. Default to 0
 
-    def __init__(self, filterX):
+    def __init__(self, reqSim):
         #UNFINISHED
-        self.filterX = filterX
+        self.requiredSimilarity = reqSim
 
 class Behaviours:
     
     # Behaviours define how a Person interacts with their environment
     # There are set behaviour amounts required
-    # If no behaviours are provided, a default "basic behaviour" set is used
+    # Interactiveness is how often the agent interacts in the simulated environment. (0-100)
 
-    def __init__(self, behaviourX):
+    def __init__(self, newInteract):
         #UNFINISHED
-        self.behaviourX = behaviourX
+        
+        #(0-100)
+        self.interactiveness = newInteract
 
 class Edge:
     def __init__(self, personOneId, personTwoId, type):

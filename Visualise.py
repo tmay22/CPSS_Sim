@@ -129,8 +129,8 @@ def compareAllPersonsBrainVsSm():
 
     # Create plot
     plt.figure(figsize=(12, 8))
-    scatter1 = plt.scatter(tensorList_brain_2d[:, 0], tensorList_brain_2d[:, 1], c='blue', alpha=0.7, label='List One')
-    scatter2 = plt.scatter(tensorList_sm_2d[:, 0], tensorList_sm_2d[:, 1], c='red', alpha=0.7, label='List Two')
+    scatter1 = plt.scatter(tensorList_brain_2d[:, 0], tensorList_brain_2d[:, 1], c='blue', alpha=0.7, label='Brain Data')
+    scatter2 = plt.scatter(tensorList_sm_2d[:, 0], tensorList_sm_2d[:, 1], c='red', alpha=0.7, label='Social Media Data')
 
     # Add labels with text positioning
     def add_labels(points, labels, color):
