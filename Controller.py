@@ -434,7 +434,7 @@ def menu_4_visualise():
     # Preamble and initial option selection
     print("What would you like to Visualise?\n")
     print("(1) People's Brain Distribution")
-    print("#(2) People's Social Media Distribution")
+    print("(2) People's Social Media Distribution")
     print("(3) ?")
     print("(B) Back ")
  
@@ -447,7 +447,7 @@ def menu_4_visualise():
     elif queryData == "2":
         Visualise.visualiseAllPersons_sm()
     elif queryData == "3":
-        print("Unfinished")
+        Visualise.compareAllPersonsBrainVsSm()
     elif queryData == "B" or queryData == "b":
         return 
     else:
