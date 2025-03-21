@@ -45,8 +45,6 @@ class Person:
         self.persVector = vector 
 
 
-    
-
 class Filters:
 
     # Filters define how information is processed by a person
