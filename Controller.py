@@ -435,7 +435,7 @@ def menu_4_visualise():
     print("What would you like to Visualise?\n")
     print("(1) People's Brain Distribution")
     print("(2) People's Social Media Distribution")
-    print("(3) ?")
+    print("(3) People's Brain and Social Media Distribution")
     print("(B) Back ")
  
     queryData= input("Choose Option: ")
