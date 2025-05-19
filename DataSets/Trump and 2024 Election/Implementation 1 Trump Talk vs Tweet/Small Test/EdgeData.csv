@@ -1,0 +1,3 @@
+PersonOne,PersonTwo,EdgeType
+@1,@2,cyber
+@2,@1,physical

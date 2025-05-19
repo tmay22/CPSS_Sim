@@ -191,7 +191,9 @@ def doesPersContPair_numInst(personObj, pairLabel):
     checkForNegative = torchhd.bind(personBundle, torchhd.negative(pairVector))
     searchCheck = Globals.integratedBrain_vectorMemory.__getitem__(checkForNegative) 
     checkForNegative_ave = torch.mean(checkForNegative)   
-    if searchCheck[1] == "SPECIAL_negOneVector":
+    negVector = Globals.special_VectorDictionary["SPECIAL_negOneVector"]
+    sim = torchhd.cosine_similarity(searchCheck[0], negVector)   
+    if sim > 0.001:
         if checkForNegative_ave <-0.5:
             # Modify to absolute val
             checkForNegative_ave = torchhd.negative(checkForNegative_ave)
@@ -210,14 +212,17 @@ def compareVectors(vector1, vector2):
     return torchhd.cosine_similarity(vector1, vector2)
 
 # Check to see if a bundle contains a bind and return the number of counts
+## THIS IS NOT WORKING 
 def doesBundleContainBind_count(bundle, bind):
    
     # CHeck to see if the XOR of the negative produces -1 vector
     # If it does, find out how many -1s. i.e. -2 ave is 2 instances etc.
+    negVector = Globals.special_VectorDictionary["SPECIAL_negOneVector"]
     checkForNegative = torchhd.bind(bundle, torchhd.negative(bind))
     searchCheck = Globals.integratedBrain_vectorMemory.__getitem__(checkForNegative) 
-    checkForNegative_ave = torch.mean(checkForNegative)   
-    if searchCheck[1] == "SPECIAL_negOneVector":
+    checkForNegative_ave = torch.mean(checkForNegative)
+    sim = torchhd.cosine_similarity(searchCheck[0], negVector)   
+    if sim > 0.001:
         if checkForNegative_ave <-0.5:
             # Modify to absolute val
             checkForNegative_ave = torchhd.negative(checkForNegative_ave)
@@ -274,8 +279,10 @@ def getNumInstances_atomic(bundle, atomicVector):
                 atomicBindList.append(vectorName)
                 atomicBindUniqueNum = atomicBindUniqueNum + 1
                 atomicBindTotalNum = atomicBindTotalNum + bindQ
+
     return atomicBindList, atomicBindUniqueNum, atomicBindTotalNum    
 
+## THIS ONE NOT WORKING EITHER
 # # e.g. how many horse*(value) in PersonOne bundle and rank the answers?
 def getRankedNumInstances_atomic(bundle, atomicVector):
     # Bind against the atomic negative
@@ -298,7 +305,7 @@ def getRankedNumInstances_atomic(bundle, atomicVector):
                 atomicBindDict[vectorName] = bindQ
                 atomicBindUniqueNum = atomicBindUniqueNum + 1
                 atomicBindTotalNum = atomicBindTotalNum + bindQ
-    
+
     atomicBindDict_sorted = sorted(atomicBindDict.items(), key=lambda x:x[1], reverse=True)
     return atomicBindDict_sorted    
 
@@ -523,34 +530,48 @@ def getCommonAtomic_newVersion(bundleOne, bundleTwo):
 # Converts a string into a bundle that contains the paired binds of words
 # Eg. I like horses = I x Like + Like x Horses
 def convertStringToBundleOfBinds(contentString):
-    remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':\",./<>?"
+    remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':\"â€,./<>?"
     contentString = contentString.lower()
     contentArray = contentString.split(" ")
     arraySize = len(contentArray)
-    countLim = arraySize-1
+
     count = 0
     currentBundle = None
-    # Goes through each word pair and adds to the atomic dictionary if needed
-    # Then adds the pairs into a bundle for the media content
-    for wordOne in contentArray:
-        if count<countLim:
-            wordTwo = contentArray[count+1]
+
+
+    if arraySize>1:
+        countLim = arraySize-1
+        
+        # Goes through each word pair and adds to the atomic dictionary if needed
+        # Then adds the pairs into a bundle for the media content
+        for wordOne in contentArray:
+            if count<countLim:
+                wordTwo = contentArray[count+1]
+                wordOne = wordOne.translate(str.maketrans('', '', remChar))
+                wordTwo = wordTwo.translate(str.maketrans('', '', remChar))
+                if not Checks.checkAtomicExists(wordOne):
+                    newAtomicVector(wordOne)
+                if not Checks.checkAtomicExists(wordTwo):
+                    newAtomicVector(wordTwo)
+                wordPair = f'{wordOne}-{wordTwo}'
+                if not Checks.checkPairExists(wordPair):
+                    newVectorLabelPair(wordOne, wordTwo)
+                response=Globals.pair_VectorDictionary[wordPair]
+                if count == 0:
+                        response=Globals.pair_VectorDictionary[wordPair]
+                        currentBundle = response
+                else:
+                    currentBundle = torchhd.bundle(currentBundle,response)
+            count = count+1
+    else:
+        countLim = arraySize
+        for wordOne in contentArray:
             wordOne = wordOne.translate(str.maketrans('', '', remChar))
-            wordTwo = wordTwo.translate(str.maketrans('', '', remChar))
             if not Checks.checkAtomicExists(wordOne):
                 newAtomicVector(wordOne)
-            if not Checks.checkAtomicExists(wordTwo):
-                newAtomicVector(wordTwo)
-            wordPair = f'{wordOne}-{wordTwo}'
-            if not Checks.checkPairExists(wordPair):
-                newVectorLabelPair(wordOne, wordTwo)
-            response=Globals.pair_VectorDictionary[wordPair]
-            if count == 0:
-                    response=Globals.pair_VectorDictionary[wordPair]
-                    currentBundle = response
-            else:
-                currentBundle = torchhd.bundle(currentBundle,response)
-        count = count+1
+            response=Globals.atomic_VectorDictionary[wordOne]
+            currentBundle = response
+    
 
     return currentBundle
 

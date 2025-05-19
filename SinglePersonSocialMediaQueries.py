@@ -7,6 +7,63 @@ import torchhd
 import Checks
 import math
 
+def personRankedRangePairsGeneral_sm():
+    # See the strongest pairs about a operson based on their social media activity
+    print("----------------------------------------")
+    print("Get the strongest value pairs about a person based on their social media activity")
+    print("----------------------------------------")
+   
+    # COllect inputs
+    personId= input("Give PersonId: ")
+    print("Your input: " + personId)
+
+    # General error check of inputs
+    
+    if not Checks.checkPersonExists(personId):
+        print(f'{personId} does not exist')
+        return
+
+    print("----------------------------------------")
+
+    perObj = Globals.personDict[personId]
+    bundle = perObj.smBundle
+    memory = Globals.integratedBrain_vectorMemory
+    myList = []
+    count = 0
+    
+    vectorList = []
+    vectorDict = {}
+    for key in Globals.pair_VectorDictionary:
+        vectorList.append(Globals.pair_VectorDictionary[key])
+
+    torchStack = torch.stack(vectorList)
+
+   
+
+  
+
+    for pairName in Globals.pair_VectorDictionary:
+        pairVector = Globals.pair_VectorDictionary[pairName]
+        simValue = torchhd.cosine_similarity(pairVector, bundle)
+        if simValue > 0.001:
+            vectorDict[pairName] = simValue
+
+
+    
+
+    vectorDict = sorted(vectorDict.items(), key=lambda x: x[1])
+    vectorDict.reverse()
+
+    finalList = []
+    counter = 0
+    for entry in vectorDict:
+        if counter < 100:
+            finalList.append(entry[0])
+        counter = counter + 1
+
+    print(f'RESULT: {finalList}')
+    return
+
 def doesPersContainPair():
     # CHeck to see if a person contains a binded pair of topics. e.g. like and horse
     print("----------------------------------------")
