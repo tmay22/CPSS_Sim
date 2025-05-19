@@ -28,13 +28,15 @@ class Person:
         
         # Create Filters as default
         requiredSimilarity = 0
-        newFilter = Filters(requiredSimilarity)
-        self.filter = newFilter
+        upperInteractThreshhold = 0.15
+        lowerInteractThreshhold = -0.15
+        newFilter = Filters(requiredSimilarity, upperInteractThreshhold, lowerInteractThreshhold)
+        self.filters = newFilter
 
         # Create Behaviours as default
-        requiredBehaviour = 20
-        newBehaviour = Behaviours(requiredBehaviour)
-        self.Behaviour = newBehaviour
+        edgeCommunication = 50
+        newBehaviour = Behaviours(edgeCommunication)
+        self.Behaviours = newBehaviour
 
     # Add a data dictionary of descriptors for person. (e.g. hair colour)
     def addDescriptors(self, personDataDict):
@@ -44,28 +46,34 @@ class Person:
     def setPersVector(self, vector):
         self.persVector = vector 
 
-
+    def new_empty(self):
+        return type(self)()
+    
 class Filters:
 
     # Filters define how information is processed by a person
     # There are set filter vars
     # Required Similarity is the base similarity threshhold required for influence. Default to 0
-
-    def __init__(self, reqSim):
+    # upper interact threshhold is the cosine similarity value minimum needed for a positive interaction
+    # lower interact threshhold is the cosine similarity value maximum needed for a negative interaction 
+    def __init__(self, influenceThreshhold, upperInteractThreshhold, lowerInteractThreshhold):
         #UNFINISHED
-        self.requiredSimilarity = reqSim
+        self.influenceThreshhold = influenceThreshhold
+        self.upperInteractThreshhold = upperInteractThreshhold
+        self.lowerInteractThreshhold = lowerInteractThreshhold
 
 class Behaviours:
     
     # Behaviours define how a Person interacts with their environment
     # There are set behaviour amounts required
-    # Interactiveness is how often the agent interacts in the simulated environment. (0-100)
+    # Edge communication is how often the agent is avaliable to interact witht their network
+    # Interactiveness is how likely the agent is to interact with something that  the agent interacts in the simulated environment. (0-100)
 
-    def __init__(self, newInteract):
+    def __init__(self, edgeCommunication):
         #UNFINISHED
         
         #(0-100)
-        self.interactiveness = newInteract
+        self.edgeCommunication = edgeCommunication
 
 class Edge:
     def __init__(self, personOneId, personTwoId, type):

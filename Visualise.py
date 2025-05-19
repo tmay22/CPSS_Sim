@@ -156,3 +156,66 @@ def compareAllPersonsBrainVsSm():
     plt.grid(alpha=0.2)
     plt.tight_layout()
     plt.show()
+
+# Visualise changes to vectors
+def visualiseCauseEffect(preDict, postDict):
+    # Expected format is id : vector for Dicts
+    
+    # Make lists
+    preList = []
+    postList = []
+    labelList = []
+    comList = []
+
+    for id, vector in preDict.items():
+        labelList.append(id)
+        preList.append(vector)
+        comList.append(vector)
+
+    for id, vector in postDict.items():
+        labelList.append(id)
+        postList.append(vector)
+        comList.append(vector)
+
+
+
+    # Combine and convert to numpy
+    combined = torch.stack(comList)
+
+    pca = PCA(n_components=2)
+    combined_2d = pca.fit_transform(combined.numpy())
+
+    # Split reduced vectors
+    split_idx = len(preList)
+    preList_2d = combined_2d[:split_idx]
+    postList_2d = combined_2d[split_idx:]
+
+    # Create plot
+    plt.figure(figsize=(12, 8))
+    scatter1 = plt.scatter(preList_2d[:, 0], preList_2d[:, 1], c='blue', alpha=0.7, label='Pre-Changes')
+    scatter2 = plt.scatter(postList_2d[:, 0], postList_2d[:, 1], c='red', alpha=0.7, label='Post Changes')
+
+    # Add labels with text positioning
+    def add_labels(points, labels, color):
+        for (x, y), label in zip(points, labels):
+            plt.annotate(
+                label,
+                (x, y),
+                textcoords="offset points",
+                xytext=(0, 7),
+                ha='center',
+                fontsize=9,
+                color=color,
+                arrowprops=dict(arrowstyle="-", color=color, alpha=0.3)
+            )
+
+    add_labels(preList_2d, labelList, 'darkblue')
+    add_labels(postList_2d, labelList, 'darkred')
+
+    plt.xlabel('Principal Component 1', fontsize=12)
+    plt.ylabel('Principal Component 2', fontsize=12)
+    plt.title('Hypervector Visualization with Custom Labels', pad=20)
+    plt.legend(handles=[scatter1, scatter2], loc='best')
+    plt.grid(alpha=0.2)
+    plt.tight_layout()
+    plt.show()

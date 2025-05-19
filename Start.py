@@ -40,7 +40,8 @@ def getSimPath():
     print("----------------------------------------")
 
     if simDataOption == "1":
-        path = "DataSets/20AI/"
+        pathOne = "DataSets/20AI/"
+        path = "DataSets\Trump and 2024 Election\Implementation 1 Trump Talk vs Tweet/Small Test/"
         historyOption = True
     elif simDataOption == "2":
         print("Input a path, with a / at the end")
@@ -64,4 +65,4 @@ def getSimPath():
 
 
 if __name__ == "__main__":
-    main()
+     main()

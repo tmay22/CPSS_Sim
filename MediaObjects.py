@@ -30,6 +30,9 @@ class Media:
         
         self.contentString = contentString
         newContentVector = VectorFunction_Brain.convertStringToBundleOfBinds(contentString)
+        if newContentVector == None:
+            print("Oh No! ERROR")
+            newContentVector = VectorFunction_Brain.convertStringToBundleOfBinds(contentString)
         self.contentVector = newContentVector
         self.interactionList = []
         parentPerson = Globals.personDict[author]

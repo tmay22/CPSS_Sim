@@ -11,6 +11,7 @@ import SinglePersonCompareBrainSocialMediaQueries
 import TwoPersonCompareBrainSocialMediaQueries
 import WholeNetworkCompareBrainSocialMediaQueries
 import Visualise
+import Simulator
 # I WANT TO ADD A COMPARE SM AND BRAIN DATA FOR FUNSIES
 
 # The Person.py, Filters.py, Comms.py and Network.py modules SHOULD be changeable/modular as long as they can process these controller calls.
@@ -33,7 +34,7 @@ def mainMenu():
         print("(1) Query Brain Data")
         print("(2) Query Social Media Data")
         print("(3) Compare Brain & Social Media Data")
-        print("^ (4) Visualise")
+        print("(4) Visualise")
         print("# (5) Run Simulation")
         print("# (6) Test")
         mainMenuOp= input("Choose Option: ")
@@ -50,7 +51,7 @@ def mainMenu():
         elif mainMenuOp == "4":
             menu_4_visualise()
         elif mainMenuOp == "5":
-            # Create Network from Input
+            menu_5_Simulate()
             print("Not started")
         elif mainMenuOp == "6":
             # Test
@@ -102,6 +103,7 @@ def menu_1_1_singlePersonBrainQuery():
     print("(3) How many instances of an atomic concept in a person. e.g. horse")
     print("(4) What is the range of feelings a person has about a concept? e.g. horse")
     print("(5) What are the strongest feelings a person has about a concept? e.g. horse")
+    print("(6) What are the strongest feelings a person has generally?")
     print("(B) Back ")
     queryData= input("Choose Option: ")
     print("You Selected " + queryData)
@@ -116,6 +118,8 @@ def menu_1_1_singlePersonBrainQuery():
         SinglePersonBrainQueries.personRangeAtomic()
     elif queryData == "5":
         SinglePersonBrainQueries.personRankedRangeAtomic()
+    elif queryData == "6":
+        SinglePersonBrainQueries.personRankedRangePairsGeneral()
     elif queryData == "B" or queryData == "b":
         return 
     else:
@@ -226,6 +230,7 @@ def menu_2_1_singleSocialMediaQueries():
     print("(3) How many instances of an atomic concept in a person. e.g. horse")
     print("(4) What is the range of feelings a person has about a concept? e.g. horse")
     print("(5) What are the strongest feelings a person has about a concept? e.g. horse")
+    print("(6) What are the strongest feelings a person has generally on social media?")
     print("(B) Back ")
     queryData= input("Choose Option: ")
     print("You Selected " + queryData)
@@ -240,6 +245,8 @@ def menu_2_1_singleSocialMediaQueries():
         SinglePersonSocialMediaQueries.personRangeAtomic()
     elif queryData == "5":
         SinglePersonSocialMediaQueries.personRankedRangeAtomic()
+    elif queryData == "6":
+        SinglePersonSocialMediaQueries.personRankedRangePairsGeneral_sm()
     elif queryData == "B" or queryData == "b":
         return 
     else:
@@ -314,9 +321,9 @@ def menu_3_vectorQueryCompareBrainSocialMedia():
     print("----------------------------------------")
     # Preamble and initial option selection
     print("What would you like to Query?\n")
-    print("(1) Single Person Social Media Queries")
-    print("(2) Two Person Social Media Data Queries")
-    print("(3) Whole Social Media Network Queries")
+    print("(1) Single Person Queries")
+    print("(2) Two Person  Queries")
+    print("(3) Whole Network Queries")
     print("(B) Back ")
 
     queryData= input("Choose Option: ")
@@ -483,6 +490,31 @@ def exportAllPersonData():
 # 5. Run Simulation 
 # ----------------------------------------------
 
+def menu_5_Simulate():
+    print("----------------------------------------")
+    print(" Simulation")
+    print("----------------------------------------")
+    # Preamble and initial option selection
+    print("What would you like to Visualise?\n")
+    print("(1) Test")
+    print("(2) Direct message")
+    print("(3) vvvn")
+    print("(B) Back ")
+ 
+    queryData= input("Choose Option: ")
+    print("You Selected " + queryData)
+
+    # Setup Option division
+    if queryData == "1":
+        Simulator.simulatorBackbone()
+    elif queryData == "2":
+        Simulator.simulator_directMessage()
+    elif queryData == "3":
+        print(f"Make a post and see effect - NOT DONE YET")
+    elif queryData == "B" or queryData == "b":
+        return 
+    else:
+        print("Error with setup option selected. Try again")
 
 
 

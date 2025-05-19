@@ -212,7 +212,7 @@ def assignNarratives(fileName_persNarrativeCSV):
     with open(fileName_persNarrativeCSV) as narrativeCSV:
         csv_reader = csv.reader(narrativeCSV, delimiter=',')
         lineCount = 0
-        remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':\",./<>?"
+        remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':\",.,/<>?â€œ"
         for row in csv_reader:
             if lineCount != 0 and lineCount <3: #remove <x for future. This is just to speed up testing process.
                 personId = row[0]
@@ -227,6 +227,11 @@ def assignNarratives(fileName_persNarrativeCSV):
                  # Convert to lower Case
                 personNarr = personNarr.lower()
                 narrSplit = personNarr.split(" ")
+                newSplit = []
+                for word in narrSplit:
+                    if word != '':
+                        newSplit.append(word)
+                narrSplit = newSplit
                 wordCount = 0
                 maxIndex = len(narrSplit)
                 maxIndex = maxIndex - 1
@@ -256,7 +261,9 @@ def postInput(PostData_Path):
     with open(PostData_Path) as postsCSV:
         csv_reader = csv.reader(postsCSV, delimiter=',')
         lineCount = 0
-        remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':\",./<>?"
+        remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':â€”\",.™/<>?"
+        rowCount = 0 # NEED TO DO SOME SORT OF RECURSION HERE
+
         for row in csv_reader:
             if lineCount != 0:
                 personId = row[0]
@@ -267,7 +274,7 @@ def postInput(PostData_Path):
                 postContent = ""
                 postVector = None
                 segCount = 0
-                 # If there are additional non csv commas in row, append together
+                # If there are additional non csv commas in row, append together
                 for segment in row:
                     if segCount >2:
                         postContent = postContent + segment
@@ -283,6 +290,7 @@ def postInput(PostData_Path):
             print(lineCount)
             lineCount = lineCount + 1
 
+
  # Create social media posts 
 
 # Create social media comments
@@ -290,7 +298,7 @@ def commentsInput(PostComments_Path):
     with open(PostComments_Path) as commentsCSV:
         csv_reader = csv.reader(commentsCSV, delimiter=',')
         lineCount = 0
-        remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':\",./<>?"
+        remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':\",./”<>?"
         for row in csv_reader:
             if lineCount != 0:
                 personId = row[1]
