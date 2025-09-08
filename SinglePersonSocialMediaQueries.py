@@ -41,14 +41,12 @@ def personRankedRangePairsGeneral_sm():
    
 
   
-
     for pairName in Globals.pair_VectorDictionary:
         pairVector = Globals.pair_VectorDictionary[pairName]
+        count = VectorFunction_Brain.doesBundleContainBind_count(bundle, pairVector)
         simValue = torchhd.cosine_similarity(pairVector, bundle)
-        if simValue > 0.001:
+        if count > 0:
             vectorDict[pairName] = simValue
-
-
     
 
     vectorDict = sorted(vectorDict.items(), key=lambda x: x[1])

@@ -143,8 +143,11 @@ def getPeopleAssociatedWithBind_sm():
     if not Checks.checkAtomicExists(wordTwo):
         print(f'{wordTwo} does not exist')
         return
-    
     vectorPairName = f'{wordOne}-{wordTwo}'
+    if not Checks.checkPairExists(vectorPairName):
+        print(f'{vectorPairName} does not exist')
+        return
+    
     vectorPair = Globals.pair_VectorDictionary[vectorPairName]
 
     personDict = {}
@@ -244,7 +247,7 @@ def howSimilarArePeopleWithBind():
                 # get cosine sim
                 personList.append(personObj)
 
-    length = len(personList)
+    length = len(personList) * len(personList) - len(personList)
     sum = 0
 
     for personObjOne in personList:

@@ -27,9 +27,9 @@ class Person:
         self.activityList = []
         
         # Create Filters as default
-        requiredSimilarity = 0
-        upperInteractThreshhold = 0.15
-        lowerInteractThreshhold = -0.15
+        requiredSimilarity = 0.02
+        upperInteractThreshhold = 0.03
+        lowerInteractThreshhold = -0.01
         newFilter = Filters(requiredSimilarity, upperInteractThreshhold, lowerInteractThreshhold)
         self.filters = newFilter
 
