@@ -60,7 +60,7 @@ def twoPersCommonTopic():
 
     bundleOne = personOne.persBundle
     bundleTwo = personTwo.persBundle
-    result = Globals.VectorFunction_Brain.getCommonAtomic_newVersion(bundleOne, bundleTwo)
+    result = Globals.VectorFunction_Brain.getCommonAtomic(bundleOne, bundleTwo)
     
     # Show the top 5
     resLength = len(result)
@@ -106,7 +106,7 @@ def twoPersCommonBelief():
 
     bundleOne = personOne.persBundle
     bundleTwo = personTwo.persBundle
-    result = Globals.VectorFunction_Brain.getCommonAtomic_newVersion(bundleOne, bundleTwo)
+    result = Globals.VectorFunction_Brain.getCommonAtomic(bundleOne, bundleTwo)
     
     # Show the top 5
     resLength = len(result)
@@ -406,7 +406,7 @@ def twoPersCommonTopic_inputs(f1_personId, f2_personId):
 
     bundleOne = personOne.persBundle
     bundleTwo = personTwo.persBundle
-    result = Globals.VectorFunction_Brain.getCommonAtomic_newVersion(bundleOne, bundleTwo)
+    result = Globals.VectorFunction_Brain.getCommonAtomic(bundleOne, bundleTwo)
     
     # Show the top 5
     resLength = len(result)
@@ -434,7 +434,7 @@ def twoPersCommonBelief_inputs(f1_personId, f2_personId):
 
     bundleOne = personOne.persBundle
     bundleTwo = personTwo.persBundle
-    result = Globals.VectorFunction_Brain.getCommonAtomic_newVersion(bundleOne, bundleTwo)
+    result = Globals.VectorFunction_Brain.getCommonAtomic(bundleOne, bundleTwo)
     
     # Show the top 5
     resLength = len(result)

@@ -214,7 +214,7 @@ def assignNarratives(fileName_persNarrativeCSV):
         lineCount = 0
         remChar = "~!#$%^&*()_+`-=[]\\\{\}|;\':\",.,/<>?â€œ"
         for row in csv_reader:
-            if lineCount != 0 and lineCount <3: #remove <x for future. This is just to speed up testing process.
+            if lineCount != 0: #remove <x for future. This is just to speed up testing process.
                 personId = row[0]
                 personNarr = ""
                 segCount = 0
@@ -290,7 +290,13 @@ def postInput(PostData_Path):
             print(lineCount)
             lineCount = lineCount + 1
 
-
+    for personCounter in Globals.personDict:
+        person = Globals.personDict[personCounter]
+        # CHeck to see if there is a 0 (int) or a vector in the budle.
+        checkPers = isinstance(person.persBundle, int)
+        if checkPers:
+            zeros = torchhd.empty(1, 10000)
+            person.persBundle = zeros[0]
  # Create social media posts 
 
 # Create social media comments

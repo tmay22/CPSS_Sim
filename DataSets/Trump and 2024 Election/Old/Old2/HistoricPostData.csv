@@ -1,0 +1,209 @@
+UserId,PostId,TimeStamp,Content
+D1,P1,45599,Excited to see Kamala Harris leading the Democratic charge!
+R2,P2,45599,Donald Trump's policies are the best for our economy.
+D3,P6,45600,Kamala Harris has been a strong advocate for healthcare reform.
+R4,P7,45600,Trump's tax policies will benefit small businesses.
+D5,P11,45601,Kamala Harris is tackling education issues head-on.
+R6,P12,45601,Trump's latest policy could lower taxes for the middle class.
+D7,P16,45602,Kamala Harris is making strides in criminal justice reform.
+R8,P17,45602,Trump's deregulation efforts are boosting the stock market.
+D9,P21,45603,Kamala Harris is a strong leader for progressive change.
+D10,P22,45603,Trump's stance on immigration is reshaping national policy.
+D11,P26,45604,Kamala Harris continues to push for affordable housing.
+D12,P31,45605,Kamala Harris is addressing income inequality in her speeches.
+D13,P32,45605,Trump's tax cuts are benefiting the wealthy disproportionately.
+D14,P36,45606,Kamala Harris is a beacon of hope for many voters.
+D15,P41,45607,Kamala Harris's foreign policy plans are ambitious and detailed.
+D16,P42,45607,Trump's healthcare policies are sparking nationwide debates.
+D17,P46,45608,Kamala Harris's initiatives on climate change are groundbreaking.
+D18,P47,45608,Trump's latest tax reform favors large corporations.
+D19,P52,45609,Kamala Harris is implementing effective education policies.
+R20,P53,45609,Trump's trade deals are benefiting American industries.
+D21,P56,45610,Kamala Harris's healthcare initiatives are saving lives.
+R22,P57,45610,Trump's tax reforms are attracting business investments.
+D23,P61,45611,Kamala Harris is a beacon of hope for many voters.
+R24,P62,45611,Trump's economic strategies are leading to growth.
+D25,P66,45612,Kamala Harris's foreign policy plans are ambitious and detailed.
+D26,P67,45612,Trump's healthcare policies are sparking nationwide debates.
+D27,P71,45613,Kamala Harris's initiatives on climate change are groundbreaking.
+D28,P72,45613,Trump's latest tax reform favors large corporations.
+D29,P77,45614,Kamala Harris is leading effective reforms in education.
+R30,P78,45614,Trump's trade policies are boosting American exports.
+D31,P81,45615,Kamala Harris is addressing income inequality in her speeches.
+D32,P82,45615,Trump's tax cuts are benefiting the wealthy disproportionately.
+D33,P86,45616,Kamala Harris is a beacon of hope for many voters.
+D34,P91,45617,Kamala Harris's foreign policy plans are ambitious and detailed.
+D16,P92,45617,Trump's healthcare policies are sparking nationwide debates.
+D36,P96,45618,Kamala Harris's initiatives on climate change are groundbreaking.
+D18,P97,45618,Trump's latest tax reform favors large corporations.
+D38,P101,45619,Kamala Harris is championing affordable education for all.
+D39,P106,45620,Kamala Harris is working tirelessly on climate legislation.
+D40,P111,45621,Kamala Harris is bridging gaps in healthcare access.
+D41,P112,45621,Trump's latest tax plan favors the upper class.
+D42,P116,45622,Kamala Harris is making significant progress in infrastructure development.
+D43,P121,45623,Kamala Harris is dedicated to reducing student loan debt.
+D44,P122,45623,Trump's stance on trade tariffs is affecting international relations.
+D45,P126,45624,Kamala Harris continues to advocate for affordable housing solutions.
+D46,P131,45625,Kamala Harris is addressing wage gaps in her latest policy proposal.
+D47,P132,45625,Trump's tax cuts are criticized for benefiting the wealthy.
+D48,P136,45626,Kamala Harris is a beacon of hope for progressive voters.
+D49,P141,45627,Kamala Harris's foreign policy is gaining international attention.
+D50,P142,45627,Trump's healthcare policies are facing backlash from multiple fronts.
+D51,P146,45628,Kamala Harris's climate initiatives are setting new standards.
+D52,P147,45628,Trump's latest tax reforms are criticized for favoring large businesses.
+D53,P152,45629,Kamala Harris is rolling out new education reforms aimed at inclusivity.
+R54,P153,45629,Trump's trade agreements are boosting certain American industries.
+D55,P156,45630,Kamala Harris's healthcare policies are making significant impacts.
+R56,P157,45630,Trump's tax reforms are encouraging business investments.
+D57,P161,45631,Kamala Harris is a symbol of progressive leadership.
+D58,P166,45632,Kamala Harris's foreign policy is earning international acclaim.
+D59,P167,45632,Trump's healthcare policies continue to divide public opinion.
+D60,P171,45633,Kamala Harris's climate initiatives are setting new benchmarks.
+D61,P172,45633,Trump's latest tax reforms are under heavy criticism.
+D62,P177,45634,Kamala Harris is leading comprehensive education reforms.
+R63,P178,45634,Trump's trade policies are boosting American manufacturing.
+D64,P181,45635,Kamala Harris is addressing systemic inequality in her new policies.
+D65,P182,45635,Trump's tax cuts are seen as favoring the wealthy.
+D66,P186,45636,Kamala Harris continues to inspire with her leadership.
+D67,P191,45637,Kamala Harris's foreign policy initiatives are gaining global recognition.
+D68,P192,45637,Trump's healthcare policies continue to divide the nation.
+D69,P196,45638,Kamala Harris's climate change initiatives are setting new goals.
+D70,P197,45638,Trump's latest tax reforms are criticized for corporate favoritism.
+D71,P201,45639,Kamala Harris is pushing for comprehensive healthcare reforms.
+D72,P206,45640,Kamala Harris advocates for mental health awareness.
+D73,P211,45641,Kamala Harris is leading efforts to improve public transportation.
+D74,P212,45641,Trump's tax plan is under scrutiny for its long-term effects.
+D75,P216,45642,Kamala Harris is making strides in infrastructure development.
+D76,P221,45643,Kamala Harris is dedicated to reducing student loan debt.
+D77,P222,45643,Trump's stance on trade tariffs is affecting international relations.
+D78,P226,45644,Kamala Harris continues to advocate for affordable housing solutions.
+D79,P231,45645,Kamala Harris is addressing wage gaps in her latest policy proposal.
+D80,P232,45645,Trump's tax cuts are criticized for benefiting the wealthy.
+D81,P236,45646,Kamala Harris is a beacon of hope for progressive voters.
+D82,P241,45647,Kamala Harris's foreign policy is gaining international attention.
+D83,P242,45647,Trump's healthcare policies are facing backlash from multiple fronts.
+D84,P246,45648,Kamala Harris's climate initiatives are setting new benchmarks.
+D85,P247,45648,Trump's latest tax reforms are criticized for corporate favoritism.
+D86,P252,45649,Kamala Harris is rolling out new education reforms aimed at inclusivity.
+R87,P253,45649,Trump's trade agreements are boosting certain American industries.
+D88,P256,45650,Kamala Harris's healthcare policies are making significant impacts.
+R89,P257,45650,Trump's tax reforms are encouraging business investments.
+D90,P261,45651,Kamala Harris is a symbol of progressive leadership.
+D91,P266,45652,Kamala Harris's foreign policy is earning international acclaim.
+D92,P267,45652,Trump's healthcare policies continue to divide public opinion.
+D93,P271,45653,Kamala Harris's climate initiatives are setting new goals.
+D94,P272,45653,Trump's latest tax reforms are under heavy criticism.
+D95,P277,45654,Kamala Harris is leading comprehensive education reforms.
+R96,P278,45654,Trump's trade policies are boosting American manufacturing.
+D97,P281,45655,Kamala Harris is addressing systemic inequality in her new policies.
+D98,P282,45655,Trump's tax cuts are seen as favoring the wealthy.
+D99,P286,45656,Kamala Harris continues to inspire with her leadership.
+D100,P291,45657,Kamala Harris's foreign policy initiatives are gaining global recognition.
+D101,P292,45657,Trump's healthcare policies continue to divide the nation.
+D102,P296,45292,Kamala Harris's climate change initiatives are setting new goals.
+D103,P297,45292,Trump's latest tax reforms are criticized for corporate favoritism.
+D104,P301,45293,Kamala Harris is addressing systemic inequality in her new policies.
+D105,P302,45293,Trump's tax cuts are seen as favoring the wealthy.
+D106,P306,45294,Kamala Harris continues to inspire with her leadership.
+D107,P311,45295,Kamala Harris's foreign policy initiatives are gaining global recognition.
+D108,P312,45295,Trump's healthcare policies continue to divide the nation.
+D109,P316,45296,Kamala Harris's climate change initiatives are setting new goals.
+D110,P317,45296,Trump's latest tax reforms are criticized for corporate favoritism.
+D111,P322,45297,Kamala Harris is rolling out new education reforms aimed at inclusivity.
+R112,P323,45297,Trump's trade agreements are boosting certain American industries.
+D113,P326,45298,Kamala Harris's healthcare policies are making significant impacts.
+R114,P327,45298,Trump's tax reforms are encouraging business investments.
+D115,P331,45299,Kamala Harris is a symbol of progressive leadership.
+D116,P336,45300,Kamala Harris's foreign policy is earning international acclaim.
+D117,P337,45300,Trump's healthcare policies continue to divide public opinion.
+D118,P341,45301,Kamala Harris's climate initiatives are setting new benchmarks.
+D119,P342,45301,Trump's latest tax reforms are criticized for corporate favoritism.
+D120,P347,45302,Kamala Harris is rolling out new education reforms aimed at inclusivity.
+R121,P348,45302,Trump's trade agreements are boosting certain American industries.
+D122,P351,45303,Kamala Harris's healthcare policies are making significant impacts.
+R123,P352,45303,Trump's tax reforms are encouraging business investments.
+D124,P356,45304,Kamala Harris is a symbol of progressive leadership.
+D125,P361,45305,Kamala Harris's foreign policy is earning international acclaim.
+D126,P362,45305,Trump's healthcare policies continue to divide public opinion.
+D127,P366,45306,Kamala Harris's climate initiatives are setting new benchmarks.
+D128,P367,45306,Trump's latest tax reforms are criticized for corporate favoritism.
+D129,P372,45307,Kamala Harris is rolling out new education reforms aimed at inclusivity.
+R130,P373,45307,Trump's trade agreements are boosting certain American industries.
+D131,P376,45308,Kamala Harris's healthcare policies are making significant impacts.
+R132,P377,45308,Trump's tax reforms are encouraging business investments.
+D133,P381,45309,Kamala Harris is a symbol of progressive leadership.
+D134,P386,45310,Kamala Harris's foreign policy is earning international acclaim.
+D135,P387,45310,Trump's healthcare policies continue to divide public opinion.
+D136,P391,45311,Kamala Harris's climate initiatives are setting new benchmarks.
+D137,P392,45311,Trump's latest tax reforms are criticized for corporate favoritism.
+D138,P397,45312,Kamala Harris is rolling out new education reforms aimed at inclusivity.
+R139,P398,45312,Trump's trade agreements are boosting certain American industries.
+D140,P401,45313,Kamala Harris's new policy on education reform is impressive.
+R141,P402,45313,Donald Trump's latest speech on the economy was well-received.
+D142,P406,45314,Kamala Harris is making strides in healthcare accessibility.
+R143,P407,45314,Trump's tax cuts are benefiting small businesses.
+D144,P411,45315,Kamala Harris continues to advocate for affordable housing solutions.
+D145,P416,45316,Kamala Harris is addressing wage gaps in her latest policy proposal.
+D80,P417,45316,Trump's tax cuts are seen as favoring the wealthy.
+D147,P421,45317,Kamala Harris continues to inspire with her leadership.
+D148,P426,45318,Kamala Harris's foreign policy initiatives are gaining global recognition.
+D108,P427,45318,Trump's healthcare policies continue to divide the nation.
+D150,P431,45319,Kamala Harris's climate change initiatives are setting new goals.
+D137,P432,45319,Trump's latest tax reforms are criticized for corporate favoritism.
+D138,P437,45320,Kamala Harris is rolling out new education reforms aimed at inclusivity.
+R139,P438,45320,Trump's trade agreements are boosting certain American industries.
+D154,P441,45321,Kamala Harris's healthcare policies are making significant impacts.
+R132,P442,45321,Trump's tax reforms are encouraging business investments.
+D156,P446,45322,Kamala Harris is a symbol of progressive leadership.
+D157,P451,45323,Kamala Harris's foreign policy is earning international acclaim.
+D135,P452,45323,Trump's healthcare policies continue to divide public opinion.
+D159,P456,45324,Kamala Harris's climate initiatives are setting new benchmarks.
+D160,P457,45324,Trump's latest tax reforms are criticized for corporate favoritism.
+D161,P462,45325,Kamala Harris is rolling out new education reforms aimed at inclusivity.
+R162,P463,45325,Trump's trade agreements are boosting certain American industries.
+D163,P466,45326,Kamala Harris's healthcare policies are making significant impacts.
+R164,P467,45326,Trump's tax reforms are encouraging business investments.
+D165,P471,45327,Kamala Harris is a symbol of progressive leadership.
+D166,P476,45328,Kamala Harris's foreign policy is earning international acclaim.
+D167,P477,45328,Trump's healthcare policies continue to divide public opinion.
+D168,P481,45329,Kamala Harris's climate initiatives are setting new benchmarks.
+D169,P482,45329,Trump's latest tax reforms are criticized for corporate favoritism.
+D170,P487,45330,Kamala Harris is rolling out new education reforms aimed at inclusivity.
+R171,P488,45330,Trump's trade agreements are boosting certain American industries.
+D172,P491,45331,Kamala Harris's healthcare policies are making significant impacts.
+R173,P492,45331,Trump's tax reforms are encouraging business investments.
+D174,P496,45332,Kamala Harris is a symbol of progressive leadership.
+D175,P501,45699,Kamala Harris's new policy on education reform is impressive.
+R176,P502,45699,Donald Trump's latest speech on the economy was well-received.
+D177,P506,45700,Kamala Harris is making strides in healthcare accessibility.
+R178,P507,45700,Trump's tax cuts are benefiting small businesses.
+D179,P511,45701,Kamala Harris continues to advocate for affordable housing solutions.
+D180,P516,45702,Kamala Harris is addressing wage gaps in her latest policy proposal.
+D181,P517,45702,Trump's tax cuts are seen as favoring the wealthy.
+D182,P521,45703,Kamala Harris continues to inspire with her leadership.
+D183,P526,45704,Kamala Harris's foreign policy initiatives are gaining global recognition.
+D108,P527,45704,Trump's healthcare policies continue to divide the nation.
+D185,P531,45705,Kamala Harris's climate change initiatives are setting new goals.
+D169,P532,45705,Trump's latest tax reforms are criticized for corporate favoritism.
+D170,P537,45706,Kamala Harris is rolling out new education reforms aimed at inclusivity.
+R171,P538,45706,Trump's trade agreements are boosting certain American industries.
+D189,P541,45707,Kamala Harris's healthcare policies are making significant impacts.
+R173,P542,45707,Trump's tax reforms are encouraging business investments.
+D191,P546,45708,Kamala Harris is a symbol of progressive leadership.
+D192,P551,45709,Kamala Harris's new policy on education reform is impressive.
+R193,P552,45709,Donald Trump's latest speech on the economy was well-received.
+D194,P556,45710,Kamala Harris is making strides in healthcare accessibility.
+R195,P557,45710,Trump's tax cuts are benefiting small businesses.
+D196,P561,45711,Kamala Harris continues to advocate for affordable housing solutions.
+D197,P566,45712,Kamala Harris is addressing wage gaps in her latest policy proposal.
+D198,P567,45712,Trump's tax cuts are seen as favoring the wealthy.
+D199,P571,45713,Kamala Harris continues to inspire with her leadership.
+D200,P576,45714,Kamala Harris's foreign policy initiatives are gaining global recognition.
+D201,P577,45714,Trump's healthcare policies continue to divide the nation.
+D202,P581,45715,Kamala Harris's climate change initiatives are setting new goals.
+D203,P582,45715,Trump's latest tax reforms are criticized for corporate favoritism.
+D204,P587,45716,Kamala Harris is rolling out new education reforms aimed at inclusivity.
+R205,P588,45716,Trump's trade agreements are boosting certain American industries.
+D206,P591,45717,Kamala Harris's healthcare policies are making significant impacts.
+R207,P592,45717,Trump's tax reforms are encouraging business investments.
+D208,P596,45718,Kamala Harris is a symbol of progressive leadership.

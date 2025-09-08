@@ -222,7 +222,7 @@ def doesBundleContainBind_count(bundle, bind):
     searchCheck = Globals.integratedBrain_vectorMemory.__getitem__(checkForNegative) 
     checkForNegative_ave = torch.mean(checkForNegative)
     sim = torchhd.cosine_similarity(searchCheck[0], negVector)   
-    if sim > 0.001:
+    if sim > 0.01:
         if checkForNegative_ave <-0.5:
             # Modify to absolute val
             checkForNegative_ave = torchhd.negative(checkForNegative_ave)
@@ -459,7 +459,7 @@ def getCommonAtomic(bundleOne, bundleTwo):
             difference = int(difference)
             commonDict[vectorName] = [average, difference]
 
-    commonDict = sorted(commonDict.items(), key=lambda x:x[1], reverse=True)
+    #commonDict = sorted(commonDict.items(), key=lambda x:x[1], reverse=True)
     
     return commonDict
     
