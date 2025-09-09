@@ -64,70 +64,24 @@ def newVectorValPair(vectorOne, vectorTwo):
         Globals.pair_VectorDictionary[newName] = newVal
         Globals.integratedBrain_vectorMemory.add(newVal, newName)
 
-# Create a new vector trip (i.e. Person x vector Pair)
-# THis is when you assign a new vector pair to a person. Then that is added to the case bundle
-def newVectorTrio(personObj, pairVector):
-    persVector = personObj.persVector
-    persId = personObj.id
-    trioVector = torchhd.bind(pairVector, persVector)
-    nameLookup = Globals.integratedBrain_vectorMemory.__getitem__(pairVector)
-    pairLabel = nameLookup[1]
-    trioLabel = persId + "-" + pairLabel
-    Globals.trio_VectorDictionary[trioLabel] = trioVector
-    Globals.integratedBrain_vectorMemory.add(trioVector, trioLabel)
 
-    # Add trio to CaseBundle_persBind
-    # If its the first bundle, just permute the triovector and add to memory
-    if len(Globals.trio_VectorDictionary) == 1:
-        caseBundle_persBind = torchhd.permute(trioVector)
-        # Add to special bundle as a VectorTrio (I.e. Person x v1 x v2)
-        Globals.integratedBrain_vectorMemory.add(caseBundle_persBind, "SPECIAL_caseBundle_persBind")
-        Globals.special_VectorDictionary["SPECIAL_caseBundle_persBind"] = caseBundle_persBind
-    # If its the second bundle, delete the old one and make a new one with the 2 vectors (fix prev permutation)
-    elif len(Globals.trio_VectorDictionary) == 2:
-        vecList = []
-        for label in Globals.trio_VectorDictionary:
-            vecList.append(Globals.trio_VectorDictionary[label])
-        newAllBundleVector = torchhd.bundle(vecList[0], vecList[1])
-        oldAllBundle_key = Globals.special_VectorDictionary["SPECIAL_caseBundle_persBind"]
-        oldAllBundleVector = Globals.integratedBrain_vectorMemory.__delitem__(oldAllBundle_key)
-        Globals.integratedBrain_vectorMemory.add(newAllBundleVector,"SPECIAL_caseBundle_persBind")
-        Globals.special_VectorDictionary["SPECIAL_caseBundle_persBind"] = newAllBundleVector
-    # If its a longstanding bundle, just add to the existing bundle
-    else:
-        key = Globals.special_VectorDictionary["SPECIAL_caseBundle_persBind"]
-        existingBundle = Globals.integratedBrain_vectorMemory.__getitem__(key)
-        newBundle = torchhd.bundle(existingBundle[0], trioVector)
-        Globals.integratedBrain_vectorMemory.__delitem__(key)
-        Globals.integratedBrain_vectorMemory.add(newBundle,"SPECIAL_caseBundle_persBind")
-        Globals.special_VectorDictionary["SPECIAL_caseBundle_persBind"] = newBundle
+def updateSpecialPersBundle(persObj,oldBundle, newBundle):
+    # Update the special pers bundle
+    currentSpBundle = Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"]
+    inverseOldBundle = torchhd.inverse(oldBundle)
+    middleSpBundle = torchhd.bind(inverseOldBundle, currentSpBundle)
+    newSpBundle = torchhd.bind(middleSpBundle, newBundle)
+    Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"] = newSpBundle
 
-    # Add pair to PersobObj and SPECIAL_CaseBundle_PersonBundle
+def updateSpecialSmBundle(persObj,oldBundle, newBundle):
+    # Update the special pers bundle
+    currentSmBundle = Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"]
+    inverseOldBundle = torchhd.inverse(oldBundle)
+    middleSmBundle = torchhd.bind(inverseOldBundle, currentSmBundle)
+    newSmBundle = torchhd.bind(middleSmBundle, newBundle)
+    Globals.special_VectorDictionary["SPECIAL_caseBundle_smBundle"] = newSmBundle
+    
 
-    # CHeck to see if there is a 0 (int) or a vector in the budle.
-    checkPers = isinstance(personObj.persBundle, int)
-    # If it is an int not a vector:
-    if checkPers:
-        # Add to special bundle as just the VectorPair, save copy of bundle to Person Obj
-        personObj.persBundle = pairVector
-        if "SPECIAL_caseBundle_persBundle" in Globals.special_VectorDictionary:
-            originalBundle = Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"]
-            currentBundle = torchhd.bundle(originalBundle, pairVector)   
-            Globals.integratedBrain_vectorMemory.__delitem__(originalBundle)     
-            Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"] = currentBundle
-            Globals.integratedBrain_vectorMemory.add(currentBundle,"SPECIAL_caseBundle_persBundle")
-        else:
-            currentBundle = pairVector
-            Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"] = currentBundle
-            Globals.integratedBrain_vectorMemory.add(currentBundle,"SPECIAL_caseBundle_persBundle")
-    else:
-        personObj.persBundle = torchhd.bundle(personObj.persBundle, pairVector)
-        totalPersBundle = Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"]
-        newPersBundle = torchhd.bundle(totalPersBundle, pairVector)
-        key = Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"] 
-        Globals.integratedBrain_vectorMemory.__delitem__(key)
-        Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"] = newPersBundle
-        Globals.integratedBrain_vectorMemory.add(newPersBundle,"SPECIAL_caseBundle_persBundle")
 
 # Get CaseBundle Vector value
 def getCaseBundle_persBind():

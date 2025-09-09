@@ -1,0 +1,8 @@
+PersonOne,PersonTwo,EdgeType
+N1,N2,cyber
+N1,N2,physical
+N2,N1,cyber
+O1,N1,cyber
+N1,O1,cyber
+O1,N1,physical
+N1,O1,physical

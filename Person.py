@@ -3,6 +3,7 @@ import Lib
 import copy
 import torch
 import torchhd
+import VectorFunction_Brain
 
 class Person:
 
@@ -21,9 +22,12 @@ class Person:
     def __init__(self, personId):
         self.id = personId
         self.edgeList = []
-        self.persBundle = 0
-        self.smBundle = "unassigned"
-        self.persVector = "unassigned"
+        zeroOne = torch.zeros(10000)
+        zeroTwo = torch.zeros(10000)
+        zeroThree = torch.zeros(10000)
+        self.persBundle = zeroThree
+        self.smBundle = zeroOne
+        self.persVector = zeroTwo
         self.activityList = []
         
         # Create Filters as default
@@ -47,7 +51,19 @@ class Person:
         self.persVector = vector 
 
     def new_empty(self):
-        return type(self)()
+        return type(self)
+    
+    def updateSmBundle(self, newBundle):
+        oldBundle = self.smBundle
+        self.smBundle = newBundle
+        VectorFunction_Brain.updateSpecialSmBundle(self, oldBundle, newBundle)
+
+    def updatePersBundle(self, newBundle):
+        oldBundle = self.smBundle
+        self.persBundle = newBundle
+        VectorFunction_Brain.updateSpecialPersBundle(self, oldBundle, newBundle)
+
+
     
 class Filters:
 
