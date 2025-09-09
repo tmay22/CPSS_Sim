@@ -112,9 +112,6 @@ class Interaction:
             parentPerson = Globals.personDict[inSourcePerson]
             parentMedia = Globals.mediaDict[inSourceMedia]
 
-            if isinstance(parentPerson.smBundle, str):
-                parentPerson.smBundle = parentMedia.contentVector
-            else:
-                parentPerson.smBundle = torchhd.bundle(parentPerson.smBundle, parentMedia.contentVector)
+            parentPerson.updateSmBundle(parentMedia.contentVector)
         
         Globals.interactionDict[self.id]=self

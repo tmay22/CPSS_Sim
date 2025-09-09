@@ -444,8 +444,6 @@ def menu_4_visualise():
     print("(1) People's Brain Distribution")
     print("(2) People's Social Media Distribution")
     print("(3) People's Brain and Social Media Distribution")
-    print("(4) People's Social Media Distribution - Republican and Democrat Dataset")
-    print("(5) Social Media Distribution on a Topic - Republican and Democrat Dataset")
     print("(B) Back ")
  
     queryData= input("Choose Option: ")
@@ -458,10 +456,6 @@ def menu_4_visualise():
         Visualise.visualiseAllPersons_sm()
     elif queryData == "3":
         Visualise.compareAllPersonsBrainVsSm()
-    elif queryData == "4":
-        Visualise.visualiseAllPersons_sm_RD()
-    elif queryData == "5":
-        Visualise.visualiseTopicAll_sm_RD()
     elif queryData == "B" or queryData == "b":
         return 
     else:

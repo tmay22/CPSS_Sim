@@ -201,6 +201,12 @@ def createPersonBrain_VectorBase():
     Globals.special_VectorDictionary["SPECIAL_negOneVector"] = negOneVector
     Globals.special_VectorDictionary["SPECIAL_posOneVector"] = posOneVector
     
+    zeroOne = torch.zeros(10000)
+    zeroTwo = torch.zeros(10000)
+    
+    # note that these are not added to the integratedBrain vector memory
+    Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"] = zeroOne
+    Globals.special_VectorDictionary["SPECIAL_caseBundle_smBundle"]  = zeroTwo
 
     print("SUCCESS: Vector Brain Base Configuration Complete")
 
@@ -226,34 +232,38 @@ def assignNarratives(fileName_persNarrativeCSV):
                 maxCells = len(row)
                  # Convert to lower Case
                 personNarr = personNarr.lower()
-                narrSplit = personNarr.split(" ")
-                newSplit = []
-                for word in narrSplit:
-                    if word != '':
-                        newSplit.append(word)
-                narrSplit = newSplit
-                wordCount = 0
-                maxIndex = len(narrSplit)
-                maxIndex = maxIndex - 1
-                for wordOne in narrSplit:
-                    nextIndex = wordCount + 1
-                    if nextIndex <= maxIndex:
-                        wordTwo = narrSplit[nextIndex]
-                        wordOne = wordOne.translate(str.maketrans('', '', remChar))
-                        wordTwo = wordTwo.translate(str.maketrans('', '', remChar))
-                        VectorFunction_Brain.newAtomicVector(wordOne)
-                        VectorFunction_Brain.newAtomicVector(wordTwo)
-                        newPair = wordOne + "-" + wordTwo
-                        trioLabel = row[0] + "-" + newPair
-                        currentPers = Globals.personDict[personId]
-                        VectorFunction_Brain.newVectorLabelPair(wordOne, wordTwo)
-                        vectorVal = Globals.pair_VectorDictionary[newPair]
-                        VectorFunction_Brain.newVectorTrio(currentPers,vectorVal)
-                    wordCount = wordCount + 1
+                narrVector = VectorFunction_Brain.convertStringToBundleOfBinds(personNarr)
+                persObj = Globals.personDict[personId]
+                persObj.updatePersBundle(narrVector)
+
+
+                # narrSplit = personNarr.split(" ")
+                # newSplit = []
+                # for word in narrSplit:
+                #     if word != '':
+                #         newSplit.append(word)
+                # narrSplit = newSplit
+                # wordCount = 0
+                # maxIndex = len(narrSplit)
+                # maxIndex = maxIndex - 1
+                # for wordOne in narrSplit:
+                #     nextIndex = wordCount + 1
+                #     if nextIndex <= maxIndex:
+                #         wordTwo = narrSplit[nextIndex]
+                #         wordOne = wordOne.translate(str.maketrans('', '', remChar))
+                #         wordTwo = wordTwo.translate(str.maketrans('', '', remChar))
+                #         VectorFunction_Brain.newAtomicVector(wordOne)
+                #         VectorFunction_Brain.newAtomicVector(wordTwo)
+                #         newPair = wordOne + "-" + wordTwo
+                #         trioLabel = row[0] + "-" + newPair
+                #         currentPers = Globals.personDict[personId]
+                #         VectorFunction_Brain.newVectorLabelPair(wordOne, wordTwo)
+                #         vectorVal = Globals.pair_VectorDictionary[newPair]
+                #         VectorFunction_Brain.newVectorTrio(currentPers,vectorVal)
+                #    wordCount = wordCount + 1
             print(lineCount)
             lineCount = lineCount + 1
 
-    print("Here")
 
 
 # Create social media posts 
@@ -295,7 +305,7 @@ def postInput(PostData_Path):
         # CHeck to see if there is a 0 (int) or a vector in the budle.
         checkPers = isinstance(person.persBundle, int)
         if checkPers:
-            zeros = torchhd.empty(1, 10000)
+            zeros = torch.zeros(10000)
             person.persBundle = zeros[0]
  # Create social media posts 
 
