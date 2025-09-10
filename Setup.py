@@ -8,6 +8,7 @@ import sys
 import Person
 import VectorFunction_Brain
 import MediaObjects
+import CyberPhysical
 
 
 # buildSim relies on the three csv files existing in the designated path following the naming convensions
@@ -16,17 +17,16 @@ def buildSim(path, historyOption):
     # Set time as 0 until further notice
     Globals.currentTime = 0
     
-    # Generates a network based on four input CSVs. One stores Person metadata, One stores network connections, one stores a person's personal narrative, one stores social media data, and a boolean DictOpt.
-    # Expected Format: personDataCSV. Row 0 = Titles. Row 0 = [PersonID, *optionalExtras*]
-    # Expected Format: connectionsCSV. Row 0 = Titles. Row 0 = [PersonID_A, PersonID_B, Type(Cyber OR Physical)]
-    # Expected Format: fileName_persSocialMediaCSV: Row 0 = Titles. Row 0 = [PersonId, Data]
-    # Expected Format: fileName_persNarrative: Row 0 = Titles. Row 0 = [PersonId, Data]
+
+    
     # Create Person Objects
 
     # Create file paths
     personData_path = path+"PersonData.csv"
     EdgeData_path= path+"EdgeData.csv"
     PersonNarrative_path = path+"PersonNarrative.csv"
+    cyberPhysical_path = path+"CyberPhysical.csv"
+    link_path = path+"LinkData.csv"
 
     if historyOption:
         PostData_Path = path+"HistoricPostData.csv"
@@ -40,9 +40,14 @@ def buildSim(path, historyOption):
     # Build Person Objects 
     buildPersons(personData_path)
 
+    # Build Cyber Physical Objects
+    buildCyPhyObj(cyberPhysical_path)
+
     # Build Edges / Network
     buildEdges(EdgeData_path)
 
+    # Build Edges / Network
+    buildLinks(link_path)
    
     # Create the default person brain for the Globals 
     createPersonBrain_VectorBase()
@@ -129,6 +134,54 @@ def buildPersons(personData_path):
     #print(f'Number of Persons: {len(Globals.personDict)}')
     print("SUCCESS: Base people objects created with descriptions!")
 
+
+# build the cyberPhysical objects
+def buildCyPhyObj(cyberPhysical_path):
+
+    # Default num fields = 1
+    numFields = 1
+
+    # find out how many fields in csv
+    with open(cyberPhysical_path) as tempfile:
+        csv_read = csv.reader(tempfile, delimiter=',')
+        numFields = len(next(csv_read))
+    
+    # Cleanup
+    del csv_read
+    del tempfile
+  
+    # iterate through csv to create person objects. Add each person to global person Dict with their ID as the key.
+    with open(cyberPhysical_path) as cyPhyFile:
+        lineCount = 0
+        csv_reader = csv.reader(cyPhyFile, delimiter=',')
+        fieldList = []
+
+        for row in csv_reader:
+            if lineCount != 0:
+                objId = row[0]
+                objName = row[1]
+                objIsCyber = row[2]
+                objIsPhysical = row[3]
+                if "1" == objIsCyber:
+                    objIsCyber = True
+                else:
+                    objIsCyber = False
+                if "1" == objIsPhysical:
+                    objIsPhysical = True
+                else:
+                    objIsPhysical = False
+                newCyPhy = CyberPhysical.CyberPhysical(objId, objName, objIsCyber, objIsPhysical)
+                Globals.cyberPhysicalDict[objId]=newCyPhy
+
+            lineCount= lineCount + 1
+
+  
+
+
+
+    print("SUCCESS: Base CyPhy objects created!")
+
+
 # Build the edges / network between Person objects
 def buildEdges(EdgeData_path):
     
@@ -141,10 +194,53 @@ def buildEdges(EdgeData_path):
         for row in csv_reader:
             if lineCount != 0:
                 personOne = Globals.personDict[row[0]]
-                newEdge = Person.Edge(row[0],row[1],row[2])
+                personTwo = Globals.personDict[row[1]]
+                newEdge = Person.Edge(personOne,personTwo,row[2])
                 personOne.edgeList.append(newEdge)
             lineCount = lineCount + 1
     print('SUCCESS: Edges of network created.')
+    
+    # NEED TO BUILD AN EDGE CHECK
+
+# Build the edges / network between Person objects
+def buildLinks(link_path):
+    
+    # Create edges and assign them to each Person object
+    # Note that edges are directional and that person order matters
+    # Note that there CANNOT be new Persons that have not been created being processed.
+    with open(link_path) as linkCsv:
+        csv_reader = csv.reader(linkCsv, delimiter=',')
+        lineCount = 0
+        for row in csv_reader:
+            if lineCount != 0:
+                objOnePers = False
+                objTwoPers = False
+                objOne = None
+                objTwo = None
+                linkType = "unknown"
+                for cyPhyKey, cyPhyValue in Globals.cyberPhysicalDict.items():
+                    if row[0] == cyPhyKey:
+                        objOne = cyPhyValue
+                    if row[1] == cyPhyKey:
+                        objTwo = cyPhyValue
+                for perKey, perValue in Globals.personDict.items():
+                    if row[0] == perKey:
+                        objOne = perValue
+                        objOnePers = True
+                    if row[1] == perKey:
+                        objTwo = perValue
+                        oneTwoPers = True
+                if objOne != None:
+                    newLink = CyberPhysical.Link(objOne, objTwo, row[2])
+                    if objOnePers:
+                        person = Globals.personDict[objOne.id]
+                        person.linkList.append(newLink)
+                    else:
+                        obj = Globals.cyberPhysicalDict[objOne.id]
+                        obj.linkList.append(newLink)
+
+            lineCount = lineCount + 1
+    print('SUCCESS: Links of network created.')
     
     # NEED TO BUILD AN EDGE CHECK
 
@@ -187,6 +283,39 @@ def createPersonBrain_VectorBase():
     del atomicList
     del currentPers
     
+    atomicList = []
+    numCyPhy = len(Globals.cyberPhysicalDict)
+    totalAtomicNum = numCyPhy
+
+    # Num dimensions per vector
+    d = 10000
+
+    # Generate hypervectors for the atomic units unassigned to labels
+    vectorGen = torchhd.random(totalAtomicNum,d)
+
+    # Assign hypervectors to python variables for atomic units. Save in vectorDict
+    count = 0
+
+
+    # for each item in the person list, create its corresponding vector in the dicts and memory
+    for cyPhy in Globals.cyberPhysicalDict:
+        currentCyPhy =  Globals.cyberPhysicalDict[cyPhy]
+        vectorName = currentCyPhy.id
+        vectorVal = vectorGen[count]
+        Globals.atomic_VectorDictionary[vectorName] = vectorVal
+        currentCyPhy.cyPhyVector = vectorVal
+        count = count + 1
+        Globals.integratedBrain_vectorMemory.add(vectorVal, vectorName)
+
+    
+    # Memory Cleanup
+    del vectorVal
+    del vectorName
+    del vectorGen
+    del count
+    del atomicList
+    del currentCyPhy
+
     print(f'No. items in atom_VectorDictionary : ' + str(len(Globals.atomic_VectorDictionary)))
 
     # Create negative and positive vectors
@@ -235,32 +364,6 @@ def assignNarratives(fileName_persNarrativeCSV):
                 narrVector = VectorFunction_Brain.convertStringToBundleOfBinds(personNarr)
                 persObj = Globals.personDict[personId]
                 persObj.updatePersBundle(narrVector)
-
-
-                # narrSplit = personNarr.split(" ")
-                # newSplit = []
-                # for word in narrSplit:
-                #     if word != '':
-                #         newSplit.append(word)
-                # narrSplit = newSplit
-                # wordCount = 0
-                # maxIndex = len(narrSplit)
-                # maxIndex = maxIndex - 1
-                # for wordOne in narrSplit:
-                #     nextIndex = wordCount + 1
-                #     if nextIndex <= maxIndex:
-                #         wordTwo = narrSplit[nextIndex]
-                #         wordOne = wordOne.translate(str.maketrans('', '', remChar))
-                #         wordTwo = wordTwo.translate(str.maketrans('', '', remChar))
-                #         VectorFunction_Brain.newAtomicVector(wordOne)
-                #         VectorFunction_Brain.newAtomicVector(wordTwo)
-                #         newPair = wordOne + "-" + wordTwo
-                #         trioLabel = row[0] + "-" + newPair
-                #         currentPers = Globals.personDict[personId]
-                #         VectorFunction_Brain.newVectorLabelPair(wordOne, wordTwo)
-                #         vectorVal = Globals.pair_VectorDictionary[newPair]
-                #         VectorFunction_Brain.newVectorTrio(currentPers,vectorVal)
-                #    wordCount = wordCount + 1
             print(lineCount)
             lineCount = lineCount + 1
 

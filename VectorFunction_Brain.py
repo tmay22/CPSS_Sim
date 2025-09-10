@@ -68,17 +68,17 @@ def newVectorValPair(vectorOne, vectorTwo):
 def updateSpecialPersBundle(persObj,oldBundle, newBundle):
     # Update the special pers bundle
     currentSpBundle = Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"]
-    inverseOldBundle = torchhd.inverse(oldBundle)
-    middleSpBundle = torchhd.bind(inverseOldBundle, currentSpBundle)
-    newSpBundle = torchhd.bind(middleSpBundle, newBundle)
+    inverseOldBundle = torchhd.negative(oldBundle)
+    middleSpBundle = torchhd.bundle(inverseOldBundle, currentSpBundle)
+    newSpBundle = torchhd.bundle(middleSpBundle, newBundle)
     Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"] = newSpBundle
 
 def updateSpecialSmBundle(persObj,oldBundle, newBundle):
     # Update the special pers bundle
     currentSmBundle = Globals.special_VectorDictionary["SPECIAL_caseBundle_persBundle"]
-    inverseOldBundle = torchhd.inverse(oldBundle)
-    middleSmBundle = torchhd.bind(inverseOldBundle, currentSmBundle)
-    newSmBundle = torchhd.bind(middleSmBundle, newBundle)
+    inverseOldBundle = torchhd.negative(oldBundle)
+    middleSmBundle = torchhd.bundle(inverseOldBundle, currentSmBundle)
+    newSmBundle = torchhd.bundle(middleSmBundle, newBundle)
     Globals.special_VectorDictionary["SPECIAL_caseBundle_smBundle"] = newSmBundle
     
 

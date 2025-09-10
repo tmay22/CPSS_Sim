@@ -42,6 +42,11 @@ special_VectorDictionary = {}
 # List of all personIds
 global personDict
 personDict = {}
+
+# List of all cyberPhysical object ids
+global cyberPhysicalDict
+cyberPhysicalDict = {}
+
 # Note that the vector memories of each individual person only have their Person's value-pairs.
 # If you want the atomic values you need to query the global vector memory
 

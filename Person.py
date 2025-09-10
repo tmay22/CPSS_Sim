@@ -16,12 +16,14 @@ class Person:
     #   filters: see class
     #   behaviours: see class
     #   edgeList: list of edge objects
+    #   linkList: Any connection to CyPhy objects
     #   activityList: list of mediaObjects related to that person
     
     # Initialise object with only personID
     def __init__(self, personId):
         self.id = personId
         self.edgeList = []
+        self.linkList = []
         zeroOne = torch.zeros(10000)
         zeroTwo = torch.zeros(10000)
         zeroThree = torch.zeros(10000)
@@ -55,13 +57,15 @@ class Person:
     
     def updateSmBundle(self, newBundle):
         oldBundle = self.smBundle
-        self.smBundle = newBundle
-        VectorFunction_Brain.updateSpecialSmBundle(self, oldBundle, newBundle)
+        newCombined = torchhd.bundle(oldBundle,newBundle)
+        self.smBundle = newCombined
+        VectorFunction_Brain.updateSpecialSmBundle(self, oldBundle, newCombined)
 
     def updatePersBundle(self, newBundle):
-        oldBundle = self.smBundle
-        self.persBundle = newBundle
-        VectorFunction_Brain.updateSpecialPersBundle(self, oldBundle, newBundle)
+        oldBundle = self.persBundle
+        newCombined = torchhd.bundle(oldBundle,newBundle)
+        self.persBundle = newCombined
+        VectorFunction_Brain.updateSpecialPersBundle(self, oldBundle, newCombined)
 
 
     
@@ -92,16 +96,18 @@ class Behaviours:
         self.edgeCommunication = edgeCommunication
 
 class Edge:
-    def __init__(self, personOneId, personTwoId, type):
+    def __init__(self, personOne, personTwo, type):
         
         #EdgeName comes from 
+        personOneId = personOne.id
+        personTwoId = personTwo.id
 
         newEdgeKey = F"{personOneId}-{personTwoId}"
         self.key = newEdgeKey
 
 
         # Persons that the edge connects to (one direction)
-        self.connections = [personOneId, personTwoId]
+        self.connections = [personOne, personTwo]
 
         self.type = "-"
 

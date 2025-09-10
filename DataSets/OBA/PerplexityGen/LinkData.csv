@@ -1,0 +1,7 @@
+ObjOne,ObjTwo,LinkType
+CP1,CP2,Integrated
+CP4,CP3,Integrated
+CP3,CP5,Networked
+CP5,CP3,Networked
+CP6,N2,Physical
+N1,CP2,Physical
