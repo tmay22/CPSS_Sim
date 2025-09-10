@@ -1,0 +1,7 @@
+Id,Name,isCyber,isPhysical
+CP1,AirConditioner,1,1
+CP2,Car,1,1
+CP3,Server,1,1
+CP4,Cloud,1,0
+CP5,Router,1,1
+CP6,Tank,0,1

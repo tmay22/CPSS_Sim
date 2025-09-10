@@ -129,7 +129,7 @@ def simulator_directMessage():
 
 # Adds the messageVector to a person's brain bundle.
 def influencePerson(person, messageBundle):
-    person.persBundle = torchhd.bundle(person.persBundle, messageBundle)
+    person.updatePersBundle(messageBundle)
 
 
 def positiveComment():
