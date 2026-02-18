@@ -94,15 +94,27 @@ def simulator_directMessage():
         cosine = VectorFunction_Brain.compareVectors(personTwoBrain_original, messageVector)
         cosine=cosine.item()
         
+        print(f'Cosine of message and person inner state is {cosine}')
+        
         # Make changes based on influence
         if cosine >= influenceThreshhold:
-            influencePerson(personTwo, messageVector) 
+            personTwo = influencePerson(personTwo, messageVector)
+            print(f'Meets positive influence threshold of {influenceThreshhold} ') 
+        
+        else:
+            print(f'Did not meet positive influence threshold of {influenceThreshhold} ') 
         if cosine >= upperInteractThreshhold:
+            print(f'Meets upper interaction threshold of {upperInteractThreshhold}')
             positiveLike(f2_personId, newMessage)
             positiveMessage()
+        else:
+            print(f'Did not meet upper interaction threshold of {upperInteractThreshhold}')
         if cosine <= lowerInteractThreshhold:
+            print(f'Meets lower interaction threshold of {lowerInteractThreshhold}')
             negativeMessage()
             negativeComment()
+        else:
+            print(f'Did not meet lower interaction threshold of {lowerInteractThreshhold}')
 
         print('First order of consequence i.e. receiving the message complete.')
         personOneBrain_new = personOne.persBundle
@@ -129,8 +141,9 @@ def simulator_directMessage():
 
 # Adds the messageVector to a person's brain bundle.
 def influencePerson(person, messageBundle):
+    
     person.updatePersBundle(messageBundle)
-
+    return person
 
 def positiveComment():
     commentRate = 0.25

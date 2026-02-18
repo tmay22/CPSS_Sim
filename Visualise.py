@@ -161,64 +161,45 @@ def compareAllPersonsBrainVsSm():
 
 # Visualise changes to vectors
 def visualiseCauseEffect(preDict, postDict):
-    # Expected format is id : vector for Dicts
-    
-    # Make lists
-    preList = []
-    postList = []
-    labelList = []
-    comList = []
+    tensorList_preDict, tensorList_postDict = [], []
+    pre_labels, post_labels = [], []
 
-    for id, vector in preDict.items():
-        labelList.append(id)
-        preList.append(vector)
-        comList.append(vector)
+    for prePersId, preVect in preDict.items():
+        tensorList_preDict.append(preVect)
+        pre_labels.append(prePersId)
 
-    for id, vector in postDict.items():
-        labelList.append(id)
-        postList.append(vector)
-        comList.append(vector)
+    for postPersId, postVect in postDict.items():
+        tensorList_postDict.append(postVect)
+        post_labels.append(postPersId)
 
-
-
-    # Combine and convert to numpy
-    combined = torch.stack(comList)
-
+    # Combine lists for fitting
+    combined = torch.stack(tensorList_preDict + tensorList_postDict)
+    # Fit PCA on unique rows (remove duplicates)
+    unique_combined = torch.unique(combined, dim=0)
     pca = PCA(n_components=2)
-    combined_2d = pca.fit_transform(combined.numpy())
+    pca.fit(unique_combined.numpy())
 
-    # Split reduced vectors
-    split_idx = len(preList)
-    preList_2d = combined_2d[:split_idx]
-    postList_2d = combined_2d[split_idx:]
+    # Transform full set using the same PCA
+    combined_2d = pca.transform(combined.numpy())
+    split_idx = len(tensorList_preDict)
+    tensorList_pre_2d = combined_2d[:split_idx]
+    tensorList_post_2d = combined_2d[split_idx:]
 
-    # Create plot
     plt.figure(figsize=(12, 8))
-    scatter1 = plt.scatter(preList_2d[:, 0], preList_2d[:, 1], c='blue', alpha=0.7, label='Pre-Changes')
-    scatter2 = plt.scatter(postList_2d[:, 0], postList_2d[:, 1], c='red', alpha=0.7, label='Post Changes')
+    scatter1 = plt.scatter(tensorList_pre_2d[:, 0], tensorList_pre_2d[:, 1], c='blue', alpha=0.7, label='Pre Message')
+    scatter2 = plt.scatter(tensorList_post_2d[:, 0], tensorList_post_2d[:, 1], c='red', alpha=0.7, label='Post Message')
 
-    # Add labels with text positioning
     def add_labels(points, labels, color):
         for (x, y), label in zip(points, labels):
-            plt.annotate(
-                label,
-                (x, y),
-                textcoords="offset points",
-                xytext=(0, 7),
-                ha='center',
-                fontsize=9,
-                color=color,
-                arrowprops=dict(arrowstyle="-", color=color, alpha=0.3)
-            )
+            plt.annotate(label, (x, y), textcoords="offset points", xytext=(0, 5), ha='center', fontsize=9, color=color)
 
-    add_labels(preList_2d, labelList, 'darkblue')
-    add_labels(postList_2d, labelList, 'darkred')
+    add_labels(tensorList_pre_2d, pre_labels, 'darkblue')
+    add_labels(tensorList_post_2d, post_labels, 'darkred')
 
-    plt.xlabel('Principal Component 1', fontsize=12)
-    plt.ylabel('Principal Component 2', fontsize=12)
-    plt.title('Hypervector Visualization with Custom Labels', pad=20)
-    plt.legend(handles=[scatter1, scatter2], loc='best')
+    plt.xlabel('Principal Component 1')
+    plt.ylabel('Principal Component 2')
+    plt.title('Hypervector Visualization with Stable PCA Projection')
+    plt.legend(handles=[scatter1, scatter2])
     plt.grid(alpha=0.2)
     plt.tight_layout()
     plt.show()
-
