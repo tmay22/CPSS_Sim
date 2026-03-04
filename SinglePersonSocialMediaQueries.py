@@ -341,6 +341,72 @@ def personRankedRangeAtomic_inputs(personId, wordOne):
     return
 
 
+def idsGetBrainTwoTimePeriodComparison():
+
+    
+    # Find out how similar people are on SOcial Media  who contain a bind 
+    print("----------------------------------------")
+    print("How did a person's social media persona change between two time periods?")
+    print("Note it compares to an independent non-changing variable.")
+    print("----------------------------------------")
+    # COllect inputs
+    userIdString= input("Give user ID ")
+    print("You input: " + userIdString)
+
+    changeDate= input("Give date that you want to see the change by ")
+    print("You input: " +    changeDate     )
 
 
+   
 
+    print("----------------------------------------")
+    print(f'Checking inputs...')
+    
+    # Convert words to double
+    changeDate = float(changeDate)
+
+    personId = userIdString.rstrip()
+    #error check
+ 
+    if not Checks.checkPersonExists(personId):
+        print(f'{personId} does not exist')
+        return
+
+    personObj = Globals.personDict[personId]
+    persSmVector = personObj.smBundle
+
+    dateOneDict = {}
+    dateTwoDict = {}
+
+    toRemoveVector = torch.zeros(10000)
+    firstBrainVector = torch.zeros(10000)
+    secondBrainVector = persSmVector
+
+    
+    # Iterate through posts and collect those within date range... might have to convert time to float if not already.
+    for postId, postObj in Globals.mediaDict.items():
+        postTime = postObj.inputTime
+        postTime = float(postTime)
+        if personId == postObj.author.id:
+            if postTime >= changeDate:
+                toRemoveVector = torchhd.bundle(postObj.contentVector, toRemoveVector)
+
+    # make brain representation for before
+    inverseToRemove = torchhd.inverse(toRemoveVector)
+    firstBrainVector = torchhd.bundle(secondBrainVector, inverseToRemove)
+    dateOneDict[personId] = firstBrainVector
+    dateTwoDict[personId] = secondBrainVector
+
+    cosine = torchhd.cosine_similarity(firstBrainVector,secondBrainVector)
+
+    print(f'Cosine Similarity: {cosine}')
+
+    #CHANGE DEFAULT ID HERE IF NEEDED
+    defaultId = "U0"
+    defaultObj = Globals.personDict[defaultId]
+    defaultVector = defaultObj.smBundle
+    dateOneDict[defaultId] = defaultVector
+    dateTwoDict[defaultId] = defaultVector
+
+
+    return dateOneDict, dateTwoDict

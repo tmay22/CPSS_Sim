@@ -383,7 +383,7 @@ def postInput(PostData_Path):
             if lineCount != 0:
                 personId = row[0]
                 # Get Person Object
-                currentPers = Globals.personDict[personId]
+                currentPers = Globals.personDict
                 postId = row[1]
                 timestamp = row[2]
                 postContent = ""

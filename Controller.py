@@ -290,6 +290,7 @@ def menu_2_3_wholeNetworkSocialMediaQueries():
     print("(2) What is the standard deviation of the entire network's variant feelings on a topic? ")
     print("(3) What people are most strongly associated with two topics? ")
     print("(4) What is the average similarity of people who share a common topic pair?")
+
     
     print("(B) Back ")
     queryData= input("Choose Option: ")
@@ -444,6 +445,9 @@ def menu_4_visualise():
     print("(1) People's Brain Distribution")
     print("(2) People's Social Media Distribution")
     print("(3) People's Brain and Social Media Distribution")
+    print("(4) Show isolated posts change in social media distribution between two time periods")
+    print("(5) Show isolated posts change in specified userIDs of social media distribution between two time periods")
+    print("(6) Show overall social media belief change in specified user ID between two time periods")
     print("(B) Back ")
  
     queryData= input("Choose Option: ")
@@ -456,6 +460,12 @@ def menu_4_visualise():
         Visualise.visualiseAllPersons_sm()
     elif queryData == "3":
         Visualise.compareAllPersonsBrainVsSm()
+    elif queryData == "4":
+        Visualise.compareTwoTimePeriods()
+    elif queryData == "5":
+        Visualise.idsCompareTwoTimePeriods()
+    elif queryData == "6":
+        Visualise.idsCompareBrainTwoTimePeriods()
     elif queryData == "B" or queryData == "b":
         return 
     else:

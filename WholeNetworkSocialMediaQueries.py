@@ -297,3 +297,111 @@ def howSimilarArePeopleWithBind_inputs(wordOne, wordTwo):
     
     print(f'Average similarity of people containing {wordOne} and {wordTwo} is: {average}')
     return
+
+    #Compare the semantics of two time periods
+def getTwoTimePeriodComparison():
+
+    # Find out how similar people are on SOcial Media  who contain a bind 
+    print("----------------------------------------")
+    print("How different is a semantic population change over two time periods?")
+    print("----------------------------------------")
+    # COllect inputs
+    dateOneStart= input("Give numerical representation of first time period start ")
+    print("You input: " + dateOneStart)
+
+    dateOneEnd= input("Give numerical representation of first time period end ")
+    print("You input: " + dateOneEnd)
+
+    dateTwoStart= input("Give numerical representation of second time period start ")
+    print("You input: " + dateTwoStart)
+
+    dateTwoEnd= input("Give numerical representation of second time period end ")
+    print("You input: " + dateTwoEnd)
+   
+
+    print("----------------------------------------")
+    print(f'Checking inputs...')
+    
+    # Convert words to double
+    dateOneStart = float(dateOneStart)
+    dateOneEnd = float(dateOneEnd)
+    dateTwoStart = float(dateTwoStart)
+    dateTwoEnd = float(dateTwoEnd)
+
+    dateOneDict = {}
+    dateTwoDict = {}
+
+
+
+    
+    # Iterate through posts and collect those within date range... might have to convert time to float if not already.
+    for postId, postObj in Globals.mediaDict.items():
+        postTime = postObj.inputTime
+        postTime = float(postTime)
+        if postTime >= dateOneStart and postTime <= dateOneEnd:
+            dateOneDict[postId] = postObj.contentVector
+        elif postTime >= dateTwoStart and postTime <= dateTwoEnd:
+            dateTwoDict[postId] = postObj.contentVector
+    
+
+    return dateOneDict, dateTwoDict
+
+def idsGetTwoTimePeriodComparison():
+    
+    # Find out how similar people are on SOcial Media  who contain a bind 
+    print("----------------------------------------")
+    print("How different are given IDs over two time periods?")
+    print("----------------------------------------")
+    # COllect inputs
+    userIdString= input("Give user IDs. Separate with no spaces, only by ; ")
+    print("You input: " + userIdString)
+
+    dateOneStart= input("Give numerical representation of first time period start ")
+    print("You input: " + dateOneStart)
+
+    dateOneEnd= input("Give numerical representation of first time period end ")
+    print("You input: " + dateOneEnd)
+
+    dateTwoStart= input("Give numerical representation of second time period start ")
+    print("You input: " + dateTwoStart)
+
+    dateTwoEnd= input("Give numerical representation of second time period end ")
+    print("You input: " + dateTwoEnd)
+   
+
+    print("----------------------------------------")
+    print(f'Checking inputs...')
+    
+    # Convert words to double
+    dateOneStart = float(dateOneStart)
+    dateOneEnd = float(dateOneEnd)
+    dateTwoStart = float(dateTwoStart)
+    dateTwoEnd = float(dateTwoEnd)
+
+    userIdArray = userIdString.split(";")
+
+    #error check
+    for personId in userIdArray:    
+        if not Checks.checkPersonExists(personId):
+            print(f'{personId} does not exist')
+            return
+
+
+    dateOneDict = {}
+    dateTwoDict = {}
+
+
+
+    
+    # Iterate through posts and collect those within date range... might have to convert time to float if not already.
+    for postId, postObj in Globals.mediaDict.items():
+        postTime = postObj.inputTime
+        postTime = float(postTime)
+        for userId in userIdArray:
+            if userId == postObj.author.id:
+                if postTime >= dateOneStart and postTime <= dateOneEnd:
+                    dateOneDict[userId] = postObj.contentVector
+                elif postTime >= dateTwoStart and postTime <= dateTwoEnd:
+                    dateTwoDict[userId] = postObj.contentVector
+
+    return dateOneDict, dateTwoDict

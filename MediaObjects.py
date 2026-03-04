@@ -10,7 +10,7 @@ class Media:
 
     # Vars:
     #   id: id for Media 
-    #   inputTime: simCounter when media was inputted into Simulation
+    #   inputTime: timestamppostObj,
     #   contentString: string of content
     #   contentVector: bundle of all pair binds in content
     #   interactionList[] = List of interactions

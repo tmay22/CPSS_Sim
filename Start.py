@@ -41,7 +41,7 @@ def getSimPath():
 
     if simDataOption == "1":
         #pathOne = "DataSets/20AI/"
-        path = "DataSets\\InnerVsOuter\\FullCSVs\\"
+        path = "DataSets\\SemanticChange\\OnlyUsersInBoth\\"
         historyOption = True
     elif simDataOption == "2":
         print("Input a path, with a / at the end")
